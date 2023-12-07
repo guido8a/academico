@@ -27,7 +27,7 @@
     <div class="dialog ui-corner-all" style="height: 295px;padding: 10px;width: 910px;margin: auto;margin-top: 5px">
         <a href= "${createLink(controller:'provincia', action: 'mapa', id:-1)}" style="text-decoration: none">
             <div>
-                <asset:image src="apli/portada.png" style="padding: 30px;"/>
+                <asset:image src="apli/portada.jpeg" style="padding: 30px;"/>
             </div>
         </a>
 
