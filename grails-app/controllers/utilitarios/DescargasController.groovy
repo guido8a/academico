@@ -5,7 +5,7 @@ class DescargasController {
     def manual() {
         println "manual: $params"
         def nombre = 'manual.pdf'
-        def path = '/var/medico/manual.pdf'
+        def path = '/var/tutor/manual.pdf'
         def file = new File(path)
         def b = file.getBytes()
         response.setContentType('pdf')
@@ -16,8 +16,8 @@ class DescargasController {
 
     def aplicacion() {
         println "aplicación: $params"
-        def nombre = 'medico.apk'
-        def path = '/var/rkch/medico.apk'
+        def nombre = 'tutor.apk'
+        def path = '/var/rkch/tutor.apk'
         def file = new File(path)
         def b = file.getBytes()
         response.setContentType('octet-stream')

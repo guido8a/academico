@@ -133,7 +133,7 @@
                             <div class="col-md-12">
                                 <span class="col-md-2 label label-primary text-info mediano">Tema</span>
                                 <div class="col-md-10">
-                                    <g:select name="tema" id="temaId" from="${medico.Tema.list()}" optionKey="id"
+                                    <g:select name="tema" id="temaId" from="${tutor.Tema.list()}" optionKey="id"
                                               value="${base?.tema?.id}" optionValue="nombre" class="form-control"
                                               style="color: #3d658a"/>
                                 </div>

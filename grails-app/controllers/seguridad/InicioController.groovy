@@ -54,7 +54,7 @@ class InicioController {
         if (grails.util.Environment.getCurrent().name == 'development') {
             directorio = '/home/guido/proyectos/médicos/data/'
         } else {
-            directorio = '/var/medico/data/'
+            directorio = '/var/tutor/data/'
         }
 
         if (tipo == 'prueba') { //botón: Cargar datos Minutos
@@ -129,7 +129,7 @@ class InicioController {
         if (grails.util.Environment.getCurrent().name == 'development') {
             directorio = '/home/guido/proyectos/médicos/data/'
         } else {
-            directorio = '/var/medico/data/'
+            directorio = '/var/tutor/data/'
         }
 
         if (tipo == 'prueba') { //botón: Cargar datos Minutos
@@ -243,7 +243,7 @@ class InicioController {
         if (grails.util.Environment.getCurrent().name == 'development') {
             directorio = '/home/guido/proyectos/médicos/data/'
         } else {
-            directorio = '/var/medico/data/'
+            directorio = '/var/tutor/data/'
         }
 
         if (tipo == 'prueba') { //botón: Cargar datos Minutos

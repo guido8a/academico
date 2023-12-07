@@ -121,7 +121,7 @@ class EmpresaController {
         def empresa = Empresa.get(params.id)
 //        def imagenes = ImagenEmpresa.findAllByEmpresa(empresa)
 
-        def path = "/var/medico/empresa/emp_" + empresa.id + "/"
+        def path = "/var/tutor/empresa/emp_" + empresa.id + "/"
         new File(path).mkdirs()
 
         def files = []
@@ -155,8 +155,8 @@ h   : img?.getHeight(),
         println ("params imas emp " +  params)
         def empresa = Empresa.get(params.id)
 //        def imagenes = ImagenEmpresa.findAllByEmpresa(empresa)
-//        def path = "/var/medico/empresa/emp_" + empresa.id + "/"
-        def path = "/var/medico/empresa/emp_" + empresa.id + "/"
+//        def path = "/var/tutor/empresa/emp_" + empresa.id + "/"
+        def path = "/var/tutor/empresa/emp_" + empresa.id + "/"
         new File(path).mkdirs()
 
         def f = request.getFile('file')
@@ -340,7 +340,7 @@ h   : img?.getHeight(),
 
     byte[] im(nombre,ext,empresa) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
-        ImageIO.write(ImageIO.read(new File("/var/medico/empresa/emp_" + empresa + "/" + nombre + "." + ext)), ext.toString(), baos)
+        ImageIO.write(ImageIO.read(new File("/var/tutor/empresa/emp_" + empresa + "/" + nombre + "." + ext)), ext.toString(), baos)
         baos.toByteArray()
     }
 
@@ -348,7 +348,7 @@ h   : img?.getHeight(),
 //    def getFoto(){
 //        println "getFoto: $params"
 //        def empresa
-//        def path = "/var/medico/empresas/${params.ruta}"
+//        def path = "/var/tutor/empresas/${params.ruta}"
 //        def fileext = path.substring(path.indexOf(".")+1, path.length())
 //
 //        println "ruta: $path"
@@ -371,7 +371,7 @@ h   : img?.getHeight(),
         def acceptedExt = ["jpg", "png", "jpeg"]
 
         def empresa = Empresa.get(params.empresa)
-        def path = "/var/medico/empresa/emp_" + empresa.id + "/"
+        def path = "/var/tutor/empresa/emp_" + empresa.id + "/"
         new File(path).mkdirs()
 
         def f = request.getFile('file')  //archivo = name del input type file
@@ -397,7 +397,7 @@ h   : img?.getHeight(),
 
                 def old = empresa.logo
                 if (old && old.trim() != "") {
-                    def oldPath = "/var/medico/empresa/emp_" + empresa.id + "/" + old
+                    def oldPath = "/var/tutor/empresa/emp_" + empresa.id + "/" + old
                     def oldFile = new File(oldPath)
                     if (oldFile.exists()) {
                         oldFile.delete()
@@ -428,7 +428,7 @@ h   : img?.getHeight(),
     def deleteImagen_ajax() {
         println "deleteImagen_ajax params $params"
         def empresa = Empresa.get(params.id)
-        def path = "/var/medico/empresa/emp_" + empresa.id + "/${empresa.logo}"
+        def path = "/var/tutor/empresa/emp_" + empresa.id + "/${empresa.logo}"
 
         try{
             empresa.logo = null
