@@ -31,6 +31,15 @@
     .horas {
         text-align: center !important;
     }
+
+    .titl {
+        font-family: 'open sans condensed';
+        font-weight: bold;
+        text-shadow: -2px 2px 1px rgba(0, 0, 0, 0.25);
+        color: #0070B0;
+        margin-top: 15px;
+        text-align: center;
+    }
     </style>
 
 </head>
@@ -43,7 +52,7 @@
 
 
 <div class="col-md-12">
-    <h3 style="text-align: center; margin-top: 10px; color: #50809f">Programación por Niveles - Paralelos y Asignaturas </h3>
+    <h3 class="titl">Programación por Niveles - Paralelos y Asignaturas </h3>
 </div>
 <!-- botones -->
 <div class="container" style="width: 1000px">
