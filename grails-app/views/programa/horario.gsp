@@ -43,7 +43,7 @@
 
 
 <div class="col-md-12">
-    <h3 style="text-align: center; margin-top: 10px">Programación por Niveles - Paralelos y Asignaturas </h3>
+    <h3 style="text-align: center; margin-top: 10px; color: #50809f">Programación por Niveles - Paralelos y Asignaturas </h3>
 </div>
 <!-- botones -->
 <div class="container" style="width: 1000px">

@@ -164,29 +164,29 @@
 
     <div class="row mbr-justify-content-center">
 
-    <a href= "${createLink(controller:'paciente', action: 'list')}" style="text-decoration: none">
+    <a href= "${createLink(controller:'periodo', action: 'list')}" style="text-decoration: none">
         <div class="col-lg-6 mbr-col-md-10">
             <div class="wrap">
                 <div style="width: 200px; height: 140px">
-                    <asset:image src="apli/paciente.jpeg" title="Datos de pacientes"  width="80%" height="80%"/>
+                    <asset:image src="apli/educacion.png" title="Datos de pacientes"  width="80%" height="80%"/>
                 </div>
                 <div style="width: 450px; height: 220px">
-                    <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5"><span>Pacientes</span></h2>
-                    <p class="mbr-fonts-style text1 mbr-text display-6">Datos de los pacientes registrados en el sistema</p>
+                    <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5"><span>Períodos</span></h2>
+                    <p class="mbr-fonts-style text1 mbr-text display-6">Períodos académicos</p>
                 </div>
             </div>
         </div>
     </a>
 
-    <a href= "${createLink(controller:'medicina', action: 'list')}" style="text-decoration: none">
+    <a href= "${createLink(controller:'programa', action: 'horario')}" style="text-decoration: none">
         <div class="col-lg-6 mbr-col-md-10">
             <div class="wrap">
                 <div style="width: 200px; height: 140px">
-                    <asset:image src="apli/medicinas.jpeg" title="Medicinas"  width="80%" height="80%"/>
+                    <asset:image src="apli/educacion.png" title="Medicinas"  width="80%" height="80%"/>
                 </div>
                 <div style="width: 450px; height: 120px">
-                    <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5"><span>Medicinas</span></h2>
-                    <p class="mbr-fonts-style text1 mbr-text display-6">Catálogo de medicinas en sus diferentes presentaciones
+                    <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5"><span>Programación académica</span></h2>
+                    <p class="mbr-fonts-style text1 mbr-text display-6">Programación de horarios por asignatura, nivel y periodo académico
                         y formas<br>
                     </p>
                 </div>
@@ -194,30 +194,29 @@
         </div>
     </a>
 
-        <a href= "${createLink(controller:'paciente', action: 'list')}" style="text-decoration: none">
+        <a href= "${createLink(controller:'carrera', action: 'list')}" style="text-decoration: none">
             <div class="col-lg-6 mbr-col-md-10">
                 <div class="wrap">
                     <div style="width: 200px; height: 140px">
-                        <asset:image src="apli/citas.jpeg" title="Cantones"  width="80%" height="80%"/>
+                        <asset:image src="apli/educacion.png" title="Cantones"  width="80%" height="80%"/>
                     </div>
                     <div style="width: 450px; height: 120px">
-                        <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5"><span>Citas médicas</span></h2>
-                        <p class="mbr-fonts-style text1 mbr-text display-6">Citas médicas, seguimiento del paciente</p>
+                        <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5"><span>Carreras</span></h2>
+                        <p class="mbr-fonts-style text1 mbr-text display-6">Carreras</p>
                     </div>
                 </div>
             </div>
         </a>
 
-        <a href= "${createLink(controller:'diagnostico', action: 'list')}" style="text-decoration: none">
+        <a href= "${createLink(controller:'profesor', action: 'list')}" style="text-decoration: none">
         <div class="col-lg-6 mbr-col-md-10">
             <div class="wrap">
                 <div style="width: 200px; height: 140px">
-                    <asset:image src="apli/diagnóstico.jpeg" title="Diagnóticos"  width="80%" height="80%"/>
+                    <asset:image src="apli/educacion.png" title="Diagnóticos"  width="80%" height="80%"/>
                 </div>
                 <div style="width: 450px; height: 120px">
-                    <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5"><span>Diagnóticos</span></h2>
-                    <p class="mbr-fonts-style text1 mbr-text display-6">Clasificación internacional de enfermedades
-                    10ª revisión</p>
+                    <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5"><span>Profesores</span></h2>
+                    <p class="mbr-fonts-style text1 mbr-text display-6">Profesores</p>
                 </div>
             </div>
         </div>
@@ -228,7 +227,7 @@
         <div class="col-lg-6 mbr-col-md-10">
             <div class="wrap">
                 <div style="width: 200px; height: 140px">
-                    <asset:image src="apli/equipo.jpeg" title="Administración de Usuarios"  width="80%" height="80%"/>
+                    <asset:image src="apli/educacion.png" title="Administración de Usuarios"  width="80%" height="80%"/>
                 </div>
                 <div style="width: 450px; height: 120px">
                     <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5"><span>Administración de Usuarios</span></h2>
@@ -243,7 +242,7 @@
             <div class="col-lg-6 mbr-col-md-10">
                 <div class="wrap">
                     <div style="width: 200px; height: 140px">
-                        <asset:image src="apli/portada.png" title="Reportes"  width="80%" height="80%"/>
+                        <asset:image src="apli/educacion.png" title="Reportes"  width="80%" height="80%"/>
                     </div>
                     <div style="width: 450px; height: 120px">
                         <h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5"><span>Reportes</span></h2>
