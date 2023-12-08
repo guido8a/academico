@@ -15,9 +15,9 @@ class ProgramaController {
     def index() { }
 
     def horario() {
-        def asignatura = Asignatura.get(params.id)
-        def horas = Hora.list([sort: 'numero'])
-        def dias  = Dias.list([sort: 'numero'])
+//        def asignatura = Asignatura.get(params.id)
+//        def horas = Hora.list([sort: 'numero'])
+//        def dias  = Dias.list([sort: 'numero'])
 
 //        def horario = Horario.findAllByParalelo( Paralelo.get(1))
 
@@ -25,7 +25,6 @@ class ProgramaController {
 //        println "dias: ${ horario.dias }, horas: ${horario.hora.id} --> ${ horario.dias.id.contains( 1.toLong() )}"
 //        println " --> ${ horario.dias.id[0].class}"
 
-        return[asignatura: asignatura, horas: horas, dias: dias, horario: []]
     }
 
     def creaParalelo(){

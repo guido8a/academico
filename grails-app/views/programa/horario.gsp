@@ -26,7 +26,7 @@
     }
     .libre {
     //background-color: #dadada;
-        color: #a0a0a0;
+        color: #606060;
     }
     .horas {
         text-align: center !important;
@@ -43,7 +43,7 @@
 
 
 <div class="col-md-12">
-    <h3 style="text-align: center; margin-top: 10px">Programación de - ${asignatura.nombre} - Créditos: ${asignatura.creditos} </h3>
+    <h3 style="text-align: center; margin-top: 10px">Programación por Niveles - Paralelos y Asignaturas </h3>
 </div>
 <!-- botones -->
 <div class="container" style="width: 1000px">
@@ -54,27 +54,30 @@
             </g:link>
         </div>
 
-        <label for="nivel" class="col-md-1 control-label" style="text-align: right">
-            Nivel
-        </label>
+
         <div class="col-md-2">
+            <label for="nivel" class="col-md-1 control-label" style="text-align: right">
+                Nivel
+            </label>
             <g:select name="nivel" from="${tutor.Nivel.list([sort: 'numero'])}"
                       class="form-control input-sm required" optionValue="descripcion" optionKey="id"
                       />
         </div>
-        <label for="paralelo" class="col-md-1 control-label" style="text-align: right">
-            Paralelo
-        </label>
+
         <div class="col-md-2">
+            <label for="paralelo" class="col-md-1 control-label" style="text-align: right">
+                Paralelo
+            </label>
             <g:select name="paralelo" from="${tutor.Paralelo.findAllByPeriodo(tutor.Periodo.get(2), [sort: 'nivel'])}"
                       class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.numero}}" optionKey="id"
                       />
         </div>
 
-        <label for="asignatura" class="col-md-1 control-label" style="text-align: right">
-            Asignatura
-        </label>
-        <div class="col-md-4" style="margin-left: -20px">
+
+        <div class="col-md-6">
+            <label for="asignatura" class="col-md-1 control-label" style="text-align: right">
+                Asignatura
+            </label>
             <g:select name="asignatura" from="${tutor.Asignatura.list([sort: 'nivel'])}"
                       class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.nombre}}" optionKey="id"
                       />
@@ -265,7 +268,7 @@
 
     function createEditRow(id) {
         var title = id ? "Editar" : "Crear";
-        var asig = "${asignatura?.id}"
+        var asig = $("#asignatura").val()
 
         $.ajax({
             type: "POST",
@@ -307,7 +310,7 @@
 
         $( document ).ready(function() {
             //console.log( "ready!" );
-            var asig = "${asignatura.id}"
+            var asig = $("#asignatura").val()
             var parl = $("#paralelo").val()
             $("#paralelo").change()
         });
