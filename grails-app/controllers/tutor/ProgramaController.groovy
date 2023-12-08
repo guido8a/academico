@@ -19,13 +19,13 @@ class ProgramaController {
         def horas = Hora.list([sort: 'numero'])
         def dias  = Dias.list([sort: 'numero'])
 
-        def horario = Horario.findAllByParalelo( Paralelo.get(1))
+//        def horario = Horario.findAllByParalelo( Paralelo.get(1))
 
-        println "horario: ${horario}"
-        println "dias: ${ horario.dias }, horas: ${horario.hora.id} --> ${ horario.dias.id.contains( 1.toLong() )}"
+//        println "horario: ${horario}"
+//        println "dias: ${ horario.dias }, horas: ${horario.hora.id} --> ${ horario.dias.id.contains( 1.toLong() )}"
 //        println " --> ${ horario.dias.id[0].class}"
 
-        return[asignatura: asignatura, horas: horas, dias: dias, horario: horario]
+        return[asignatura: asignatura, horas: horas, dias: dias, horario: []]
     }
 
     def creaParalelo(){
@@ -102,11 +102,13 @@ class ProgramaController {
         def cn = getConnection()
         println("tabla_ajax " + params)
         def asignatura = Asignatura.get(params.asig)
+        def paralelo   = Paralelo.get(params.parl)
         def horas = Hora.list([sort: 'numero'])
         def dias  = Dias.list([sort: 'numero'])
         def clases = []
 
-        def horario = Horario.findAllByParalelo( Paralelo.get(params.parl))
+        def curso = Curso.findAllByAsignaturaAndParalelo(asignatura, paralelo)
+//        def horario = Horario.findAllByParalelo( Paralelo.get(params.parl))
 
 
         def sql = "select * from horario(${asignatura.nivel.id}, ${params.parl}, ${params.asig})"
@@ -118,11 +120,7 @@ class ProgramaController {
 //        println "**dias: ${dias}, horas: ${horas}"
         //println " --> ${ horario?.dias?.id[0].class}"
 
-        for ( d in horario ) {
-            clases.add([id: "${d?.dias?.id}_${d?.hora?.id}", asig: "${asignatura}", id_horr: d?.id])
-        }
-
-        println "mapa horario: $clases"
+        println "horario: $resp"
 
         //return[asignatura: asignatura, horas: horas, dias: dias, horario: horario,
         return[asignatura: asignatura, horas: horas, dias: dias, horario: resp,
@@ -132,13 +130,34 @@ class ProgramaController {
 
     def crea_ajax() {
         println "crea_ajax: $params"
+        def asig = Asignatura.get(params.asig)
+        def parl = Paralelo.get(params.parl)
+        def crso = Curso.findByAsignaturaAndParalelo(asig, parl)
         def horario = new Horario()
-        horario.paralelo = Paralelo.get(params.parl)
+
+        if(!crso){
+            crso = new Curso()
+            crso.paralelo = parl
+            crso.asignatura = asig
+            crso.nrc = '0'
+            crso.numEstudiantes = 22
+            crso.cupo = 22
+        }
+
+        try {
+            crso.save(flush: true)
+        } catch (e) {
+            println("error al crear el horario " + horario.errors)
+        }
+
+
+        horario.curso = crso
         horario.dias = Dias.get(params.dia)
         horario.hora = Hora.get(params.hora)
 
         try {
             horario.save(flush: true)
+            println "creado horario"
             render "ok"
         } catch (e) {
             println("error al crear el horario " + horario.errors)

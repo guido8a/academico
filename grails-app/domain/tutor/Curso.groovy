@@ -5,6 +5,8 @@ class Curso {
     Paralelo paralelo
     Asignatura asignatura
     String nrc
+    Integer numEstudiantes
+    Integer cupo
 
     static mapping = {
         table 'crso'
@@ -17,12 +19,16 @@ class Curso {
             paralelo column: 'parl__id'
             asignatura column: 'asig__id'
             nrc column: 'crso_nrc'
+            numEstudiantes column: 'crsoestd'
+            cupo column: 'crsocupo'
         }
     }
     static constraints = {
         paralelo(blank: true, nullable: true, attributes: [title:'asignatura'])
         asignatura(blank: true, nullable: true, attributes: [title:'asignatura'])
         nrc(size: 1..7, blank: true, nullable: true, attributes: [title:'nrc'])
+        numEstudiantes(blank: true, nullable: true, attributes: [title:'numEstudiantes'])
+        cupo(blank: true, nullable: true, attributes: [title:'cupo'])
     }
 
 }

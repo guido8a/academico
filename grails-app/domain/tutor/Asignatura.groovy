@@ -26,7 +26,7 @@ class Asignatura {
             id column: 'asig__id'
             carrera column: 'carr__id'
             nivel column: 'nvel__id'
-            tipoActividad column: 'tpac__id'
+            tipoActividad column: 'tpaa__id'
             nombre column: 'asignmbr'
             codigo column: 'asigcdgo'
             creditos column: 'asigcred'

@@ -1,3 +1,4 @@
+<%@ page import="tutor.Periodo" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,11 +18,11 @@
     }
     .usado {
         text-align: center !important;
-        background-color: #71bacf;
+        background-color: #91caef;
     }
     .otro {
         text-align: center !important;
-        background-color: #dfbacf;
+        background-color: #d7bec8;
     }
     .libre {
     //background-color: #dadada;
@@ -49,35 +50,48 @@
     <div class="btn-toolbar toolbar" style="margin-top: 10px">
         <div class="btn-group">
             <g:link controller="asignatura" action="list" class="btn btn-secondary">
-                <i class="fa fa-arrow-left"></i> Regresar a Asingaturas
+                <i class="fa fa-arrow-left"></i> Regresar
             </g:link>
         </div>
 
-        <div class="btn-group" style="margin-left: 40px">
-            <a href="#" class="btn btn-primary" id="btnParalelo">
-                <i class="fa fa-clipboard-list"></i> Crear paralelo
-            </a>
+        <label for="nivel" class="col-md-1 control-label" style="text-align: right">
+            Nivel
+        </label>
+        <div class="col-md-2">
+            <g:select name="nivel" from="${tutor.Nivel.list([sort: 'numero'])}"
+                      class="form-control input-sm required" optionValue="descripcion" optionKey="id"
+                      />
         </div>
-        <div class="col-md-1">
-            <g:select name="paralelo" from="${tutor.Paralelo.findAllByAsignatura(asignatura, [sort: 'nrc'])}"
-                      class="form-control input-sm required" optionValue="numero" optionKey="id"
-                      value="${hora?.carrera}"/>
-        </div>
-
-        <div class="btn-group">
-            <a href="#" class="btn btn-primary" id="btnEditar" title="Editar Paralelo">
-                <i class="fa fa-edit"></i>
-            </a>
-        </div>
-        <div class="btn-group">
-            <a href="#" class="btn btn-danger" id="btnBorrar">
-                <i class="fa fa-trash"></i>
-            </a>
+        <label for="paralelo" class="col-md-1 control-label" style="text-align: right">
+            Paralelo
+        </label>
+        <div class="col-md-2">
+            <g:select name="paralelo" from="${tutor.Paralelo.findAllByPeriodo(tutor.Periodo.get(2), [sort: 'nivel'])}"
+                      class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.numero}}" optionKey="id"
+                      />
         </div>
 
-        <div class="col-md-5 text-info" style="margin-top: 10px">
-                <i class="fa fa-exclamation-triangle"></i> Debe crear un paralelo para definir su horario
+        <label for="asignatura" class="col-md-1 control-label" style="text-align: right">
+            Asignatura
+        </label>
+        <div class="col-md-4" style="margin-left: -20px">
+            <g:select name="asignatura" from="${tutor.Asignatura.list([sort: 'nivel'])}"
+                      class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.nombre}}" optionKey="id"
+                      />
         </div>
+
+        %{--<div class="btn-group">--}%
+            %{--<a href="#" class="btn btn-primary" id="btnEditar" title="Editar Paralelo">--}%
+                %{--<i class="fa fa-edit"></i>--}%
+            %{--</a>--}%
+        %{--</div>--}%
+        %{--<div class="btn-group">--}%
+            %{--<a href="#" class="btn btn-danger" id="btnBorrar">--}%
+                %{--<i class="fa fa-trash"></i>--}%
+            %{--</a>--}%
+        %{--</div>--}%
+
+
     </div>
 
     <div id="divTabla">
@@ -191,8 +205,9 @@
 
     function creaHora(dia, hora) {
         var parl = $("#paralelo").val();
+        var asig = $("#asignatura").val();
 
-        console.log('dia:', dia, 'hora', hora)
+        console.log('crea hora con dia:', dia, 'hora', hora)
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'creaHora')}",
@@ -217,15 +232,18 @@
                                     type: "POST",
                                     url: '${createLink(controller: 'programa', action:'crea_ajax')}',
                                     data: {
+                                        asig: asig,
                                         parl: parl,
                                         dia: dia,
                                         hora: hora
                                     },
                                     success: function (msg) {
+                                        console.log('retiorna:', msg)
                                         if (msg == 'ok') {
                                             setTimeout(function () {
                                                 location.reload();
                                             }, 300);
+                                            log("Horario creado exitosamente", "success")
                                         } else {
                                             log("Error al borrar la hora", "error")
                                         }
@@ -271,7 +289,7 @@
 
 
     function cargaTabla(id) {
-        var asig = "${asignatura?.id}"
+        var asig = $("#asignatura").val()
         var data = {asig: asig, parl: id}
 
         $.ajax({
