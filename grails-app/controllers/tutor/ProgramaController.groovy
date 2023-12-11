@@ -100,30 +100,38 @@ class ProgramaController {
     def tabla_ajax(){
         def cn = getConnection()
         println("tabla_ajax " + params)
-        def asignatura = Asignatura.get(params.asig)
-        def paralelo   = Paralelo.get(params.parl)
-        def horas = Hora.list([sort: 'numero'])
-        def dias  = Dias.list([sort: 'numero'])
-        def clases = []
 
-        def curso = Curso.findAllByAsignaturaAndParalelo(asignatura, paralelo)
+        if(params.parl){
+            def asignatura = Asignatura.get(params.asig)
+            def paralelo   = Paralelo.get(params.parl)
+            def horas = Hora.list([sort: 'numero'])
+            def dias  = Dias.list([sort: 'numero'])
+            def clases = []
+
+            def curso = Curso.findAllByAsignaturaAndParalelo(asignatura, paralelo)
 //        def horario = Horario.findAllByParalelo( Paralelo.get(params.parl))
 
 
-        def sql = "select * from horario(${asignatura.nivel.id}, ${params.parl}, ${params.asig})"
-        def resp = cn.rows(sql.toString())
-        println "sql --> $sql"
+            def sql = "select * from horario(${asignatura.nivel.id}, ${params.parl}, ${params.asig})"
+            def resp = cn.rows(sql.toString())
+            println "sql --> $sql"
 
 //        println "horario: ${horario}"
 //        println "dias: ${ horario.dias }, horas: ${horario.hora.id} --> ${ horario.dias.id.contains( 1.toLong() )}"
 //        println "**dias: ${dias}, horas: ${horas}"
-        //println " --> ${ horario?.dias?.id[0].class}"
+            //println " --> ${ horario?.dias?.id[0].class}"
 
-        println "horario: $resp"
+            println "horario: $resp"
 
-        //return[asignatura: asignatura, horas: horas, dias: dias, horario: horario,
-        return[asignatura: asignatura, horas: horas, dias: dias, horario: resp,
-               clases: clases]
+            //return[asignatura: asignatura, horas: horas, dias: dias, horario: horario,
+            return[asignatura: asignatura, horas: horas, dias: dias, horario: resp,
+                   clases: clases, existe: true]
+        }else{
+            return[existe: false]
+        }
+
+
+
     }
 
 
@@ -162,6 +170,14 @@ class ProgramaController {
             println("error al crear el horario " + horario.errors)
             render "no"
         }
+    }
+
+    def paralelo_ajax(){
+        def nivel = Nivel.get(params.id)
+        def paralelo = Paralelo.findAllByNivel(nivel).sort{it.numero}
+        def asignatura = Asignatura.findAllByNivel(nivel).sort{it.nombre}
+
+        return[nivel: nivel, paralelo: paralelo, asignatura: asignatura]
     }
 
 

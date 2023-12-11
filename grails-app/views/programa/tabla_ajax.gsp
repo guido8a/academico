@@ -1,143 +1,151 @@
-<table class="table-condensed table-bordered table-striped table-hover" style="margin-top: 20px; width: 100%">
-    <thead style="text-align: center">
-    <tr>
 
-        <th width="9%">Hora</th>
-        <g:each in="${dias}" var="d">
-            <th width="13%">${d?.nombre}</th>
-        </g:each>
+<g:if test="${existe}">
+    <table class="table-condensed table-bordered table-striped table-hover" style="margin-top: 20px; width: 100%">
+        <thead style="text-align: center">
+        <tr>
 
-    </tr>
-    </thead>
-    <tbody>
-    %{--<g:each in="${horas}" var="hora">--}%
-    <g:each in="${horario}" var="h">
-        <tr data-id="${h?.lun?.split(';')[0]}" >
-        <td width="9%">${h?.hora}</td>
+            <th width="9%">Hora</th>
+            <g:each in="${dias}" var="d">
+                <th width="13%">${d?.nombre}</th>
+            </g:each>
+
+        </tr>
+        </thead>
+        <tbody>
+        %{--<g:each in="${horas}" var="hora">--}%
+        <g:each in="${horario}" var="h">
+            <tr data-id="${h?.lun?.split(';')[0]}" >
+            <td width="9%">${h?.hora}</td>
 
         %{--"${h.lun}"--}%
         %{--"${h.lun.toString().split(';')}"--}%
-        <g:if test="${h?.lun?.size() > 10}">
-            <td width="10%" data-id="${h?.lun?.split(';')[2]}" class="${h?.lun?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
-                %{--${h.lun.split(';')[5][0..12]}.. - ${h.lun.split(';')[4]}--}%
-                ${h.lun.split(';')[5][0..12]}.. - ${h.lun.split(';')[4]}
-                <a href="#" data-hora="${h?.lun?.split(';')[2]}" class="btn btn-xs btn-danger btn-borra-hora "
-                   title="Eliminar">
-                    <i class="fa fa-trash"> </i>
-                </a>
+            <g:if test="${h?.lun?.size() > 10}">
+                <td width="10%" data-id="${h?.lun?.split(';')[2]}" class="${h?.lun?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
+                    %{--${h.lun.split(';')[5][0..12]}.. - ${h.lun.split(';')[4]}--}%
+                    ${h.lun.split(';')[5][0..12]}.. - ${h.lun.split(';')[4]}
+                    <a href="#" data-hora="${h?.lun?.split(';')[2]}" class="btn btn-xs btn-danger btn-borra-hora "
+                       title="Eliminar">
+                        <i class="fa fa-trash"> </i>
+                    </a>
 
-            </td>
-        </g:if>
-        <g:else>
-            <td width="10%" class="horas libre"
-                data-dia="${h?.lun?.split(';')[0]}" data-hora="${h?.lun?.split(';')[1]}">
-                Libre
-                %{--${h?.lun?.split(';')[0]}--}%
-            </td>
-        </g:else>
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.lun?.split(';')[0]}" data-hora="${h?.lun?.split(';')[1]}">
+                    Libre
+                    %{--${h?.lun?.split(';')[0]}--}%
+                </td>
+            </g:else>
 
-        <g:if test="${h?.mar?.size() > 10}">
-            <td width="10%" data-id="${h?.mar?.split(';')[2]}"  class="${h?.mar?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
-                ${h.mar.split(';')[5][0..12]}.. - ${h.mar.split(';')[4]}
-                <a href="#" data-hora="${h?.mar?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
-                   title="Eliminar">
-                    <i class="fa fa-trash"> </i>
-                </a>
-            </td>
-        </g:if>
-        <g:else>
-            <td width="10%" class="horas libre"
-                data-dia="${h?.mar?.split(';')[0]}" data-hora="${h?.mar?.split(';')[1]}">
-                Libre
-            </td>
-        </g:else>
+            <g:if test="${h?.mar?.size() > 10}">
+                <td width="10%" data-id="${h?.mar?.split(';')[2]}"  class="${h?.mar?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
+                    ${h.mar.split(';')[5][0..12]}.. - ${h.mar.split(';')[4]}
+                    <a href="#" data-hora="${h?.mar?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
+                       title="Eliminar">
+                        <i class="fa fa-trash"> </i>
+                    </a>
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.mar?.split(';')[0]}" data-hora="${h?.mar?.split(';')[1]}">
+                    Libre
+                </td>
+            </g:else>
 
-        <g:if test="${h?.mie?.size() > 10}">
-            <td width="10%" data-id="${h?.mie?.split(';')[2]}"  class="${h?.mie?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
-                ${h.mie.split(';')[5][0..12]}.. - ${h.mie.split(';')[4]}
-                <a href="#" data-hora="${h?.mie?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
-                   title="Eliminar">
-                    <i class="fa fa-trash"></i>
-                </a>
-            </td>
-        </g:if>
-        <g:else>
-            <td width="10%" class="horas libre"
-                data-dia="${h?.mie?.split(';')[0]}" data-hora="${h?.mie?.split(';')[1]}">
-                Libre
-            </td>
-        </g:else>
+            <g:if test="${h?.mie?.size() > 10}">
+                <td width="10%" data-id="${h?.mie?.split(';')[2]}"  class="${h?.mie?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
+                    ${h.mie.split(';')[5][0..12]}.. - ${h.mie.split(';')[4]}
+                    <a href="#" data-hora="${h?.mie?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
+                       title="Eliminar">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.mie?.split(';')[0]}" data-hora="${h?.mie?.split(';')[1]}">
+                    Libre
+                </td>
+            </g:else>
 
-        <g:if test="${h?.jue?.size() > 10}">
-            <td width="10%" data-id="${h?.jue?.split(';')[2]}"  class="${h?.jue?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
-                ${h.jue.split(';')[5][0..12]}.. - ${h.jue.split(';')[4]}
-                <a href="#" data-hora="${h?.jue?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
-                   title="Eliminar">
-                    <i class="fa fa-trash"></i>
-                </a>
-            </td>
-        </g:if>
-        <g:else>
-            <td width="10%" class="horas libre"
-                data-dia="${h?.jue?.split(';')[0]}" data-hora="${h?.jue?.split(';')[1]}">
-                Libre
-            </td>
-        </g:else>
+            <g:if test="${h?.jue?.size() > 10}">
+                <td width="10%" data-id="${h?.jue?.split(';')[2]}"  class="${h?.jue?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
+                    ${h.jue.split(';')[5][0..12]}.. - ${h.jue.split(';')[4]}
+                    <a href="#" data-hora="${h?.jue?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
+                       title="Eliminar">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.jue?.split(';')[0]}" data-hora="${h?.jue?.split(';')[1]}">
+                    Libre
+                </td>
+            </g:else>
 
-        <g:if test="${h?.vie?.size() > 10}">
-            <td width="10%" data-id="${h?.vie?.split(';')[2]}"  class="${h?.vie?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
-                ${h.vie.split(';')[5][0..12]}.. - ${h.vie.split(';')[4]}
-                <a href="#" data-hora="${h?.vie?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
-                   title="Eliminar">
-                    <i class="fa fa-trash"></i>
-                </a>
-            </td>
-        </g:if>
-        <g:else>
-            <td width="10%" class="horas libre"
-                data-dia="${h?.vie?.split(';')[0]}" data-hora="${h?.vie?.split(';')[1]}">
-                Libre
-            </td>
-        </g:else>
+            <g:if test="${h?.vie?.size() > 10}">
+                <td width="10%" data-id="${h?.vie?.split(';')[2]}"  class="${h?.vie?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
+                    ${h.vie.split(';')[5][0..12]}.. - ${h.vie.split(';')[4]}
+                    <a href="#" data-hora="${h?.vie?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
+                       title="Eliminar">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.vie?.split(';')[0]}" data-hora="${h?.vie?.split(';')[1]}">
+                    Libre
+                </td>
+            </g:else>
 
-        <g:if test="${h?.sab?.size() > 10}">
-            <td width="10%" data-id="${h?.sab?.split(';')[2]}"  class="${h?.sab?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
-                ${h.sab.split(';')[5][0..12]}.. - ${h.sab.split(';')[4]}
-                <a href="#" data-hora="${h?.sab?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
-                   title="Eliminar">
-                    <i class="fa fa-trash"></i>
-                </a>
-            </td>
-        </g:if>
-        <g:else>
-            <td width="10%" class="horas libre"
-                data-dia="${h?.sab?.split(';')[0]}" data-hora="${h?.sab?.split(';')[1]}">
-                Libre
-            </td>
-        </g:else>
+            <g:if test="${h?.sab?.size() > 10}">
+                <td width="10%" data-id="${h?.sab?.split(';')[2]}"  class="${h?.sab?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
+                    ${h.sab.split(';')[5][0..12]}.. - ${h.sab.split(';')[4]}
+                    <a href="#" data-hora="${h?.sab?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
+                       title="Eliminar">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.sab?.split(';')[0]}" data-hora="${h?.sab?.split(';')[1]}">
+                    Libre
+                </td>
+            </g:else>
 
-        <g:if test="${h?.dom?.size() > 10}">
-            <td width="10%" data-id="${h?.dom?.split(';')[2]}"  class="${h?.dom?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
-                ${h.dom.split(';')[5][0..12]}.. - ${h.dom.split(';')[4]}
-                <a href="#" data-hora="${h?.dom?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
-                   title="Eliminar">
-                    <i class="fa fa-trash"></i>
-                </a>
-            </td>
-        </g:if>
-        <g:else>
-            <td width="10%" class="horas libre"
-                data-dia="${h?.dom?.split(';')[0]}" data-hora="${h?.dom?.split(';')[1]}">
-                Libre
-            </td>
-        </g:else>
+            <g:if test="${h?.dom?.size() > 10}">
+                <td width="10%" data-id="${h?.dom?.split(';')[2]}"  class="${h?.dom?.split(';')[3] == 'S' ? 'usado' : 'otro' }">
+                    ${h.dom.split(';')[5][0..12]}.. - ${h.dom.split(';')[4]}
+                    <a href="#" data-hora="${h?.dom?.split(';')[2]}" class= "btn btn-xs btn-danger btn-borra-hora"
+                       title="Eliminar">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.dom?.split(';')[0]}" data-hora="${h?.dom?.split(';')[1]}">
+                    Libre
+                </td>
+            </g:else>
 
-    </g:each>
+        </g:each>
 
-    </tr>
-    %{--</g:each>--}%
-    </tbody>
-</table>
+        </tr>
+        %{--</g:each>--}%
+        </tbody>
+    </table>
+</g:if>
+<g:else>
+    <div class="alert alert-danger">Seleccione un paralelo</div>
+</g:else>
+
+
 
 <script type="text/javascript">
     $(".horas").click(function () {

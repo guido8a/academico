@@ -73,24 +73,30 @@
                       />
         </div>
 
-        <div class="col-md-2">
-            <label for="paralelo" class="col-md-1 control-label" style="text-align: right">
-                Paralelo
-            </label>
-            <g:select name="paralelo" from="${tutor.Paralelo.findAllByPeriodo(tutor.Periodo.get(2), [sort: 'nivel'])}"
-                      class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.numero}}" optionKey="id"
-                      />
+
+        <div class="col-md-8" id="divParalelo">
+
         </div>
 
 
-        <div class="col-md-6">
-            <label for="asignatura" class="col-md-1 control-label" style="text-align: right">
-                Asignatura
-            </label>
-            <g:select name="asignatura" from="${tutor.Asignatura.list([sort: 'nivel'])}"
-                      class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.nombre}}" optionKey="id"
-                      />
-        </div>
+%{--        <div class="col-md-2">--}%
+%{--            <label for="paralelo" class="col-md-1 control-label" style="text-align: right">--}%
+%{--                Paralelo--}%
+%{--            </label>--}%
+%{--            <g:select name="paralelo" from="${tutor.Paralelo.findAllByPeriodo(tutor.Periodo.get(2), [sort: 'nivel'])}"--}%
+%{--                      class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.numero}}" optionKey="id"--}%
+%{--                      />--}%
+%{--        </div>--}%
+
+
+%{--        <div class="col-md-6">--}%
+%{--            <label for="asignatura" class="col-md-1 control-label" style="text-align: right">--}%
+%{--                Asignatura--}%
+%{--            </label>--}%
+%{--            <g:select name="asignatura" from="${tutor.Asignatura.list([sort: 'nivel'])}"--}%
+%{--                      class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.nombre}}" optionKey="id"--}%
+%{--                      />--}%
+%{--        </div>--}%
 
         %{--<div class="btn-group">--}%
             %{--<a href="#" class="btn btn-primary" id="btnEditar" title="Editar Paralelo">--}%
@@ -116,6 +122,7 @@
 
 <script type="text/javascript">
     var id = null;
+
     function submitForm() {
         var $form = $("#frmAsignatura");
         var $btn = $("#dlgCreateEdit").find("#btnSave");
@@ -124,7 +131,7 @@
             url: $form.attr("action"),
             data: $form.serialize(),
             success: function (msg) {
-                if (msg == 'ok') {
+                if (msg === 'ok') {
                     log("Asignatura guardada correctamente", "success");
                     setTimeout(function () {
                         location.reload(true);
@@ -160,7 +167,7 @@
                                 id: itemId
                             },
                             success: function (msg) {
-                                if (msg == 'ok') {
+                                if (msg === 'ok') {
                                     setTimeout(function () {
                                         location.reload();
                                     }, 300);
@@ -200,7 +207,7 @@
                                 id: itemId
                             },
                             success: function (msg) {
-                                if (msg == 'ok') {
+                                if (msg === 'ok') {
                                     setTimeout(function () {
                                         location.reload();
                                     }, 300);
@@ -250,8 +257,8 @@
                                         hora: hora
                                     },
                                     success: function (msg) {
-                                        console.log('retiorna:', msg)
-                                        if (msg == 'ok') {
+                                        console.log('retiorna:', msg);
+                                        if (msg === 'ok') {
                                             setTimeout(function () {
                                                 location.reload();
                                             }, 300);
@@ -277,7 +284,7 @@
 
     function createEditRow(id) {
         var title = id ? "Editar" : "Crear";
-        var asig = $("#asignatura").val()
+        var asig = $("#asignatura").val();
 
         $.ajax({
             type: "POST",
@@ -289,7 +296,7 @@
                     title: title + " Paralelo",
                     closeButton: false,
                     message: msg,
-                    class: "modal-lg",
+                    class: "modal-lg"
                 }); //dialog
                 setTimeout(function () {
                     b.find(".form-control").first().focus()
@@ -301,8 +308,8 @@
 
 
     function cargaTabla(id) {
-        var asig = $("#asignatura").val()
-        var data = {asig: asig, parl: id}
+        var asig = $("#asignatura option:selected").val();
+        var data = {asig: asig, parl: id};
 
         $.ajax({
             type: "POST",
@@ -315,12 +322,12 @@
         //location.reload()//ajax
     }// /createEdit
 
-    $(function () {
+    // $(function () {
 
         $( document ).ready(function() {
             //console.log( "ready!" );
-            var asig = $("#asignatura").val()
-            var parl = $("#paralelo").val()
+            var asig = $("#asignatura").val();
+            var parl = $("#paralelo").val();
             $("#paralelo").change()
         });
 
@@ -342,8 +349,8 @@
         });
 
         $("#btnEditar").click(function () {
-            var id = $("#paralelo").val()
-            console.log("id", id)
+            var id = $("#paralelo").val();
+            // console.log("id", id)
             createEditRow(id);
             return false;
         });
@@ -353,19 +360,39 @@
             createEditRow(id);
         });
         $("#btnBorrar").click(function () {
-            var id = $("#paralelo").val()
+            var id = $("#paralelo").val();
             deleteRow(id);
         });
 
-        $("#paralelo").change(function () {
-            var id = $(this).val();
-            //console.log("id:", id)
-            if(id) {
-                cargaTabla(id)
-            }
-        });
+        // $("#paralelo").change(function () {
+        //     var id = $(this).val();
+        //     //console.log("id:", id)
+        //     if(id) {
+        //         cargaTabla(id)
+        //     }
+        // });
+    // });
 
-    });
+    cargarParalelo($("#nivel option:selected").val());
+
+    function cargarParalelo(id){
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller: 'programa', action:'paralelo_ajax')}",
+            data: {
+                id: id
+            },
+            success: function (msg) {
+                $("#divParalelo").html(msg);
+            } //success
+        });
+    }
+
+    $("#nivel").change(function () {
+        var idNivel = $(this).val();
+        cargarParalelo(idNivel);
+    })
+
 </script>
 
 </body>
