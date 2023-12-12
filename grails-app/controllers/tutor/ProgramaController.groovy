@@ -27,6 +27,9 @@ class ProgramaController {
 
     }
 
+    def gestion() {
+    }
+
     def creaParalelo(){
         println "creaParalelo $params"
         def paralelo
