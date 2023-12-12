@@ -203,19 +203,32 @@ class ProgramaController {
         if(params.id){
             gestion = Gestion.get(params.id)
 
-
             if(existe.id == gestion.id){
                 gestion.asignatura = asignatura
-                gestion.hora = params.hora
+                gestion.hora = params.hora.toInteger()
             }else{
-
+                render "no_La asignatura seleccionada ya fue asignada al profesor"
             }
-
 
         }else{
 
+             if(existe){
+                 render "no_La asignatura seleccionada ya fue asignada al profesor"
+             }else{
+                 gestion = new Gestion()
+                 gestion.periodo = periodo
+                 gestion.asignatura = asignatura
+                 gestion.hora = params.hora.toInteger()
+                 gestion.profesor = profesor
+             }
         }
 
+        if(!gestion.save(flush:true)){
+            println("error al guardar la gestion " + gestion.errors)
+            render "no_Error al guardar"
+        }else{
+            render "ok_Guardado correctamente"
+        }
     }
 
 

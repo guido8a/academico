@@ -368,6 +368,7 @@
 
     $("#periodo").change(function () {
         cargarTablaGestion();
+        $("#hora").val('')
     });
 
     function cargarTablaGestion(){
@@ -392,26 +393,33 @@
         var asignatura = $("#asignatura option:selected").val();
         var hora = $("#hora").val();
 
-        $.ajax({
-            type: "POST",
-            url: "${createLink(controller: 'programa', action:'guardarGestion_ajax')}",
-            data: {
-                id: id,
-                periodo: periodo,
-                profesor: profesor,
-                asignatura: asignatura,
-                hora: hora
-            },
-            success: function (msg) {
-                d.modal("hide");
-                var parts = msg.split("_");
-                if(parts[0] === 'ok'){
-                    log("Guardado correctamente" ,  "success")
-                }else{
-                    bootbox.alert("Error al guardar")
-                }
-            } //success
-        });
+        if(hora != null && hora!== ''){
+            $.ajax({
+                type: "POST",
+                url: "${createLink(controller: 'programa', action:'guardarGestion_ajax')}",
+                data: {
+                    id: id,
+                    periodo: periodo,
+                    profesor: profesor,
+                    asignatura: asignatura,
+                    hora: hora
+                },
+                success: function (msg) {
+                    d.modal("hide");
+                    var parts = msg.split("_");
+                    if(parts[0] === 'ok'){
+                        log(parts[1],  "success")
+                    }else{
+                        bootbox.alert('<i class="fa fa-exclamation-triangle fa-2x text-danger"></i>'  +  parts[1])
+                    }
+                } //success
+            });
+        }else{
+            d.modal("hide");
+            bootbox.alert( '<span>' + '<i class="fa fa-exclamation-triangle fa-2x text-info"></i>'  + '<strong style="font-size: 14px">' +  'Ingrese el número de horas' +  '</strong>' + '</span>')
+        }
+
+
     })
 
 
