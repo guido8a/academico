@@ -183,6 +183,40 @@ class ProgramaController {
         return[nivel: nivel, paralelo: paralelo, asignatura: asignatura]
     }
 
+    def tablaGestion_ajax(){
+        def periodo = Periodo.get(params.id)
+        def gestiones = Gestion.findAllByPeriodo(periodo)
+
+        return[gestiones: gestiones, periodo: periodo]
+    }
+
+    def guardarGestion_ajax(){
+        println("params " + params)
+
+        def periodo = Periodo.get(params.periodo)
+        def profesor = Profesor.get(params.profesor)
+        def asignatura = Asignatura.get(params.asignatura)
+
+        def gestion
+        def existe = Gestion.findByPeriodoAndAsignaturaAndProfesor(periodo, asignatura, profesor)
+
+        if(params.id){
+            gestion = Gestion.get(params.id)
+
+
+            if(existe.id == gestion.id){
+                gestion.asignatura = asignatura
+                gestion.hora = params.hora
+            }else{
+
+            }
+
+
+        }else{
+
+        }
+
+    }
 
 
 }

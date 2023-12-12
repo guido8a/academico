@@ -1,4 +1,4 @@
-<%@ page import="tutor.TipoActividad; tutor.Periodo" %>
+<%@ page import="tutor.Profesor; tutor.TipoActividad; tutor.Periodo" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +52,7 @@
 
 <div class="col-md-12">
     <div class="btn-group col-md-2">
-        <g:link controller="asignatura" action="list" class="btn btn-secondary">
+        <g:link controller="asignatura" action="list" class="btn btn-primary">
             <i class="fa fa-arrow-left"></i> Regresar
         </g:link>
     </div>
@@ -62,38 +62,52 @@
 <div class="container" style="width: 1000px">
     <div class="btn-toolbar toolbar" style="margin-top: 10px">
 
-
+        <g:hiddenField name="idGestion" value="" />
 
         <div class="col-md-12">
-            <label for="nivel" class="col-md-1 control-label" style="text-align: right">
-                Profesor
+            <label for="periodo" class="col-md-1 control-label text-info" style="text-align: right">
+                Período
             </label>
             <div class="col-md-3">
-            <g:select name="nivel" from="${tutor.Profesor.list([sort: 'apellido'])}"
-                      class="form-control input-sm required" optionValue="apellido" optionKey="id"
-                      />
+                <g:select name="periodo" from="${Periodo.list([sort: 'descripcion'])}"
+                          class="form-control input-sm required" optionValue="descripcion" optionKey="id"
+                />
             </div>
-            <label for="nivel" class="col-md-1 control-label" style="text-align: right">
-                Actividad de Gestión
-            </label>
-            <div class="col-md-4">
-            <g:select name="nivel" from="${tutor.Asignatura.findAllByTipoActividad(tutor.TipoActividad.get(2) ,[sort: 'nombre'])}"
-                      class="form-control input-sm required" optionValue="nombre" optionKey="id"
-                      />
+        </div>
+
+        <div class="col-md-12" style="margin-top: 25px">
+
+            <div class="col-md-3">
+                <label for="profesor" class="control-label" style="text-align: right">
+                    Profesor
+                </label>
+                <g:select name="profesor" from="${tutor.Profesor.list([sort: 'apellido'])}"
+                          class="form-control input-sm required" optionValue="${{it.apellido + " " +  it.nombre}}" optionKey="id"
+                />
             </div>
-            <label for="nivel" class="col-md-1 control-label" style="text-align: right">
-                Horas
-            </label>
+
+            <div class="col-md-5">
+                <label for="asignatura" class="control-label" style="text-align: right">
+                    Actividad de Gestión
+                </label>
+                <g:select name="asignatura" from="${tutor.Asignatura.findAllByTipoActividad(tutor.TipoActividad.get(2) ,[sort: 'nombre'])}"
+                          class="form-control input-sm required" optionValue="nombre" optionKey="id"
+                />
+            </div>
+
             <div class="col-md-1">
-                <g:textField name="horas" maxlength="2" class="form-control required text-uppercase"
+                <label for="hora" class="control-label" style="text-align: right">
+                    Horas
+                </label>
+                <g:textField name="hora" maxlength="2" class="form-control required text-uppercase"
                              style="border:solid 1px #ccc; width: 40px"
                              value="${gestion?.horas}"/>
             </div>
 
-            <div class="col-md-1">
-                <g:link controller="asignatura" action="list" class="btn btn-info">
-                    <i class="fa fa-check"></i> Aceptar
-                </g:link>
+            <div class="col-md-1" style="margin-top: 20px">
+                <a href="#" class="btn btn-success" id="btnAsignar">
+                    <i class="fa fa-check"></i> Asignar
+                </a>
             </div>
         </div>
     </div>
@@ -133,7 +147,7 @@
         bootbox.dialog({
             title: "Alerta",
             message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p>" +
-            "¿Está seguro que desea eliminar el paralelo seleccionado? Esta acción no se puede deshacer.</p>",
+                "¿Está seguro que desea eliminar el paralelo seleccionado? Esta acción no se puede deshacer.</p>",
             closeButton: false,
             buttons: {
                 cancelar: {
@@ -173,7 +187,7 @@
         bootbox.dialog({
             title: "Alerta",
             message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p>" +
-            "¿Está seguro que desea eliminar la hora seleccionada? Esta acción no se puede deshacer.</p>",
+                "¿Está seguro que desea eliminar la hora seleccionada? Esta acción no se puede deshacer.</p>",
             closeButton: false,
             buttons: {
                 cancelar: {
@@ -276,7 +290,7 @@
             type: "POST",
             url: "${createLink(controller: 'programa', action:'creaParalelo')}",
             data: {id: id,
-            asig: asig},
+                asig: asig},
             success: function (msg) {
                 var b = bootbox.dialog({
                     title: title + " Paralelo",
@@ -310,45 +324,97 @@
 
     // $(function () {
 
-        $( document ).ready(function() {
-            //console.log( "ready!" );
-            var asig = $("#asignatura").val();
-            var parl = $("#paralelo").val();
-            $("#paralelo").change()
-        });
+    $( document ).ready(function() {
+        //console.log( "ready!" );
+        var asig = $("#asignatura").val();
+        var parl = $("#paralelo").val();
+        $("#paralelo").change()
+    });
 
-        $("#btnParalelo").click(function () {
-            createEditRow();
-            return false;
-        });
-
-
-        $("#btnProgramar").click(function () {
-            paralelo();
-            return false;
-        });
+    $("#btnParalelo").click(function () {
+        createEditRow();
+        return false;
+    });
 
 
-        $("#btnCrear").click(function () {
-            createEditRow();
-            return false;
-        });
+    $("#btnProgramar").click(function () {
+        paralelo();
+        return false;
+    });
 
-        $("#btnEditar").click(function () {
-            var id = $("#paralelo").val();
-            // console.log("id", id)
-            createEditRow(id);
-            return false;
-        });
 
-        $(".btn-edit").click(function () {
-            var id = $(this).data("id");
-            createEditRow(id);
+    $("#btnCrear").click(function () {
+        createEditRow();
+        return false;
+    });
+
+    $("#btnEditar").click(function () {
+        var id = $("#paralelo").val();
+        // console.log("id", id)
+        createEditRow(id);
+        return false;
+    });
+
+    $(".btn-edit").click(function () {
+        var id = $(this).data("id");
+        createEditRow(id);
+    });
+    $("#btnBorrar").click(function () {
+        var id = $("#paralelo").val();
+        deleteRow(id);
+    });
+
+    cargarTablaGestion();
+
+    $("#periodo").change(function () {
+        cargarTablaGestion();
+    });
+
+    function cargarTablaGestion(){
+        var idPeriodo = $("#periodo option:selected").val();
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller: 'programa', action:'tablaGestion_ajax')}",
+            data: {
+                id: idPeriodo
+            },
+            success: function (msg) {
+                $("#divTabla").html(msg);
+            } //success
         });
-        $("#btnBorrar").click(function () {
-            var id = $("#paralelo").val();
-            deleteRow(id);
+    }
+
+    $("#btnAsignar").click(function () {
+        var d = cargarLoader("Guardando...");
+        var id = $("#idGestion").val();
+        var periodo = $("#periodo option:selected").val();
+        var profesor = $("#profesor option:selected").val();
+        var asignatura = $("#asignatura option:selected").val();
+        var hora = $("#hora").val();
+
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller: 'programa', action:'guardarGestion_ajax')}",
+            data: {
+                id: id,
+                periodo: periodo,
+                profesor: profesor,
+                asignatura: asignatura,
+                hora: hora
+            },
+            success: function (msg) {
+                d.modal("hide");
+                var parts = msg.split("_");
+                if(parts[0] === 'ok'){
+                    log("Guardado correctamente" ,  "success")
+                }else{
+                    bootbox.alert("Error al guardar")
+                }
+            } //success
         });
+    })
+
+
 
 
 </script>
