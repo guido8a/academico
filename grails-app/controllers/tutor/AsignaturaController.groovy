@@ -39,6 +39,9 @@ class AsignaturaController {
             asignatura = Asignatura.get(params.id)
         }else{
             asignatura = new Asignatura()
+            asignatura.creditos = 5
+            asignatura.horasTeoria = 3
+            asignatura.horasPractica = 2
         }
 
         return[asignatura: asignatura]
