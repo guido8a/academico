@@ -79,8 +79,6 @@
         <th>Práct.</th>
         <th>Teór.</th>
         <th>Gest.</th>
-        <th>Paralelos</th>
-        <th>Cupo</th>
         <th>Acciones</th>
     </tr>
     </thead>
@@ -96,9 +94,6 @@
                 <td width="6%">${asignatura?.horasPractica}</td>
                 <td width="6%">${asignatura?.horasTeoria}</td>
                 <td width="6%">${asignatura?.horasGestion}</td>
-                %{--<td width="6%">${tutor.Paralelo.countByAsignatura(tutor.Asignatura.get(asignatura.id))}</td>--}%
-                %{--<td width="6%">${tutor.Paralelo.findAllByAsignatura(tutor.Asignatura.get(asignatura.id))?.numero?.join('-')}</td>--}%
-                %{--<td width="6%">${tutor.Paralelo.findAllByAsignatura(tutor.Asignatura.get(asignatura.id)).cupo.sum()}</td>--}%
 
                 <td width="14%">
                     <a href="#" data-id="${asignatura?.id}" class="btn btn-success btn-sm btn-edit btn-ajax"
