@@ -142,7 +142,8 @@
     </table>
 </g:if>
 <g:else>
-    <div class="alert alert-danger">Seleccione un paralelo</div>
+    <div class="alert alert-danger" style="text-align: center"> <i class="fa fa-exclamation-triangle fa-2x text-info"></i>  <strong style="font-size: 14px"> Seleccione un paralelo  </strong>
+    </div>
 </g:else>
 
 

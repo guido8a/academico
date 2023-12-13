@@ -29,6 +29,9 @@
                         <a href="#" class="btn btn-danger btn-xs btnBorrarGestion" data-id="${gestion.id}">
                             <i class="fa fa-trash"></i>
                         </a>
+                        <a href="#" class="btn btn-danger btn-xs btnBorrarGestion" data-id="${gestion.id}">
+                            <i class="fa fa-trash"></i>
+                        </a>
                     </td>
                 </tr>
             </g:each>

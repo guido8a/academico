@@ -176,8 +176,9 @@ class ProgramaController {
     }
 
     def paralelo_ajax(){
-        def nivel = Nivel.get(params.id)
-        def paralelo = Paralelo.findAllByNivel(nivel).sort{it.numero}
+        def periodo = Periodo.get(params.periodo)
+        def nivel = Nivel.get(params.nivel)
+        def paralelo = Paralelo.findAllByNivelAndPeriodo(nivel, periodo).sort{it.numero}
         def asignatura = Asignatura.findAllByNivel(nivel).sort{it.nombre}
 
         return[nivel: nivel, paralelo: paralelo, asignatura: asignatura]

@@ -52,17 +52,25 @@
 
 
 <div class="col-md-12">
+    <div class="btn-group">
+        <g:link controller="asignatura" action="list" class="btn btn-primary">
+            <i class="fa fa-arrow-left"></i> Regresar
+        </g:link>
+    </div>
     <h3 class="titl">Programación por Niveles - Paralelos y Asignaturas </h3>
 </div>
 <!-- botones -->
 <div class="container" style="width: 1000px">
     <div class="btn-toolbar toolbar" style="margin-top: 10px">
-        <div class="btn-group">
-            <g:link controller="asignatura" action="list" class="btn btn-secondary">
-                <i class="fa fa-arrow-left"></i> Regresar
-            </g:link>
-        </div>
 
+        <div class="col-md-2">
+            <label for="periodo" class="col-md-1 control-label" style="text-align: right">
+                Período
+            </label>
+            <g:select name="periodo" from="${tutor.Periodo.list([sort: 'descripcion'])}"
+                      class="form-control input-sm required" optionValue="descripcion" optionKey="id"
+            />
+        </div>
 
         <div class="col-md-2">
             <label for="nivel" class="col-md-1 control-label" style="text-align: right">
@@ -73,43 +81,9 @@
                       />
         </div>
 
-
         <div class="col-md-8" id="divParalelo">
 
         </div>
-
-
-%{--        <div class="col-md-2">--}%
-%{--            <label for="paralelo" class="col-md-1 control-label" style="text-align: right">--}%
-%{--                Paralelo--}%
-%{--            </label>--}%
-%{--            <g:select name="paralelo" from="${tutor.Paralelo.findAllByPeriodo(tutor.Periodo.get(2), [sort: 'nivel'])}"--}%
-%{--                      class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.numero}}" optionKey="id"--}%
-%{--                      />--}%
-%{--        </div>--}%
-
-
-%{--        <div class="col-md-6">--}%
-%{--            <label for="asignatura" class="col-md-1 control-label" style="text-align: right">--}%
-%{--                Asignatura--}%
-%{--            </label>--}%
-%{--            <g:select name="asignatura" from="${tutor.Asignatura.list([sort: 'nivel'])}"--}%
-%{--                      class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.nombre}}" optionKey="id"--}%
-%{--                      />--}%
-%{--        </div>--}%
-
-        %{--<div class="btn-group">--}%
-            %{--<a href="#" class="btn btn-primary" id="btnEditar" title="Editar Paralelo">--}%
-                %{--<i class="fa fa-edit"></i>--}%
-            %{--</a>--}%
-        %{--</div>--}%
-        %{--<div class="btn-group">--}%
-            %{--<a href="#" class="btn btn-danger" id="btnBorrar">--}%
-                %{--<i class="fa fa-trash"></i>--}%
-            %{--</a>--}%
-        %{--</div>--}%
-
-
     </div>
 
     <div id="divTabla">
@@ -373,14 +347,15 @@
         // });
     // });
 
-    cargarParalelo($("#nivel option:selected").val());
+    cargarParalelo($("#periodo option:selected").val(), $("#nivel option:selected").val());
 
-    function cargarParalelo(id){
+    function cargarParalelo(periodo, nivel){
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'paralelo_ajax')}",
             data: {
-                id: id
+                periodo: periodo,
+                nivel: nivel
             },
             success: function (msg) {
                 $("#divParalelo").html(msg);
@@ -390,7 +365,14 @@
 
     $("#nivel").change(function () {
         var idNivel = $(this).val();
-        cargarParalelo(idNivel);
+        var idPeriodo = $("#periodo option:selected").val();
+        cargarParalelo(idPeriodo, idNivel);
+    });
+
+    $("#periodo").change(function () {
+        var idPeriodo = $(this).val();
+        var idNivel = $("#nivel option:selected").val();
+        cargarParalelo(idPeriodo, idNivel);
     })
 
 </script>
