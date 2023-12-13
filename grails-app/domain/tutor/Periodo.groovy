@@ -17,7 +17,7 @@ class Periodo {
     }
 
     static constraints = {
-        descripcion(size: 1..15, blank: false, nullable: false, attributes: [title: 'descripcion'])
+        descripcion(size: 1..31, blank: false, nullable: false, attributes: [title: 'descripcion'])
     }
 
     String toString() {
