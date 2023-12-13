@@ -23,14 +23,14 @@
                     <td style="width: 25%">${gestion?.profesor?.apellido + " " + gestion?.profesor?.nombre}</td>
                     <td style="width: 10%">${gestion?.hora}</td>
                     <td style="width: 10%;">
-                        <a href="#" class="btn btn-success btn-xs btnEditarGestion"  data-id="${gestion.id}" data-prof="${gestion?.profesor?.id}" data-asig="${gestion?.asignatura?.id}" data-hora="${gestion?.hora}">
+                        <a href="#" class="btn btn-success btn-xs btnEditarGestion" title="Editar" data-id="${gestion.id}" data-prof="${gestion?.profesor?.id}" data-asig="${gestion?.asignatura?.id}" data-hora="${gestion?.hora}">
                             <i class="fa fa-edit"></i>
                         </a>
-                        <a href="#" class="btn btn-danger btn-xs btnBorrarGestion" data-id="${gestion.id}">
+                        <a href="#" class="btn btn-danger btn-xs btnBorrarGestion" data-id="${gestion.id}" title="Borrar">
                             <i class="fa fa-trash"></i>
                         </a>
-                        <a href="#" class="btn btn-danger btn-xs btnBorrarGestion" data-id="${gestion.id}">
-                            <i class="fa fa-trash"></i>
+                        <a href="#" class="btn btn-info btn-xs btnObservacionGestion" data-id="${gestion.id}" title="Observaciones">
+                            <i class="fa fa-book"></i>
                         </a>
                     </td>
                 </tr>
@@ -64,4 +64,38 @@
         var id = $(this).data("id");
         borrarGestion(id);
     });
+
+    $(".btnObservacionGestion").click(function () {
+        $.ajax({
+            type    : "POST",
+            url: "${createLink(action:'observaciones_ajax')}",
+            data    : data,
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgObservaciones",
+                    title   : "Observaciones",
+                    // class: "modal-lg",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-save'></i> Guardar",
+                            className : "btn-success",
+                            callback  : function () {
+                                // return submitFormMedicina();
+                            } //callback
+                        } //guardar
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    })
+
+
 </script>

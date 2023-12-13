@@ -29,13 +29,13 @@
 <!-- botones -->
 <div class="btn-toolbar toolbar">
     <div class="btn-group">
-        <g:link controller="inicio" action="index" class="btn btn-secondary">
+        <g:link controller="inicio" action="index" class="btn btn-primary">
             <i class="fa fa-arrow-left"></i> Regresar
         </g:link>
     </div>
 
     <div class="btn-group">
-        <a href="#" class="btn btn-primary btnCrear">
+        <a href="#" class="btn btn-info btnCrear">
             <i class="fa fa-clipboard-list"></i> Nueva Asignatura
         </a>
     </div>
@@ -96,19 +96,19 @@
                 <td width="6%">${asignatura?.horasGestion}</td>
 
                 <td width="14%">
-                    <a href="#" data-id="${asignatura?.id}" class="btn btn-success btn-sm btn-edit btn-ajax"
+                    <a href="#" data-id="${asignatura?.id}" class="btn btn-success btn-xs btn-edit btn-ajax"
                        title="Editar">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <a href="#" data-id="${asignatura?.id}" class="btn btn-danger btn-sm btn-borrar btn-ajax"
+                    <a href="#" data-id="${asignatura?.id}" class="btn btn-danger btn-xs btn-borrar btn-ajax"
                        title="Eliminar">
                         <i class="fa fa-trash"></i>
                     </a>
-                    <a href="#" data-id="${asignatura?.id}" class="btn btn-info btn-sm btn-show btn-ajax" title="Ver">
+                    <a href="#" data-id="${asignatura?.id}" class="btn btn-info btn-xs btn-show btn-ajax" title="Ver">
                         <i class="fa fa-search"></i>
                     </a>
                     <g:if test="${asignatura?.tipoActividad.descripcion == 'Académica'}">
-                        <a href="#" data-id="${asignatura?.id}" class="btn btn-info btn-sm btn-curso btn-ajax"
+                        <a href="#" data-id="${asignatura?.id}" class="btn btn-info btn-xs btn-curso btn-ajax"
                            title="Programación académica">
                             <i class="fa fa-check"></i>
                         </a>
@@ -155,7 +155,7 @@
         bootbox.dialog({
             title: "Alerta",
             message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p>" +
-            "¿Está seguro que desea eliminar la asignatura seleccionada? Esta acción no se puede deshacer.</p>",
+                "¿Está seguro que desea eliminar la asignatura seleccionada? Esta acción no se puede deshacer.</p>",
             closeButton: false,
             buttons: {
                 cancelar: {
@@ -193,24 +193,88 @@
     function createEditRow(id) {
         var title = id ? "Editar" : "Crear";
         var data = id ? {id: id} : {};
+        %{--$.ajax({--}%
+        %{--    type: "POST",--}%
+        %{--    url: "${createLink(controller: 'asignatura', action:'form_ajax')}",--}%
+        %{--    data: data,--}%
+        %{--    success: function (msg) {--}%
+        %{--        var b = bootbox.dialog({--}%
+        %{--            title: title + " Asignatura",--}%
+        %{--            closeButton: false,--}%
+        %{--            message: msg,--}%
+        %{--            class: "modal-lg"--}%
+        %{--        }); //dialog--}%
+        %{--        setTimeout(function () {--}%
+        %{--            b.find(".form-control").first().focus()--}%
+        %{--        }, 500);--}%
+        %{--    } //success--}%
+        %{--});--}%
+
+
         $.ajax({
-            type: "POST",
+            type    : "POST",
             url: "${createLink(controller: 'asignatura', action:'form_ajax')}",
-            data: data,
-            success: function (msg) {
+            data    : data,
+            success : function (msg) {
                 var b = bootbox.dialog({
-                    title: title + " Asignatura",
-                    closeButton: false,
-                    message: msg,
+                    id      : "dlgCreateEdit",
+                    title   : title + " Asignatura",
                     class: "modal-lg",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-save'></i> Guardar",
+                            className : "btn-success",
+                            callback  : function () {
+                                return submitFormAsignatura();
+                            } //callback
+                        } //guardar
+                    } //buttons
                 }); //dialog
-                setTimeout(function () {
-                    b.find(".form-control").first().focus()
-                }, 500);
             } //success
-        });
+        }); //ajax
+
+
         //location.reload()//ajax
     } //createEdit
+
+
+    function submitFormAsignatura() {
+        var $form = $("#frmAsignatura");
+        if ($form.valid()) {
+            var data = $form.serialize();
+            var dialog = cargarLoader("Guardando...");
+            $.ajax({
+                type    : "POST",
+                url     : $form.attr("action"),
+                data    : data,
+                success : function (msg) {
+                    dialog.modal('hide');
+                    var parts = msg.split("_");
+                    if(parts[0] === 'ok'){
+                        log(parts[1], "success");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 800);
+                    }else{
+
+                        bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
+                        return false;
+                    }
+                }
+            });
+        } else {
+            return false;
+        }
+    }
+
 
     $(function () {
 

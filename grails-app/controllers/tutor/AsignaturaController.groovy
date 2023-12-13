@@ -57,10 +57,10 @@ class AsignaturaController {
         asignatura.properties = params
         if(!asignatura.save(flush:true)){
             println("error al guardar al asignatura " + asignatura.errors)
-            render "no"
+            render "no_Error al guardar la asignatura"
         }else{
             println "errores: ${asignatura.errors}"
-            render "ok"
+            render "ok_Asignatura guardada correctamente"
         }
     }
 

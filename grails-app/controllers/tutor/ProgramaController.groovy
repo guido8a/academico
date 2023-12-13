@@ -246,5 +246,9 @@ class ProgramaController {
         }
     }
 
+    def observaciones_ajax(){
+
+    }
+
 
 }

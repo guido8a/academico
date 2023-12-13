@@ -22,7 +22,7 @@
                 <div class="col-md-4">
                     <g:select name="carrera" from="${tutor.Carrera.list([sort: 'nombre'])}"
                               class="form-control input-sm required" optionValue="nombre" optionKey="id"
-                              value="${asignatura?.carrera?.id}"/>
+                              value="${asignatura?.carrera?.id}" noSelection="[null: 'Ninguno']"/>
                 </div>
             </div>
 
@@ -35,7 +35,7 @@
                     <g:select name="nivel" from="${tutor.Nivel.list([sort: 'numero'])}"
                               style="width: 120px"  optionValue="descripcion" optionKey="id"
                               class="form-control input-sm required"
-                              value="${asignatura?.nivel?.id}"/>
+                              value="${asignatura?.nivel?.id}" noSelection="[null: 'Ninguno']"/>
                 </div>
 
                 <label for="tipoActividad" class="col-md-3 control-label" style="text-align: right">
@@ -112,30 +112,51 @@
                                  style="border:solid 1px #ccc; width: 40px"
                                  value="${asignatura?.horasGestion}"/>
                 </div>
-
-
             </div>
-
-
-
-
         </div>
     </g:form>
-    <div class="col-md-12" style="text-align: end; border-top: solid #345; border-width: 1px; padding-top: 15px">
-        <button id="cerrar" class="btn btn-primary">Cancelar</button>
-        <button id="grabar" class="btn btn-info">Grabar</button>
-    </div>
+%{--    <div class="col-md-12" style="text-align: end; border-top: solid #345; border-width: 1px; padding-top: 15px">--}%
+%{--        <button id="cerrar" class="btn btn-primary">Cancelar</button>--}%
+%{--        <button id="grabar" class="btn btn-info">Grabar</button>--}%
+%{--    </div>--}%
 </div>
 
 <script type="text/javascript">
+
+
+    $("#frmAsignatura").validate({
+        errorClass     : "help-block",
+        errorPlacement : function (error, element) {
+            if (element.parent().hasClass("input-group")) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+            element.parents(".grupo").addClass('has-error');
+        },
+        success        : function (label) {
+            label.parents(".grupo").removeClass('has-error');
+        }
+    });
+
     $(".form-control").keydown(function (ev) {
-        if (ev.keyCode == 13) {
-            console.log("Llama a validar")
-            $("#grabar").click()
+        if (ev.keyCode === 13) {
+            submitFormAsignatura();
             return false;
         }
         return true;
     });
+
+
+
+    // $(".form-control").keydown(function (ev) {
+    //     if (ev.keyCode == 13) {
+    //         console.log("Llama a validar")
+    //         $("#grabar").click()
+    //         return false;
+    //     }
+    //     return true;
+    // });
 
 
     $("#grabar").click(function () {
@@ -151,18 +172,15 @@
                 " Llene todos los campos")
         } else {
             submitForm();
-            //$(".modal-dialog").hide()
             setTimeout(function () {
-
                 location.reload(true)
             }, 300);
-            //location.reload(true)
         }
 
     });
 
-    $("#cerrar").click(function () {
-        //location.href("${createLink(controller: 'asignatura', action:'list')}")
-        location.reload(true)
-    });
+    %{--$("#cerrar").click(function () {--}%
+    %{--    //location.href("${createLink(controller: 'asignatura', action:'list')}")--}%
+    %{--    location.reload(true)--}%
+    %{--});--}%
 </script>
