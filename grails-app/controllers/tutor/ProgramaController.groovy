@@ -208,12 +208,14 @@ class ProgramaController {
                 gestion.hora = params.hora.toInteger()
             }else{
                 render "no_La asignatura seleccionada ya fue asignada al profesor"
+                return
             }
 
         }else{
 
              if(existe){
                  render "no_La asignatura seleccionada ya fue asignada al profesor"
+                 return
              }else{
                  gestion = new Gestion()
                  gestion.periodo = periodo
@@ -228,6 +230,18 @@ class ProgramaController {
             render "no_Error al guardar"
         }else{
             render "ok_Guardado correctamente"
+        }
+    }
+
+    def borrarGestion_ajax(){
+        def gestion = Gestion.get(params.id)
+
+        try{
+            gestion.delete(flush:true)
+            render "ok_Borrado correctamente"
+        }catch(e){
+            println("error al borrar " + gestion.errors)
+            render "no_Error al borrar"
         }
     }
 

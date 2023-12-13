@@ -104,11 +104,22 @@
                              value="${gestion?.horas}"/>
             </div>
 
-            <div class="col-md-1" style="margin-top: 20px">
+            <div class="col-md-1" id="divBoton" style="margin-top: 20px">
                 <a href="#" class="btn btn-success" id="btnAsignar">
                     <i class="fa fa-check"></i> Asignar
                 </a>
             </div>
+
+            <div class="col-md-3 hide" id="divBoton2" style="margin-top: 20px">
+                <a href="#" class="btn btn-success" id="btnGuardarEdicion">
+                    <i class="fa fa-save"></i> Guardar
+                </a>
+                <a href="#" class="btn btn-info" id="btnCancelarEdicion">
+                    <i class="fa fa-times"></i> Cancelar
+                </a>
+            </div>
+
+
         </div>
     </div>
 
@@ -368,7 +379,7 @@
 
     $("#periodo").change(function () {
         cargarTablaGestion();
-        $("#hora").val('')
+        cancelarEdicion();
     });
 
     function cargarTablaGestion(){
@@ -386,6 +397,10 @@
     }
 
     $("#btnAsignar").click(function () {
+        guardarGestion();
+    });
+
+    function guardarGestion () {
         var d = cargarLoader("Guardando...");
         var id = $("#idGestion").val();
         var periodo = $("#periodo option:selected").val();
@@ -408,20 +423,78 @@
                     d.modal("hide");
                     var parts = msg.split("_");
                     if(parts[0] === 'ok'){
-                        log(parts[1],  "success")
+                        log(parts[1],  "success");
+                        cargarTablaGestion();
                     }else{
-                        bootbox.alert('<i class="fa fa-exclamation-triangle fa-2x text-danger"></i>'  +  parts[1])
+                        bootbox.alert( '<div style="text-align: center">' + '<i class="fa fa-exclamation-triangle fa-2x text-danger"></i>'  + '<strong style="font-size: 14px">' +  parts[1] +  '</strong>' + '</div>')
                     }
                 } //success
             });
         }else{
             d.modal("hide");
-            bootbox.alert( '<span>' + '<i class="fa fa-exclamation-triangle fa-2x text-info"></i>'  + '<strong style="font-size: 14px">' +  'Ingrese el número de horas' +  '</strong>' + '</span>')
+            bootbox.alert( '<div style="text-align: center">' + '<i class="fa fa-exclamation-triangle fa-2x text-info"></i>'  + '<strong style="font-size: 14px">' +  'Ingrese el número de horas' +  '</strong>' + '</div>')
         }
+    }
 
+    $("#btnCancelarEdicion").click(function () {
+        cancelarEdicion();
+    });
 
-    })
+    function cancelarEdicion(){
+        $("#hora").val('');
+        $("#idGestion").val('');
+        $("#divBoton").removeClass("hide");
+        $("#divBoton2").addClass("hide");
+    }
 
+    $("#btnGuardarEdicion").click(function () {
+        guardarGestion();
+        setTimeout(function () {
+            cancelarEdicion();
+        }, 800);
+    });
+
+    function borrarGestion(itemId) {
+        bootbox.dialog({
+            title   : "Alerta",
+            message : '<div style="text-align: center">' + '<i class="fa fa-trash fa-2x text-danger"></i>'  + '<strong style="font-size: 14px">' +  'Está seguro que desea borrar este registro?' +  '</strong>' + '</div>',
+            buttons : {
+                cancelar : {
+                    label     : "Cancelar",
+                    className : "btn-primary",
+                    callback  : function () {
+                    }
+                },
+                eliminar : {
+                    label     : "<i class='fa fa-trash'></i> Eliminar",
+                    className : "btn-danger",
+                    callback  : function () {
+                        var v = cargarLoader("Eliminando...");
+                        $.ajax({
+                            type    : "POST",
+                            url     : '${createLink(action:'borrarGestion_ajax')}',
+                            data    : {
+                                id : itemId
+                            },
+                            success : function (msg) {
+                                v.modal("hide");
+                                var parts = msg.split("_");
+                                if(parts[0] === 'ok'){
+                                    log(parts[1],"success");
+                                    cargarTablaGestion();
+                                    setTimeout(function () {
+                                        cancelarEdicion();
+                                    }, 800);
+                                }else{
+                                    log(parts[1],"error")
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
 
 
 
