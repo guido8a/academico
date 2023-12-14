@@ -214,16 +214,16 @@ class ProgramaController {
 
         }else{
 
-             if(existe){
-                 render "no_La asignatura seleccionada ya fue asignada al profesor"
-                 return
-             }else{
-                 gestion = new Gestion()
-                 gestion.periodo = periodo
-                 gestion.asignatura = asignatura
-                 gestion.hora = params.hora.toInteger()
-                 gestion.profesor = profesor
-             }
+            if(existe){
+                render "no_La asignatura seleccionada ya fue asignada al profesor"
+                return
+            }else{
+                gestion = new Gestion()
+                gestion.periodo = periodo
+                gestion.asignatura = asignatura
+                gestion.hora = params.hora.toInteger()
+                gestion.profesor = profesor
+            }
         }
 
         if(!gestion.save(flush:true)){
@@ -247,6 +247,26 @@ class ProgramaController {
     }
 
     def observaciones_ajax(){
+        def gestion = Gestion.get(params.id)
+        return[gestion: gestion]
+    }
+
+    def saveObservaciones_ajax(){
+        def gestion = Gestion.get(params.id)
+
+        if(gestion){
+            gestion.observaciones = params.observaciones
+        }else{
+            render "no_Error al guardar las observaciones"
+            return
+        }
+
+        if(!gestion.save(flush:true)){
+            render "no_Error al guardar las observaciones"
+            println("Error al guardar las observaciones " + gestion.errors)
+        }else{
+            render "ok_Guardado correctamente"
+        }
 
     }
 

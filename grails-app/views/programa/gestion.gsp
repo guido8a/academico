@@ -101,7 +101,7 @@
                 </label>
                 <g:textField name="hora" maxlength="2" class="form-control required text-uppercase"
                              style="border:solid 1px #ccc; width: 40px"
-                             value="${gestion?.horas}"/>
+                             value="${''}"/>
             </div>
 
             <div class="col-md-1" id="divBoton" style="margin-top: 20px">
@@ -145,7 +145,7 @@
                 if (msg === 'ok') {
                     log("Asignatura guardada correctamente", "success");
                     setTimeout(function () {
-                        location.reload(true);
+                        location.reload();
                     }, 1000);
                 } else {
                     log("Error al guardar la hora", "error")
@@ -495,6 +495,30 @@
             }
         });
     }
+
+    function validarNum(ev) {
+        /*
+         48-57      -> numeros
+         96-105     -> teclado numerico
+         188        -> , (coma)
+         190        -> . (punto) teclado
+         110        -> . (punto) teclado numerico
+         8          -> backspace
+         46         -> delete
+         9          -> tab
+         37         -> flecha izq
+         39         -> flecha der
+         */
+        return ((ev.keyCode >= 48 && ev.keyCode <= 57) ||
+            (ev.keyCode >= 96 && ev.keyCode <= 105) ||
+            // ev.keyCode === 190 || ev.keyCode === 110 ||
+            ev.keyCode === 8 || ev.keyCode === 46 || ev.keyCode === 9 ||
+            ev.keyCode === 37 || ev.keyCode === 39);
+    }
+
+    $("#hora").keydown(function (ev) {
+        return validarNum(ev);
+    });
 
 
 

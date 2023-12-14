@@ -66,15 +66,17 @@
     });
 
     $(".btnObservacionGestion").click(function () {
+        var id = $(this).data("id");
         $.ajax({
             type    : "POST",
             url: "${createLink(action:'observaciones_ajax')}",
-            data    : data,
+            data    : {
+                id: id
+            },
             success : function (msg) {
                 var b = bootbox.dialog({
                     id      : "dlgObservaciones",
                     title   : "Observaciones",
-                    // class: "modal-lg",
                     message : msg,
                     buttons : {
                         cancelar : {
@@ -88,14 +90,40 @@
                             label     : "<i class='fa fa-save'></i> Guardar",
                             className : "btn-success",
                             callback  : function () {
-                                // return submitFormMedicina();
+                                return submitFormObservaciones();
                             } //callback
                         } //guardar
                     } //buttons
                 }); //dialog
             } //success
         }); //ajax
-    })
+    });
+
+    function submitFormObservaciones() {
+        var $form = $("#frmObservaciones");
+        if ($form.valid()) {
+            var data = $form.serialize();
+            var dialog = cargarLoader("Guardando...");
+            $.ajax({
+                type    : "POST",
+                url     : $form.attr("action"),
+                data    : data,
+                success : function (msg) {
+                    dialog.modal('hide');
+                    var parts = msg.split("_");
+                    if(parts[0] === 'ok'){
+                        log(parts[1], "success");
+                        cargarTablaGestion();
+                    }else{
+                        bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
+                        return false;
+                    }
+                }
+            });
+        } else {
+            return false;
+        }
+    }
 
 
 </script>
