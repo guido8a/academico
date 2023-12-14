@@ -30,13 +30,13 @@
 <!-- botones -->
 <div class="btn-toolbar toolbar">
     <div class="btn-group">
-        <g:link controller="inicio" action="index" class="btn btn-secondary">
+        <g:link controller="inicio" action="index" class="btn btn-primary">
             <i class="fa fa-arrow-left"></i> Regresar
         </g:link>
     </div>
 
     <div class="btn-group">
-        <a href="#" class="btn btn-primary btnCrear">
+        <a href="#" class="btn btn-info btnCrear">
             <i class="fa fa-clipboard-list"></i> Nuevo Tipo Profesor
         </a>
     </div>
@@ -45,25 +45,25 @@
 <table class="table table-condensed table-bordered table-striped table-hover">
     <thead>
     <tr>
-        <th>Id</th>
-        <th>Descripciòn</th>
-        <th>Acciones</th>
+        <th style="width: 10%">Id</th>
+        <th style="width: 60%">Descripciòn</th>
+        <th style="width: 30%">Acciones</th>
     </tr>
     </thead>
     <tbody>
     <g:if test="${tipoProfesores.size() > 0}">
         <g:each in="${tipoProfesores}" var="tipoProfesor">
             <tr data-id="${tipoProfesor?.id}">
-                <td>${tipoProfesor?.id}</td>
-                <td>${tipoProfesor?.descripcion}</td>
-                <td>
-                    <a href="#" data-id="${tipoProfesor?.id}" class="btn btn-success btn-sm btn-edit btn-ajax" title="Editar">
+                <td style="width: 10%">${tipoProfesor?.id}</td>
+                <td style="width: 60%">${tipoProfesor?.descripcion}</td>
+                <td style="width: 30%; text-align: center">
+                    <a href="#" data-id="${tipoProfesor?.id}" class="btn btn-success btn-xs btn-edit btn-ajax" title="Editar">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <a href="#" data-id="${tipoProfesor?.id}" class="btn btn-danger btn-sm btn-borrar btn-ajax" title="Eliminar">
+                    <a href="#" data-id="${tipoProfesor?.id}" class="btn btn-danger btn-xs btn-borrar btn-ajax" title="Eliminar">
                         <i class="fa fa-trash"></i>
                     </a>
-                    <a href="#" data-id="${tipoProfesor?.id}" class="btn btn-info btn-sm btn-show btn-ajax" title="Ver">
+                    <a href="#" data-id="${tipoProfesor?.id}" class="btn btn-info btn-xs btn-show btn-ajax" title="Ver">
                         <i class="fa fa-search"></i>
                     </a>
                 </td>
@@ -80,7 +80,6 @@
     </tbody>
 </table>
 
-%{--<elm:pagination total="${tipoElementoInstanceCount}" params="${params}"/>--}%
 
 <script type="text/javascript">
     var id = null;
@@ -92,7 +91,7 @@
             url: $form.attr("action"),
             data: $form.serialize(),
             success: function (msg) {
-                if (msg == 'ok') {
+                if (msg === 'ok') {
                     log("Tipo Actividad guardada correctamente", "success");
                     setTimeout(function () {
                         location.reload(true);
@@ -154,7 +153,7 @@
                 var b = bootbox.dialog({
                     title: title + " tipoProfesor" ,
                     closeButton: false,
-                    message: msg,
+                    message: msg
                 }); //dialog
                 setTimeout(function () {
                     b.find(".form-control").first().focus()

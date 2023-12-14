@@ -43,7 +43,7 @@
 
 
 <div class="btn-toolbar toolbar"style="margin-left: 10px; text-align: center">
-    <div class="col-md-2" style="margin-left: 300px">
+    <div class="col-md-4" style="margin-left: 150px">
         <label class="control-label text-info">Carrera</label>
         <g:select name="buscarPor" class="buscarPor col-md-12 form-control" value="${params.carrera}"
                   from="${tutor.Carrera.list([sort: 'nombre'])}" optionKey="id" optionValue="nombre" />
@@ -58,7 +58,7 @@
         <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control"/>
     </div>
     <div class="col-md-1" style="margin-top: 20px">
-        <button class="btn btn-info" id="btnBuscar"><i class="fa fa-search"></i></button>
+        <button class="btn btn-info" id="btnBuscar"><i class="fa fa-search"></i>Normales</button>
     </div>
 
     <div class="col-md-1" style="margin-top: 20px">
@@ -67,67 +67,73 @@
 </div>
 
 
+<div role="main" style="margin-top: 10px;">
+    <table class="table table-bordered table-striped table-condensed table-hover">
+        <thead>
+        <tr>
+            <th style="width: 7%">Código</th>
+            <th style="width: 25%">Asignatura</th>
+            <th style="width: 23%">Carrera</th>
+            <th style="width: 10%">Nivel</th>
+            <th style="width: 5%">Créd.</th>
+            <th style="width: 5%">Práct.</th>
+            <th style="width: 5%">Teór.</th>
+            <th style="width: 5%">Gest.</th>
+            <th style="width: 15%">Acciones</th>
+        </tr>
+        </thead>
+    </table>
+</div>
 
-<table class="table table-condensed table-bordered table-striped table-hover">
-    <thead style="text-align: center">
-    <tr>
-        <th>Código</th>
-        <th>Asignatura</th>
-        <th>Carrera</th>
-        <th>Nivel</th>
-        <th>Créd.</th>
-        <th>Práct.</th>
-        <th>Teór.</th>
-        <th>Gest.</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <g:if test="${asignaturas?.size() > 0}">
-        <g:each in="${asignaturas}" var="asignatura">
-            <tr data-id="${asignatura?.id}">
-                <td width="8%">${asignatura?.codigo}</td>
-                <td width="20%">${asignatura?.nombre}</td>
-                <td width="12%">${asignatura?.carrera?.nombre}</td>
-                <td width="10%">${asignatura?.nivel?.descripcion}</td>
-                <td width="6%">${asignatura?.creditos}</td>
-                <td width="6%">${asignatura?.horasPractica}</td>
-                <td width="6%">${asignatura?.horasTeoria}</td>
-                <td width="6%">${asignatura?.horasGestion}</td>
+<div class="" style="width: 99.7%;height: 600px; overflow-y: auto;float: right; margin-top: -20px">
+    <table class="table-bordered table-striped table-condensed table-hover" style="width: 100%">
 
-                <td width="14%">
-                    <a href="#" data-id="${asignatura?.id}" class="btn btn-success btn-xs btn-edit btn-ajax"
-                       title="Editar">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <a href="#" data-id="${asignatura?.id}" class="btn btn-danger btn-xs btn-borrar btn-ajax"
-                       title="Eliminar">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                    <a href="#" data-id="${asignatura?.id}" class="btn btn-info btn-xs btn-show btn-ajax" title="Ver">
-                        <i class="fa fa-search"></i>
-                    </a>
-                    <g:if test="${asignatura?.tipoActividad.descripcion == 'Académica'}">
-                        <a href="#" data-id="${asignatura?.id}" class="btn btn-info btn-xs btn-curso btn-ajax"
-                           title="Programación académica">
-                            <i class="fa fa-check"></i>
+        <tbody>
+        <g:if test="${asignaturas?.size() > 0}">
+            <g:each in="${asignaturas}" var="asignatura">
+                <tr data-id="${asignatura?.id}">
+                    <td style="width: 7%">${asignatura?.codigo}</td>
+                    <td style="width: 25%">${asignatura?.nombre}</td>
+                    <td style="width: 23%">${asignatura?.carrera?.nombre}</td>
+                    <td style="width: 10%">${asignatura?.nivel?.descripcion}</td>
+                    <td style="width: 5%">${asignatura?.creditos}</td>
+                    <td style="width: 5%">${asignatura?.horasPractica}</td>
+                    <td style="width: 5%">${asignatura?.horasTeoria}</td>
+                    <td style="width: 5%">${asignatura?.horasGestion}</td>
+
+                    <td style="width: 15%">
+                        <a href="#" data-id="${asignatura?.id}" class="btn btn-success btn-xs btn-edit btn-ajax"
+                           title="Editar">
+                            <i class="fa fa-edit"></i>
                         </a>
-                    </g:if>
+                        <a href="#" data-id="${asignatura?.id}" class="btn btn-danger btn-xs btn-borrar btn-ajax"
+                           title="Eliminar">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                        <a href="#" data-id="${asignatura?.id}" class="btn btn-info btn-xs btn-show btn-ajax" title="Ver">
+                            <i class="fa fa-search"></i>
+                        </a>
+                        <g:if test="${asignatura?.tipoActividad?.descripcion == 'Académica'}">
+                            <a href="#" data-id="${asignatura?.id}" class="btn btn-warning btn-xs btn-curso btn-ajax"
+                               title="Programación académica">
+                                <i class="fa fa-check"></i>
+                            </a>
+                        </g:if>
+                    </td>
+                </tr>
+            </g:each>
+        </g:if>
+        <g:else>
+            <tr>
+                <td class="text-center" colspan="9">
+                    <i class="fa fa-exclamation-triangle text-info fa-3x"></i> <strong style="font-size: 14px"> No se encontraron registros que mostrar </strong>
                 </td>
             </tr>
-        </g:each>
-    </g:if>
-    <g:else>
-        <tr class="danger">
-            <td class="text-center" colspan="2">
-                No se encontraron registros que mostrar
-            </td>
-        </tr>
-    </g:else>
-    </tbody>
-</table>
+        </g:else>
+        </tbody>
+    </table>
+</div>
 
-%{--<elm:pagination total="${tipoElementoInstanceCount}" params="${params}"/>--}%
 
 <script type="text/javascript">
     var id = null;
@@ -329,15 +335,23 @@
             location.href = "${createLink(controller: 'programa', action:'horario')}" + "?id=" + id
         });
 
-
-        $("#btnBuscar").click(function () {
-            var carrera = $('#buscarPor').val();
-            var nivel = $('#nivel').val();
+        function buscarAsignaturas(){
+            var d = cargarLoader("Cargando...");
+            var carrera = $('#buscarPor option:selected').val();
+            var nivel = $('#nivel option:selected').val();
             var criterio = $('#criterioCriterio').val();
             console.log('Buscar', carrera, nivel, criterio)
             location.href = "${createLink(controller: 'asignatura', action:'list')}"
                 + "?carrera=" + carrera + "&nivel=" + nivel + "&criterio=" + criterio
+        }
+
+        $("#btnBuscar").click(function () {
+            buscarAsignaturas();
         });
+
+        // $("#buscarPor, #nivel").change(function () {
+        //     buscarAsignaturas();
+        // });
 
         $("#btnBuscaGes").click(function () {
             var criterio = $('#criterioCriterio').val();
