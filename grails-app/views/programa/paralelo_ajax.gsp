@@ -3,7 +3,8 @@
         Paralelo
     </label>
     <g:select name="paralelo" from="${paralelo}"
-              class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.numero}}" optionKey="id"
+              class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.numero}}"
+              optionKey="id" value="params.parl"
     />
 </div>
 
@@ -13,7 +14,8 @@
         Asignatura
     </label>
     <g:select name="asignatura" from="${asignatura}"
-              class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.nombre}}" optionKey="id"
+              class="form-control input-sm required" optionValue="${{it.nivel.descripcion + " - " + it.nombre}}"
+              optionKey="id" value="params.asig"
     />
 </div>
 
