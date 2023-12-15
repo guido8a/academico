@@ -147,7 +147,6 @@
 </g:else>
 
 
-
 <script type="text/javascript">
     $(".horas").click(function () {
         var dias = $(this).data("dia");

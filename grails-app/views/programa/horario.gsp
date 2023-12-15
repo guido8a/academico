@@ -81,7 +81,7 @@
                       />
         </div>
 
-        <div class="col-md-8" id="divParalelo">
+        <div class="col-md-7" id="divParalelo">
 
         </div>
     </div>
@@ -92,7 +92,6 @@
 
 </div>
 
-%{--<elm:pagination total="${tipoElementoInstanceCount}" params="${params}"/>--}%
 
 <script type="text/javascript">
     var id = null;
@@ -156,7 +155,6 @@
         });
     }
 
-
     function borraHora(itemId) {
         bootbox.dialog({
             title: "Alerta",
@@ -183,7 +181,8 @@
                             success: function (msg) {
                                 if (msg === 'ok') {
                                     setTimeout(function () {
-                                        location.reload();
+                                        // location.reload();
+                                        cargaTabla($("#paralelo option:selected").val(), $("#asignatura option:selected").val());
                                     }, 300);
                                 } else {
                                     log("Error al borrar la hora", "error")
@@ -234,7 +233,8 @@
                                         console.log('retiorna:', msg);
                                         if (msg === 'ok') {
                                             setTimeout(function () {
-                                                location.reload();
+                                                // location.reload();
+                                                cargaTabla($("#paralelo option:selected").val(), $("#asignatura option:selected").val());
                                             }, 300);
                                             log("Horario creado exitosamente", "success")
                                         } else {
@@ -281,8 +281,8 @@
     }
 
 
-    function cargaTabla(id) {
-        var asig = $("#asignatura option:selected").val();
+    function cargaTabla(id, asig) {
+        // var asig = $("#asignatura option:selected").val();
         var data = {asig: asig, parl: id};
 
         $.ajax({
@@ -296,7 +296,7 @@
         //location.reload()//ajax
     }// /createEdit
 
-    // $(function () {
+
 
         $( document ).ready(function() {
             //console.log( "ready!" );
@@ -337,15 +337,6 @@
             var id = $("#paralelo").val();
             deleteRow(id);
         });
-
-        // $("#paralelo").change(function () {
-        //     var id = $(this).val();
-        //     //console.log("id:", id)
-        //     if(id) {
-        //         cargaTabla(id)
-        //     }
-        // });
-    // });
 
     cargarParalelo($("#periodo option:selected").val(), $("#nivel option:selected").val());
 

@@ -267,7 +267,25 @@ class ProgramaController {
         }else{
             render "ok_Guardado correctamente"
         }
+    }
 
+    def profesores_ajax(){
+        def paralelo = Paralelo.get(params.paralelo)
+        def asignatura = Asignatura.get(params.asignatura)
+        return[asignatura: asignatura, paralelo: paralelo]
+    }
+
+    def tablaProfesorAsignado_ajax(){
+        def paralelo = Paralelo.get(params.paralelo)
+        def asignatura = Asignatura.get(params.asignatura)
+        def curso = Curso.findByParaleloAndAsignatura(paralelo, asignatura)
+        def dicta
+        if(curso){
+            dicta = Dicta.findByCurso(curso)
+        }else{
+            dicta = null
+        }
+        return[dicta:dicta, paralelo: paralelo, asignatura: asignatura]
     }
 
 
