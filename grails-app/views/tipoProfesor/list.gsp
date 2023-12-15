@@ -1,31 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    %{--<meta name="layout" content="login">--}%
     <meta name="layout" content="main">
     <title>Tipo Profesor</title>
-
-    <style type="text/css">
-    input:invalid {
-        border: 2px dashed red; !important;
-    }
-
-    input:invalid:required {
-        background-image: linear-gradient(to right, pink, lightgreen);
-    }
-
-    input:valid {
-        border: 2px solid black;
-    }
-    </style>
 
 </head>
 
 <body>
-
-<g:if test="${flash.message}">
-    <div class="message" role="status">${flash.message}</div>
-</g:if>
 
 <!-- botones -->
 <div class="btn-toolbar toolbar">
@@ -71,9 +52,9 @@
         </g:each>
     </g:if>
     <g:else>
-        <tr class="danger">
-            <td class="text-center" colspan="2">
-                No se encontraron registros que mostrar
+        <tr>
+            <td class="text-center" colspan="3">
+                <i class="fa fa-exclamation-triangle text-info fa-3x"></i> <strong style="font-size: 14px"> No se encontraron registros que mostrar </strong>
             </td>
         </tr>
     </g:else>
@@ -83,31 +64,73 @@
 
 <script type="text/javascript">
     var id = null;
-    function submitForm() {
-        var $form = $("#frmtipoprofesor");
-        var $btn = $("#dlgCreateEdit").find("#btnSave");
+
+    function createEditRowTipoProfesor(id) {
+        var title = id ? "Editar" : "Crear";
+        var data = id ? {id: id} : {};
         $.ajax({
-            type: "POST",
-            url: $form.attr("action"),
-            data: $form.serialize(),
-            success: function (msg) {
-                if (msg === 'ok') {
-                    log("Tipo Actividad guardada correctamente", "success");
-                    setTimeout(function () {
-                        location.reload(true);
-                    }, 1000);
-                } else {
-                    log("Error al guardar el Tipo Actividad", "error")
+            type    : "POST",
+            url: "${createLink(controller: 'tipoProfesor', action:'form_ajax')}",
+            data    : data,
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgCreateEdit",
+                    title   : title + " Tipo Profesor",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-save'></i> Guardar",
+                            className : "btn-success",
+                            callback  : function () {
+                                return submitFormTipoProfesor();
+                            } //callback
+                        } //guardar
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    } //createEdit
+
+    function submitFormTipoProfesor() {
+        var $form = $("#frmtipoprofesor");
+        if ($form.valid()) {
+            var data = $form.serialize();
+            var dialog = cargarLoader("Guardando...");
+            $.ajax({
+                type    : "POST",
+                url     : $form.attr("action"),
+                data    : data,
+                success : function (msg) {
+                    dialog.modal('hide');
+                    var parts = msg.split("_");
+                    if(parts[0] === 'ok'){
+                        log(parts[1], "success");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 800);
+                    }else{
+                        bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
+                        return false;
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            return false;
+        }
     }
 
     function deleteRow(itemId) {
         bootbox.dialog({
             title: "Alerta",
-            message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p>" +
-            "¿Está seguro que desea eliminar el Tipo Actividad seleccionada? Esta acción no se puede deshacer.</p>",
+            message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p style='font-size: 14px; font-weight: bold'>" +
+            "¿Está seguro que desea eliminar el Tipo de Profesor ? Esta acción no se puede deshacer.</p>",
             closeButton: false,
             buttons: {
                 cancelar: {
@@ -120,6 +143,7 @@
                     label: "<i class='fa fa-trash'></i> Eliminar",
                     className: "btn-danger",
                     callback: function () {
+                        var db= cargarLoader("Borrando...");
                         $.ajax({
                             type: "POST",
                             url: '${createLink(controller: 'tipoProfesor', action:'delete_ajax')}',
@@ -127,12 +151,14 @@
                                 id: itemId
                             },
                             success: function (msg) {
-                                if (msg == 'ok') {
+                                db.modal("hide");
+                                if (msg === 'ok') {
+                                    log("Borrado correctamente", "success");
                                     setTimeout(function () {
                                         location.reload();
-                                    }, 300);
+                                    }, 800);
                                 } else {
-                                    log("Error al borrar el Tipo Actividad", "error")
+                                    log("Error al borrar el tipo de profesor", "error")
                                 }
                             }
                         });
@@ -163,16 +189,15 @@
         //location.reload()//ajax
     } //createEdit
 
-    $(function () {
 
         $(".btnCrear").click(function () {
-            createEditRow();
+            createEditRowTipoProfesor();
             return false;
         });
 
         $(".btn-edit").click(function () {
             var id = $(this).data("id");
-            createEditRow(id);
+            createEditRowTipoProfesor(id);
         });
         $(".btn-borrar").click(function () {
             var id = $(this).data("id");
@@ -198,17 +223,12 @@
                                 callback: function () {
                                 }
                             }
-                        },
+                        }
                     }); //dialog
-                    setTimeout(function () {
-                        b.find(".form-control").first().focus()
-                    }, 500);
                 } //successJava
             });
-            //location.reload()//ajax
         });
 
-    });
 </script>
 
 </body>

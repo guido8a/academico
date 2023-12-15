@@ -159,25 +159,25 @@
     // });
 
 
-    $("#grabar").click(function () {
-        var nombre = $("#nombre").val();
-        var apellido = $('#apellido').val();
-        var mail = $('#mail').val();
-        var sexo = $('#sexo').val();
-        var url = "${createLink(controller: 'asignatura', action:'list')}"
-        console.log("validando...")
+    %{--$("#grabar").click(function () {--}%
+    %{--    var nombre = $("#nombre").val();--}%
+    %{--    var apellido = $('#apellido').val();--}%
+    %{--    var mail = $('#mail').val();--}%
+    %{--    var sexo = $('#sexo').val();--}%
+    %{--    var url = "${createLink(controller: 'asignatura', action:'list')}"--}%
+    %{--    console.log("validando...")--}%
 
-        if (nombre == '' || apellido == '' || mail == '' || sexo == '') {
-            bootbox.alert("<i class='fa fa-exclamation-triangle fa-3x pull-left text-warning text-shadow'></i>" +
-                " Llene todos los campos")
-        } else {
-            submitForm();
-            setTimeout(function () {
-                location.reload(true)
-            }, 300);
-        }
+    %{--    if (nombre == '' || apellido == '' || mail == '' || sexo == '') {--}%
+    %{--        bootbox.alert("<i class='fa fa-exclamation-triangle fa-3x pull-left text-warning text-shadow'></i>" +--}%
+    %{--            " Llene todos los campos")--}%
+    %{--    } else {--}%
+    %{--        submitForm();--}%
+    %{--        setTimeout(function () {--}%
+    %{--            location.reload(true)--}%
+    %{--        }, 300);--}%
+    %{--    }--}%
 
-    });
+    %{--});--}%
 
     %{--$("#cerrar").click(function () {--}%
     %{--    //location.href("${createLink(controller: 'asignatura', action:'list')}")--}%

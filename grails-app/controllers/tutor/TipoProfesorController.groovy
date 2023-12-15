@@ -20,7 +20,7 @@ class TipoProfesorController {
     }   
 
     def savetipoProfesor_ajax(){
-        println "guarda TipoProfesor. Paràmetros: $params"
+//        println "guarda TipoProfesor. Paràmetros: $params"
         def tipoProfesor
 
         if(params.id){
@@ -30,12 +30,13 @@ class TipoProfesorController {
         }
 
         tipoProfesor.properties = params
+
         if(!tipoProfesor.save(flush:true)){
-            println("error al guardar la dias " + tipoProfesor.errors)
-            render "no"
+            println("error al guardar el tipo de profesor " + tipoProfesor.errors)
+            render "no_Error al guardar el tipo de profesor"
         }else{
             println "errores: ${tipoProfesor.errors}"
-            render "ok"
+            render "ok_Guardado correctamente"
         }
     }
     def delete_ajax(){

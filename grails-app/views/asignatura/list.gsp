@@ -199,24 +199,6 @@
     function createEditRow(id) {
         var title = id ? "Editar" : "Crear";
         var data = id ? {id: id} : {};
-        %{--$.ajax({--}%
-        %{--    type: "POST",--}%
-        %{--    url: "${createLink(controller: 'asignatura', action:'form_ajax')}",--}%
-        %{--    data: data,--}%
-        %{--    success: function (msg) {--}%
-        %{--        var b = bootbox.dialog({--}%
-        %{--            title: title + " Asignatura",--}%
-        %{--            closeButton: false,--}%
-        %{--            message: msg,--}%
-        %{--            class: "modal-lg"--}%
-        %{--        }); //dialog--}%
-        %{--        setTimeout(function () {--}%
-        %{--            b.find(".form-control").first().focus()--}%
-        %{--        }, 500);--}%
-        %{--    } //success--}%
-        %{--});--}%
-
-
         $.ajax({
             type    : "POST",
             url: "${createLink(controller: 'asignatura', action:'form_ajax')}",
@@ -246,9 +228,6 @@
                 }); //dialog
             } //success
         }); //ajax
-
-
-        //location.reload()//ajax
     } //createEdit
 
 
