@@ -319,5 +319,18 @@ class ProgramaController {
         }
     }
 
+    def deleteProfesor_ajax(){
+
+        def dicta = Dicta.get(params.id)
+
+        try{
+            dicta.delete(flush:true)
+            render "ok_Borrado correctamente"
+        }catch(e){
+            println("error al borrar")
+            render "no_Error al borrar"
+        }
+    }
+
 
 }
