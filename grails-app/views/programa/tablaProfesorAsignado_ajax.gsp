@@ -3,30 +3,22 @@
         <table class="table table-bordered table-striped table-condensed table-hover">
             <thead>
             <tr>
+                <th style="width: 20%">Apellido</th>
                 <th style="width: 20%">Nombre</th>
+                <th style="width: 20%">Acciones</th>
             </tr>
             </thead>
 
             <tbody>
-            %{--            <g:each in="${gestiones}" status="i" var="gestion">--}%
-            %{--                <tr data-id="${gestion.id}">--}%
-            %{--                    <td style="width: 20%">${gestion?.periodo?.descripcion}</td>--}%
-            %{--                    <td style="width: 30%">${gestion?.asignatura?.nombre}</td>--}%
-            %{--                    <td style="width: 25%">${gestion?.profesor?.apellido + " " + gestion?.profesor?.nombre}</td>--}%
-            %{--                    <td style="width: 10%">${gestion?.hora}</td>--}%
-            %{--                    <td style="width: 10%;">--}%
-            %{--                        <a href="#" class="btn btn-success btn-xs btnEditarGestion" title="Editar" data-id="${gestion.id}" data-prof="${gestion?.profesor?.id}" data-asig="${gestion?.asignatura?.id}" data-hora="${gestion?.hora}">--}%
-            %{--                            <i class="fa fa-edit"></i>--}%
-            %{--                        </a>--}%
-            %{--                        <a href="#" class="btn btn-danger btn-xs btnBorrarGestion" data-id="${gestion.id}" title="Borrar">--}%
-            %{--                            <i class="fa fa-trash"></i>--}%
-            %{--                        </a>--}%
-            %{--                        <a href="#" class="btn btn-info btn-xs btnObservacionGestion" data-id="${gestion.id}" title="Observaciones">--}%
-            %{--                            <i class="fa fa-book"></i>--}%
-            %{--                        </a>--}%
-            %{--                    </td>--}%
-            %{--                </tr>--}%
-            %{--            </g:each>--}%
+            <tr >
+                <td style="width: 20%">${dicta?.profesor?.apellido}</td>
+                <td style="width: 30%">${dicta?.profesor?.nombre}</td>
+                <td style="width: 10%;">
+                    <a href="#" class="btn btn-danger btn-xs btnBorrarGestion" data-id="${dicta.id}" title="Borrar">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
 
             </tbody>
         </table>

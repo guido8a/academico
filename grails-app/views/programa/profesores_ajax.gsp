@@ -46,4 +46,28 @@
         });
     }
 
+    $("#btnAsignarProfesor").click(function () {
+        var d = cargarLoader("Guardando...");
+        var curso = '${curso?.id}';
+        var profesor = $("#profesor option:selected").val();
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller: 'programa', action:'saveProfesor_ajax')}",
+            data: {
+                profesor: profesor,
+                curso: curso
+            },
+            success: function (msg) {
+                d.modal("hide");
+                var parts = msg.split("_");
+                if(parts[0] === 'ok'){
+                    log(parts[1],  "success");
+                    cargarTablaProfesor();
+                }else{
+                    bootbox.alert( '<div style="text-align: center">' + '<i class="fa fa-exclamation-triangle fa-2x text-danger"></i>'  + '<strong style="font-size: 14px">' +  parts[1] +  '</strong>' + '</div>')
+                }
+            } //success
+        });
+    });
+
 </script>

@@ -272,7 +272,8 @@ class ProgramaController {
     def profesores_ajax(){
         def paralelo = Paralelo.get(params.paralelo)
         def asignatura = Asignatura.get(params.asignatura)
-        return[asignatura: asignatura, paralelo: paralelo]
+        def curso = Curso.findByParaleloAndAsignatura(paralelo, asignatura)
+        return[asignatura: asignatura, paralelo: paralelo, curso: curso]
     }
 
     def tablaProfesorAsignado_ajax(){
@@ -286,6 +287,36 @@ class ProgramaController {
             dicta = null
         }
         return[dicta:dicta, paralelo: paralelo, asignatura: asignatura]
+    }
+
+    def saveProfesor_ajax(){
+        def curso = Curso.get(params.curso)
+        def profesor = Profesor.get(params.profesor)
+
+        def existeProfesor = Dicta.findByCursoAndProfesor(curso, profesor)
+        def existe = Dicta.findByCurso(curso)
+        def dicta
+
+        if(existeProfesor){
+            render "no_El profesor seleccionado ya fue asignado al curso"
+            return
+        }else{
+            if(existe?.profesor){
+                render "no_Ya existe un profesor asignado al curso"
+                return
+            }else{
+                dicta = new Dicta()
+                dicta.profesor = profesor
+                dicta.curso = curso
+
+                if(!dicta.save(flush:true)){
+                    println("error al guardar el profesor" + dicta.errors)
+                    render "no_Error al guardar el profesor"
+                }else{
+                    render "ok_Profesor asignado correctamente"
+                }
+            }
+        }
     }
 
 
