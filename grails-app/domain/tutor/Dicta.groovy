@@ -21,8 +21,8 @@ class Dicta {
     Entender la lògica sobre los 'null' de Dicta
 */
     static constraints = {
-        profesor(blank: true, nullable: true, attributes: [mensaje: 'Profesor que dicta'])
-        curso(size: 1..63, blank: true, nullable: true, attributes: [mensaje: 'Paralelo donde se dicta'])
+        profesor(blank: false, nullable: false, attributes: [mensaje: 'Profesor que dicta'])
+        curso(size: 1..63, blank: false, nullable: false, attributes: [mensaje: 'Paralelo donde se dicta'])
     }
 
 }
