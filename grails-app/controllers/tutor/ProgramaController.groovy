@@ -15,17 +15,30 @@ class ProgramaController {
     def index() { }
 
     def horario() {
-//        def asignatura = Asignatura.get(params.id)
-//        def horas = Hora.list([sort: 'numero'])
-//        def dias  = Dias.list([sort: 'numero'])
-
-//        def horario = Horario.findAllByParalelo( Paralelo.get(1))
-
-//        println "horario: ${horario}"
-//        println "dias: ${ horario.dias }, horas: ${horario.hora.id} --> ${ horario.dias.id.contains( 1.toLong() )}"
-//        println " --> ${ horario.dias.id[0].class}"
-
     }
+
+    def profesor() {
+    }
+
+    def prof_ajax(){
+        def cn = getConnection()
+        println("prof_ajax " + params)
+
+        if(params.prof){
+            def sql = "select * from profesor(${params.prof})"
+            def resp = cn.rows(sql.toString())
+            println "sql --> $sql"
+            sql = "select count(*) cnta from profesor(${params.prof}) where length(coalesce(lun, '')||" +
+                    "coalesce(mar, '')||coalesce(mie, '')||coalesce(jue, '')||coalesce(vie, '')||" +
+                    "coalesce(sab, '')||coalesce(dom, '')) > 0"
+            def existe = cn.rows(sql.toString())[0]?.cnta
+            println "3existe: $existe"
+            return[existe: existe, horario: resp]
+        }else{
+            return[existe: false]
+        }
+    }
+
 
     def gestion() {
     }
@@ -169,6 +182,14 @@ class ProgramaController {
             println("error al crear el horario " + horario.errors)
             render "no"
         }
+    }
+
+    def dictan_ajax(){
+        def periodo = Periodo.get(params.periodo)
+        def paralelo = []
+        def asignatura = []
+
+        return[asignatura: asignatura]
     }
 
     def paralelo_ajax(){
