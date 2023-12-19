@@ -48,14 +48,16 @@
 
     $("#btnAsignarProfesor").click(function () {
         var d = cargarLoader("Guardando...");
-        var curso = '${curso?.id}';
         var profesor = $("#profesor option:selected").val();
+        var asignatura = '${asignatura?.id}';
+        var paralelo = '${paralelo?.id}';
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'saveProfesor_ajax')}",
             data: {
                 profesor: profesor,
-                curso: curso
+                paralelo: paralelo,
+                asignatura: asignatura
             },
             success: function (msg) {
                 d.modal("hide");

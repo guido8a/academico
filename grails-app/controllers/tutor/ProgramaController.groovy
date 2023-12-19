@@ -266,12 +266,9 @@ class ProgramaController {
     }
 
     def profesores_ajax(){
-        println("profesores_ajax->>> " + params)
         def paralelo = Paralelo.get(params.paralelo)
         def asignatura = Asignatura.get(params.asignatura)
-        def curso = Curso.findByParaleloAndAsignatura(paralelo, asignatura)
-        println("cruso " + curso)
-        return[asignatura: asignatura, paralelo: paralelo, curso: curso]
+        return[asignatura: asignatura, paralelo: paralelo]
     }
 
     def tablaProfesorAsignado_ajax(){
@@ -288,45 +285,53 @@ class ProgramaController {
     }
 
     def saveProfesor_ajax(){
-        println("params " + params)
-
-        def curso = Curso.get(params.curso)
+        def paralelo = Paralelo.get(params.paralelo)
+        def asignatura = Asignatura.get(params.asignatura)
+        def curso = Curso.findByParaleloAndAsignatura(paralelo, asignatura)
         def profesor = Profesor.get(params.profesor)
         def dicta
 
-        if(curso){
-            if(profesor){
-                def existeProfesor = Dicta.findByCursoAndProfesor(curso, profesor)
-                def existe = Dicta.findByCurso(curso)
+        if(!curso){
+            curso = new Curso()
+            curso.paralelo = paralelo
+            curso.asignatura = asignatura
+            curso.nrc = '0'
+            curso.numEstudiantes = 22
+            curso.cupo = 22
 
-                if(existeProfesor){
-                    render "no_El profesor seleccionado ya fue asignado al curso"
+            if(!curso.save(flush:true)){
+                render "no_Error al crear el curso"
+                return
+            }
+        }
+
+        if(profesor){
+            def existeProfesor = Dicta.findByCursoAndProfesor(curso, profesor)
+            def existe = Dicta.findByCurso(curso)
+
+            if(existeProfesor){
+                render "no_El profesor seleccionado ya fue asignado al curso"
+                return
+            }else{
+                if(existe?.profesor){
+                    render "no_Ya existe un profesor asignado al curso"
                     return
                 }else{
-                    if(existe?.profesor){
-                        render "no_Ya existe un profesor asignado al curso"
-                        return
-                    }else{
-                        dicta = new Dicta()
-                        dicta.profesor = profesor
-                        dicta.curso = curso
+                    dicta = new Dicta()
+                    dicta.profesor = profesor
+                    dicta.curso = curso
 
-                        if(!dicta.save(flush:true)){
-                            println("error al guardar el profesor" + dicta.errors)
-                            render "no_Error al guardar el profesor"
-                        }else{
-                            render "ok_Profesor asignado correctamente"
-                        }
+                    if(!dicta.save(flush:true)){
+                        println("error al guardar el profesor" + dicta.errors)
+                        render "no_Error al guardar el profesor"
+                    }else{
+                        render "ok_Profesor asignado correctamente"
                     }
                 }
-
-            }else{
-                render "no_Seleccione un profesor"
-                return
             }
 
         }else{
-            render "no_No existe un curso creado para el paralelo y asignatura seleccionada"
+            render "no_Seleccione un profesor"
             return
         }
     }
