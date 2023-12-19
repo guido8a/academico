@@ -150,7 +150,8 @@
                                 id: itemId
                             },
                             success: function (msg) {
-                                if (msg == 'ok') {
+                                if (msg === 'ok') {
+                                    log("Error al borrar el Tipo Actividad", "success")
                                     setTimeout(function () {
                                         location.reload();
                                     }, 300);

@@ -63,6 +63,7 @@
                                 if (parts[0] === 'ok') {
                                     log(parts[1], "success");
                                     cargarTablaProfesor();
+                                    cargaTabla($("#paralelo option:selected").val(), $("#asignatura option:selected").val());
                                 } else {
                                     log(parts[1], "error")
                                 }

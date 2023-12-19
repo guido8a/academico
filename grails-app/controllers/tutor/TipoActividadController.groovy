@@ -30,12 +30,12 @@ class TipoActividadController {
         }
 
         tipoActividad.properties = params
+
         if(!tipoActividad.save(flush:true)){
-            println("error al guardar la tipoActividad " + tipoActividad.errors)
-            render "no"
+            println("error al guardar el tipo de actividad " + tipoActividad.errors)
+            render "no_Error al guardar el tipo de actividad"
         }else{
-            println "errores: ${tipoActividad.errors}"
-            render "ok"
+            render "ok_Tipo de actividad guardado correctamente"
         }
     }
 

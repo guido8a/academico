@@ -286,6 +286,8 @@ class ProgramaController {
     }
 
     def saveProfesor_ajax(){
+        println("params " + params)
+
         def curso = Curso.get(params.curso)
         def profesor = Profesor.get(params.profesor)
 
