@@ -57,7 +57,7 @@
             <i class="fa fa-arrow-left"></i> Regresar
         </g:link>
     </div>
-    <h3 class="titl">Programación por Niveles - Paralelos y Asignaturas </h3>
+    <h3 class="titl" style="margin-top: -35px">Programación por Niveles - Paralelos y Asignaturas </h3>
 </div>
 <!-- botones -->
 <div class="container" style="width: 1000px">
