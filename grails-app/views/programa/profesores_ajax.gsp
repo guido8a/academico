@@ -48,7 +48,7 @@
 
     $("#btnAsignarProfesor").click(function () {
         var d = cargarLoader("Guardando...");
-        var curso = ${curso?.id};
+        var curso = '${curso?.id}';
         var profesor = $("#profesor option:selected").val();
         $.ajax({
             type: "POST",
