@@ -1,4 +1,6 @@
-
+<g:if test="${profesor}">
+    <div class="col-md-12 text-info">Profesor asignado: ${profesor?.nombre} ${profesor?.apellido}  </div>
+</g:if>
 <g:if test="${existe}">
     <table class="table-condensed table-bordered table-striped table-hover" style="margin-top: 20px; width: 100%">
         <thead style="text-align: center">

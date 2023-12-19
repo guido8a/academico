@@ -112,23 +112,19 @@ class ProgramaController {
             def clases = []
 
             def curso = Curso.findAllByAsignaturaAndParalelo(asignatura, paralelo)
-//        def horario = Horario.findAllByParalelo( Paralelo.get(params.parl))
-
+            def dicta = Dicta.findByCurso(curso)
 
             def sql = "select * from horario(${asignatura.nivel.id}, ${params.parl}, ${params.asig})"
             def resp = cn.rows(sql.toString())
             println "sql --> $sql"
 
-//        println "horario: ${horario}"
-//        println "dias: ${ horario.dias }, horas: ${horario.hora.id} --> ${ horario.dias.id.contains( 1.toLong() )}"
-//        println "**dias: ${dias}, horas: ${horas}"
-            //println " --> ${ horario?.dias?.id[0].class}"
+            println " Dicta: --> ${ dicta?.profesor?.nombre}"
 
             println "horario: $resp"
 
             //return[asignatura: asignatura, horas: horas, dias: dias, horario: horario,
             return[asignatura: asignatura, horas: horas, dias: dias, horario: resp,
-                   clases: clases, existe: true]
+                   clases: clases, existe: true, profesor: dicta?.profesor]
         }else{
             return[existe: false]
         }
