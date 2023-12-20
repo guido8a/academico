@@ -3,6 +3,7 @@ package tutor
 class Paralelo {
 
     Periodo periodo
+    Carrera carrera
     Nivel nivel
     String numero
     Integer numEstudiantes = 1
@@ -18,6 +19,7 @@ class Paralelo {
         columns {
             id column: 'parl__id'
             periodo column: 'prdo__id'
+            carrera column: 'carr__id'
             nivel column: 'nvel__id'
             numero column: 'parlnmro'
             numEstudiantes column: 'parlestd'
@@ -26,6 +28,7 @@ class Paralelo {
     }
     static constraints = {
         periodo(blank: false, nullable: false, attributes: [title:'Periodo académmico'])
+        carrera(blank: false, nullable: false, attributes: [title:'Periodo académmico'])
         nivel(blank: false, nullable: false, attributes: [title:'nivel'])
         numero(blank: false, nullable: false, attributes: [title:'numero'])
         numEstudiantes(blank: true, nullable: true, attributes: [title:'numEstudiantes'])
