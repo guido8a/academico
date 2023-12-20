@@ -25,6 +25,8 @@ class ProgramaController {
         println("prof_ajax " + params)
 
         if(params.prof){
+            def horas = Hora.list([sort: 'numero'])
+            def dias  = Dias.list([sort: 'numero'])
             def sql = "select * from profesor(${params.prof})"
             def resp = cn.rows(sql.toString())
             println "sql --> $sql"
@@ -33,10 +35,44 @@ class ProgramaController {
                     "coalesce(sab, '')||coalesce(dom, '')) > 0"
             def existe = cn.rows(sql.toString())[0]?.cnta
             println "3existe: $existe"
-            return[existe: existe, horario: resp]
+            return[existe: existe, horas: horas, dias: dias, horario: resp]
         }else{
             return[existe: false]
         }
+    }
+
+
+    def paralelo() {
+    }
+
+    def parl_ajax(){
+        def cn = getConnection()
+        println("parl_ajax " + params)
+
+        if(params.parl){
+            def horas = Hora.list([sort: 'numero'])
+            def dias  = Dias.list([sort: 'numero'])
+            def sql = "select * from paralelo(${params.parl})"
+            def resp = cn.rows(sql.toString())
+            println "sql --> $sql"
+//            sql = "select count(*) cnta from profesor(${params.prof}) where length(coalesce(lun, '')||" +
+//                    "coalesce(mar, '')||coalesce(mie, '')||coalesce(jue, '')||coalesce(vie, '')||" +
+//                    "coalesce(sab, '')||coalesce(dom, '')) > 0"
+//            def existe = cn.rows(sql.toString())[0]?.cnta
+            def existe = true
+            println "Existe: $existe"
+            return[existe: existe, horas: horas, dias: dias, horario: resp]
+        }else{
+            return[existe: false]
+        }
+    }
+
+    def cursos_ajax(){
+        println "cursos_ajax: $params"
+        def periodo = Periodo.get(params.periodo)
+        def nivel   = Nivel.get(params.nivel)
+        def cursos = Paralelo.findAllByPeriodoAndNivel(periodo, nivel)
+        return[cursos: cursos]
     }
 
 

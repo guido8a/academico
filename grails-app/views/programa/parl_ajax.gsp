@@ -15,8 +15,8 @@
             <tr data-id="${h?.lun}" >
             <td width="9%">${h?.hora}</td>
 
-            <g:if test="${h?.lun?.size() > 10}">
-                <td width="10%" data-id="${h?.lun}" class="${h?.lun?.split(';').size() > 1 ? 'otro' : 'usado'}">
+            <g:if test="${h?.lun?.size() > 20}">
+                <td width="10%" data-id="${h?.lun}" class="${h?.lun?.split(';').size() > 2 ? 'otro' : 'usado'}">
                     ${h.lun}
                     <a href="#" data-hora="" class="btn btn-xs btn-danger btn-borra-hora "
                        title="Eliminar">
@@ -33,8 +33,8 @@
                 </td>
             </g:else>
 
-            <g:if test="${h?.mar?.size() > 10}">
-                <td width="10%" data-id="${h?.mar}"  class="${h?.mar?.split(';').size() > 1 ? 'otro' : 'usado'}">
+            <g:if test="${h?.mar?.size() > 20}">
+                <td width="10%" data-id="${h?.mar}"  class="${h?.mar?.split(';').size() > 2 ? 'otro' : 'usado'}">
                     ${h.mar}
                     <a href="#" data-hora="${h?.mar}" class= "btn btn-xs btn-danger btn-borra-hora"
                        title="Eliminar">
@@ -49,8 +49,8 @@
                 </td>
             </g:else>
 
-            <g:if test="${h?.mie?.size() > 10}">
-                <td width="10%" data-id="${h?.mie}"  class="${h?.mie?.split(';').size() > 1 ? 'otro' : 'usado'}">
+            <g:if test="${h?.mie?.size() > 20}">
+                <td width="10%" data-id="${h?.mie}"  class="${h?.mie?.split(';').size() > 2 ? 'otro' : 'usado'}">
                     ${h.mie}
                     <a href="#" data-hora="${h?.mie}" class= "btn btn-xs btn-danger btn-borra-hora"
                        title="Eliminar">
@@ -65,8 +65,8 @@
                 </td>
             </g:else>
 
-            <g:if test="${h?.jue?.size() > 10}">
-                <td width="10%" data-id="${h?.jue}"  class="${h?.jue?.split(';').size() > 1 ? 'otro' : 'usado'}">
+            <g:if test="${h?.jue?.size() > 20}">
+                <td width="10%" data-id="${h?.jue}"  class="${h?.jue?.split(';').size() > 2 ? 'otro' : 'usado'}">
                     ${h.jue}
                     <a href="#" data-hora="${h?.jue}" class= "btn btn-xs btn-danger btn-borra-hora"
                        title="Eliminar">
@@ -81,8 +81,8 @@
                 </td>
             </g:else>
 
-            <g:if test="${h?.vie?.size() > 10}">
-                <td width="10%" data-id="${h?.vie}"  class="${h?.vie?.split(';').size() > 1 ? 'otro' : 'usado'}">
+            <g:if test="${h?.vie?.size() > 20}">
+                <td width="10%" data-id="${h?.vie}"  class="${h?.vie?.split(';').size() > 2 ? 'otro' : 'usado'}">
                     ${h.vie}
                     <a href="#" data-hora="${h?.vie}" class= "btn btn-xs btn-danger btn-borra-hora"
                        title="Eliminar">
@@ -97,8 +97,8 @@
                 </td>
             </g:else>
 
-            <g:if test="${h?.sab?.size() > 10}">
-                <td width="10%" data-id="${h?.sab}"  class="${h?.sab?.split(';').size() > 1 ? 'otro' : 'usado'}">
+            <g:if test="${h?.sab?.size() > 20}">
+                <td width="10%" data-id="${h?.sab}"  class="${h?.sab?.split(';').size() > 2 ? 'otro' : 'usado'}">
                     ${h.sab}
                     <a href="#" data-hora="${h?.sab}" class= "btn btn-xs btn-danger btn-borra-hora"
                        title="Eliminar">
@@ -113,8 +113,8 @@
                 </td>
             </g:else>
 
-            <g:if test="${h?.dom?.size() > 10}">
-                <td width="10%" data-id="${h?.dom}"  class="${h?.dom?.split(';').size() > 1 ? 'otro' : 'usado'}">
+            <g:if test="${h?.dom?.size() > 20}">
+                <td width="10%" data-id="${h?.dom}"  class="${h?.dom?.split(';').size() > 2 ? 'otro' : 'usado'}">
                     ${h.dom}
                     <a href="#" data-hora="${h?.dom}" class= "btn btn-xs btn-danger btn-borra-hora"
                        title="Eliminar">
@@ -137,7 +137,7 @@
 </g:if>
 <g:else>
     <div class="alert alert-danger" style="text-align: center"> <i class="fa fa-exclamation-triangle fa-2x text-info"></i>
-        <strong style="font-size: 14px"> No se ha programado a este profesor  </strong>
+        <strong style="font-size: 14px"> No hay horario de este paralelo  </strong>
     </div>
 </g:else>
 
