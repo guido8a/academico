@@ -1,59 +1,72 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fabricio
-  Date: 22/10/20
-  Time: 16:49
---%>
-
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="layout" content="main">
-    <title>Períodos</title>
+    <title>Tipo Profesor</title>
 </head>
 
-<div class="panel panel-primary col-md-6">
-    <h3>Períodos</h3>
-    <div class="panel-info" style="padding: 3px; margin-top: 2px">
-        <div class="btn-toolbar toolbar">
-            <div class="btn-group">
-                <a href="#" class="btn btn-sm btn-success" id="btnAgregarPeriodo">
-                    <i class="fa fa-plus"></i> Agregar período
-                </a>
-            </div>
-        </div>
+<body>
+
+<!-- botones -->
+<div class="btn-toolbar toolbar">
+    <div class="btn-group">
+        <g:link controller="inicio" action="index" class="btn btn-primary">
+            <i class="fa fa-arrow-left"></i> Regresar
+        </g:link>
     </div>
-    <div class="alert-warning" style="text-align: center; font-size: 14px; font-weight: bold">
-        * Haga clic derecho sobre un registro para desplegar su menú de opciones
+
+    <div class="btn-group">
+        <a href="#" class="btn btn-info btnCrear">
+            <i class="fa fa-clipboard-list"></i> Nuevo Período
+        </a>
     </div>
-    <div id="tablaPeriodos"></div>
 </div>
 
+<table class="table table-condensed table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th style="width: 10%">Id</th>
+        <th style="width: 60%">Descripciòn</th>
+        <th style="width: 30%">Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <g:if test="${periodos.size() > 0}">
+        <g:each in="${periodos}" var="periodo">
+            <tr data-id="${periodo?.id}">
+                <td style="width: 10%">${periodo?.id}</td>
+                <td style="width: 60%">${periodo?.descripcion}</td>
+                <td style="width: 30%; text-align: center">
+                    <a href="#" data-id="${periodo?.id}" class="btn btn-success btn-xs btn-edit btn-ajax" title="Editar">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="#" data-id="${periodo?.id}" class="btn btn-danger btn-xs btn-borrar btn-ajax" title="Eliminar">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        </g:each>
+    </g:if>
+    <g:else>
+        <tr>
+            <td class="text-center" colspan="3">
+                <i class="fa fa-exclamation-triangle text-info fa-3x"></i> <strong style="font-size: 14px"> No se encontraron registros que mostrar </strong>
+            </td>
+        </tr>
+    </g:else>
+    </tbody>
+</table>
+
+
 <script type="text/javascript">
-    cargarTablaPeriodos();
+    var id = null;
 
-    $("#btnAgregarPeriodo").click(function () {
-        createEditPeriodo();
-    });
-
-    function cargarTablaPeriodos(){
-        $.ajax({
-            type: 'POST',
-            url:'${createLink(controller: 'periodo', action: 'tablaPeriodos_ajax')}',
-            data:{
-
-            },
-            success: function(msg){
-                $("#tablaPeriodos").html(msg)
-            }
-        });
-    }
-
-    function createEditPeriodo(id) {
+    function createEditRowPeriodo(id) {
         var title = id ? "Editar" : "Crear";
-        var data = id ? {id : id} : {};
+        var data = id ? {id: id} : {};
         $.ajax({
             type    : "POST",
-            url     : "${createLink(controller:'periodo', action:'formPeriodo_ajax')}",
+            url: "${createLink(controller: 'periodo', action:'form_ajax')}",
             data    : data,
             success : function (msg) {
                 var b = bootbox.dialog({
@@ -77,19 +90,14 @@
                         } //guardar
                     } //buttons
                 }); //dialog
-                setTimeout(function () {
-                    b.find(".form-control").first().focus()
-                }, 500);
             } //success
         }); //ajax
     } //createEdit
 
     function submitFormPeriodo() {
-        var $form = $("#frmPeriodo");
-        var $btn = $("#dlgCreateEdit").find("#btnSave");
+        var $form = $("#frmtipoprofesor");
         if ($form.valid()) {
             var data = $form.serialize();
-            $btn.replaceWith(spinner);
             var dialog = cargarLoader("Guardando...");
             $.ajax({
                 type    : "POST",
@@ -98,11 +106,11 @@
                 success : function (msg) {
                     dialog.modal('hide');
                     var parts = msg.split("_");
-                    if(parts[0] == 'ok'){
+                    if(parts[0] === 'ok'){
                         log(parts[1], "success");
                         setTimeout(function () {
-                            location.reload(true);
-                        }, 1000);
+                            location.reload();
+                        }, 800);
                     }else{
                         bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
                         return false;
@@ -114,73 +122,67 @@
         }
     }
 
-    function borrarPeriodo(id){
-        bootbox.confirm({
-            message: "<i class='fa fa-3x fa-exclamation-triangle text-danger'></i> <strong style='font-size: 14px'>  Está seguro de eliminar este período? </strong>",
+    function deleteRow(itemId) {
+        bootbox.dialog({
+            title: "Alerta",
+            message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p style='font-size: 14px; font-weight: bold'>" +
+                "¿Está seguro que desea eliminar el período ? Esta acción no se puede deshacer.</p>",
+            closeButton: false,
             buttons: {
-                confirm: {
-                    label: 'Borrar',
-                    className: 'btn-success'
+                cancelar: {
+                    label: "Cancelar",
+                    className: "btn-primary",
+                    callback: function () {
+                    }
                 },
-                cancel: {
-                    label: 'Cancelar',
-                    className: 'btn-danger'
-                }
-            },
-            callback: function (result) {
-                if(result){
-                    $.ajax({
-                        type:'POST',
-                        url:'${createLink(controller: 'periodo', action: 'borrarPeriodo_ajax')}',
-                        data:{
-                            id: id
-                        },
-                        success:function(msg){
-                            var parts = msg.split("_");
-                            if(parts[0] == 'ok'){
-                                log("Período borrado correctamente","success");
-                                setTimeout(function () {
-                                    location.reload(true);
-                                }, 1000);
-                            }else{
-                                if(parts[0] == 'er'){
-                                    bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
-                                    return false;
-                                }else{
-                                    log("Error al borrar el período","error")
+                eliminar: {
+                    label: "<i class='fa fa-trash'></i> Eliminar",
+                    className: "btn-danger",
+                    callback: function () {
+                        var db= cargarLoader("Borrando...");
+                        $.ajax({
+                            type: "POST",
+                            url: '${createLink(controller: 'periodo', action:'delete_ajax')}',
+                            data: {
+                                id: itemId
+                            },
+                            success: function (msg) {
+                                db.modal("hide");
+                                if (msg === 'ok') {
+                                    log("Borrado correctamente", "success");
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 800);
+                                } else {
+                                    log("Error al borrar el período", "error")
                                 }
                             }
-                        }
-                    })
+                        });
+                    }
                 }
             }
         });
     }
 
-    function createContextMenu(node) {
-        var $tr = $(node);
 
-        var items = {
-            header: {
-                label: "Acciones",
-                header: true
-            }
-        };
 
-        var id = $tr.data("id");
+    $(".btnCrear").click(function () {
+        createEditRowPeriodo();
+        return false;
+    });
 
-        var borrar = {
-            label: 'Borrar',
-            icon: "fa fa-trash",
-            action: function (e) {
-                borrarPeriodo(id)
-            }
-        };
+    $(".btn-edit").click(function () {
+        var id = $(this).data("id");
+        createEditRowPeriodo(id);
+    });
+    $(".btn-borrar").click(function () {
+        var id = $(this).data("id");
+        deleteRow(id);
+    });
 
-        items.borrar = borrar;
 
-        return items
-    }
 
 </script>
+
+</body>
 </html>

@@ -231,10 +231,11 @@ class ProgramaController {
     def paralelo_ajax(){
         def periodo = Periodo.get(params.periodo)
         def nivel = Nivel.get(params.nivel)
-        def paralelo = Paralelo.findAllByNivelAndPeriodo(nivel, periodo, [sort: 'numero'])
-        def asignatura = Asignatura.findAllByNivelAndTipoActividad(nivel, TipoActividad.get(1), [sort: 'nombre'])
+        def paralelos = Paralelo.findAllByNivelAndPeriodo(nivel, periodo, [sort: 'numero'])
+//        def asignatura = Asignatura.findAllByNivelAndTipoActividad(nivel, TipoActividad.get(1), [sort: 'nombre'])
 
-        return[nivel: nivel, paralelo: paralelo, asignatura: asignatura]
+//        return[nivel: nivel, paralelos: paralelos, asignatura: asignatura]
+        return[nivel: nivel, paralelos: paralelos]
     }
 
     def tablaGestion_ajax(){
@@ -406,5 +407,15 @@ class ProgramaController {
         }
     }
 
+    def asignatura_ajax(){
+        def paralelo = Paralelo.get(params.paralelo)
+        def asignaturas
+        if(paralelo){
+            asignaturas = Asignatura.findAllByCarreraAndNivel(paralelo.carrera, paralelo.nivel)
+        }else{
+            asignaturas = []
+        }
+        return [asignaturas: asignaturas]
+    }
 
 }

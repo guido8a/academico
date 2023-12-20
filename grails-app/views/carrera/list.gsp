@@ -1,42 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    %{--<meta name="layout" content="login">--}%
     <meta name="layout" content="main">
     <title>Carrera</title>
-
-    <style type="text/css">
-    input:invalid {
-        border: 2px dashed red; !important;
-    }
-
-    input:invalid:required {
-        background-image: linear-gradient(to right, pink, lightgreen);
-    }
-
-    input:valid {
-        border: 2px solid black;
-    }
-    </style>
-
 </head>
 
 <body>
 
-<g:if test="${flash.message}">
-    <div class="message" role="status">${flash.message}</div>
-</g:if>
-
 <!-- Botones -->
 <div class="btn-toolbar toolbar">
     <div class="btn-group">
-        <g:link controller="inicio" action="index" class="btn btn-secondary">
+        <g:link controller="inicio" action="index" class="btn btn-primary">
             <i class="fa fa-arrow-left"></i> Regresar
         </g:link>
     </div>
 
     <div class="btn-group">
-        <a href="${createLink(controller: 'carrera', action: 'form_ajax')}" class="btn btn-primary" id="btnCrearCarrera">
+        <a href="${createLink(controller: 'carrera', action: 'form_ajax')}" class="btn btn-info" id="btnCrearCarrera">
             <i class="fa fa-clipboard-list"></i> Nueva Carrera
         </a>
     </div>
@@ -57,13 +37,13 @@
                 <td>${carrera?.nombre}</td>
                 <td>${carrera?.facultad?.nombre}</td>
                 <td>
-                    <a href="#" data-id="${carrera?.id}" class="btn btn-success btn-sm btn-edit btn-ajax" title="Editar">
+                    <a href="#" data-id="${carrera?.id}" class="btn btn-success btn-xs btn-edit btn-ajax" title="Editar">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <a href="#" data-id="${carrera?.id}" class="btn btn-danger btn-sm btn-borrar btn-ajax" title="Eliminar">
+                    <a href="#" data-id="${carrera?.id}" class="btn btn-danger btn-xs btn-borrar btn-ajax" title="Eliminar">
                         <i class="fa fa-trash"></i>
                     </a>
-                    <a href="#" data-id="${carrera?.id}" class="btn btn-info btn-sm btn-show btn-ajax" title="Ver">
+                    <a href="#" data-id="${carrera?.id}" class="btn btn-info btn-xs btn-show btn-ajax" title="Ver">
                         <i class="fa fa-search"></i>
                     </a>
                 </td>
@@ -91,7 +71,7 @@
             url: $form.attr("action"),
             data: $form.serialize(),
             success: function (msg) {
-                if (msg == 'ok') {
+                if (msg === 'ok') {
                     log("Carrera guardada correctamente", "success");
                     setTimeout(function () {
                         location.reload(true);

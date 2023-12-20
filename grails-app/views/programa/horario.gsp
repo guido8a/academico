@@ -298,12 +298,12 @@
 
 
 
-        $( document ).ready(function() {
-            //console.log( "ready!" );
-            var asig = $("#asignatura").val();
-            var parl = $("#paralelo").val();
-            $("#paralelo").change()
-        });
+        // $( document ).ready(function() {
+        //     //console.log( "ready!" );
+        //     var asig = $("#asignatura").val();
+        //     var parl = $("#paralelo").val();
+        //     $("#paralelo").change()
+        // });
 
         $("#btnParalelo").click(function () {
             createEditRow();
@@ -344,6 +344,7 @@
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'paralelo_ajax')}",
+            async: false,
             data: {
                 periodo: periodo,
                 nivel: nivel
