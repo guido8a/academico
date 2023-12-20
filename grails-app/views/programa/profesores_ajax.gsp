@@ -67,7 +67,9 @@
                     cargarTablaProfesor();
                     cargaTabla($("#paralelo option:selected").val(), $("#asignatura option:selected").val());
                 }else{
-                    bootbox.alert( '<div style="text-align: center">' + '<i class="fa fa-exclamation-triangle fa-2x text-danger"></i>'  + '<strong style="font-size: 14px">' +  parts[1] +  '</strong>' + '</div>')
+                    bootbox.alert( '<div style="text-align: center">' +
+                        '<i class="fa fa-exclamation-triangle fa-2x text-danger"></i>'  +
+                        '<strong style="font-size: 14px">' +  parts[1] +  '</strong>' + '</div>')
                 }
             } //success
         });

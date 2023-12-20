@@ -25,7 +25,10 @@
     </div>
 </g:if>
 <g:else>
-    <div class="alert alert-warning" style="text-align: center; font-size: 14px"><i class="fa fa-exclamation-triangle fa-3x text-info"></i> No existe profesor asignado para: <br> <strong>${paralelo?.nivel?.descripcion + " - " + paralelo?.numero + " , "  + asignatura?.nombre}</strong> </div>
+    <div class="alert alert-warning" style="text-align: center; font-size: 14px">
+        <i class="fa fa-exclamation-triangle fa-3x text-info"></i> No existe profesor asignado para: <br>
+        <strong>${paralelo?.nivel?.descripcion + " - " + paralelo?.numero + " , "  + asignatura?.nombre}</strong>
+    </div>
 </g:else>
 
 <script type="text/javascript">

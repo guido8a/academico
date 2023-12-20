@@ -45,8 +45,8 @@
 <table class="table table-condensed table-bordered table-striped table-hover">
     <thead>
     <tr>
-        <th>Nombre</th>
         <th>Apellido</th>
+        <th>Nombre</th>
         <th>Email</th>
         <th>Extension</th>
         <th>Sexo</th>
@@ -58,8 +58,8 @@
     <g:if test="${profesores.size() > 0}">
         <g:each in="${profesores}" var="profesor">
             <tr data-id="${profesor?.id}">
-                <td>${profesor?.nombre}</td>
                 <td>${profesor?.apellido}</td>
+                <td>${profesor?.nombre}</td>
                 <td>${profesor?.mail}</td>
                 <td>${profesor?.extension}</td>
                 <td>${profesor?.sexo}</td>

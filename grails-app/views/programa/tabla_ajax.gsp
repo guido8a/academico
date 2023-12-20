@@ -1,5 +1,5 @@
 <g:if test="${profesor}">
-    <div class="col-md-12 text-info">Profesor asignado: ${profesor?.nombre} ${profesor?.apellido}  </div>
+    <div class="col-md-12 text-info" style="font-weight: bold">Profesor asignado: ${profesor?.apellido} ${profesor?.nombre}  </div>
 </g:if>
 <g:else>
     <div class="col-md-12 text-warning">Sin profesor Asignado</div>
@@ -20,7 +20,7 @@
         %{--<g:each in="${horas}" var="hora">--}%
         <g:each in="${horario}" var="h">
             <tr data-id="${h?.lun?.split(';')[0]}" >
-            <td width="9%">${h?.hora}</td>
+            <td width="9%"><strong>${h?.hora}</strong></td>
 
         %{--"${h.lun}"--}%
         %{--"${h.lun.toString().split(';')}"--}%
@@ -147,7 +147,8 @@
     </table>
 </g:if>
 <g:else>
-    <div class="alert alert-danger" style="text-align: center"> <i class="fa fa-exclamation-triangle fa-2x text-info"></i>  <strong style="font-size: 14px"> Seleccione un paralelo  </strong>
+    <div class="alert alert-danger" style="text-align: center"> <i class="fa fa-exclamation-triangle fa-2x text-info"></i>
+        <strong style="font-size: 14px"> Seleccione un paralelo  </strong>
     </div>
 </g:else>
 

@@ -3,7 +3,7 @@ package tutor
 class ProfesorController {
 
     def list() {
-        def profesores = Profesor.list().sort { it.nombre }
+        def profesores = Profesor.list([sort: 'apellido'])
         def tiposProfesor = TipoProfesor.list() // Recupera los tipos de profesor desde la tabla tppr
         return [profesores: profesores, tiposProfesor: tiposProfesor]
     }

@@ -4,9 +4,9 @@ class Paralelo {
 
     Periodo periodo
     Nivel nivel
-    Integer numero
-    Integer numEstudiantes
-    Integer cupo
+    String numero
+    Integer numEstudiantes = 1
+    Integer cupo = 1
 
 
     static mapping = {
@@ -25,9 +25,9 @@ class Paralelo {
         }
     }
     static constraints = {
-        periodo(blank: true, nullable: true, attributes: [title:'Periodo académmico'])
-        nivel(blank: true, nullable: true, attributes: [title:'nivel'])
-        numero(blank: true, nullable: true, attributes: [title:'numero'])
+        periodo(blank: false, nullable: false, attributes: [title:'Periodo académmico'])
+        nivel(blank: false, nullable: false, attributes: [title:'nivel'])
+        numero(blank: false, nullable: false, attributes: [title:'numero'])
         numEstudiantes(blank: true, nullable: true, attributes: [title:'numEstudiantes'])
         cupo(blank: true, nullable: true, attributes: [title:'cupo'])
     }
