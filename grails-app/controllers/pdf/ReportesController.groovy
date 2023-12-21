@@ -700,11 +700,11 @@ class ReportesController {
         sheet.setColumnWidth(7, 20 * 256);
         sheet.setColumnWidth(8, 20 * 256);
         sheet.setColumnWidth(9, 20 * 256);
-        sheet.setColumnWidth(10, 20 * 256);
-        sheet.setColumnWidth(11, 20 * 256);
-        sheet.setColumnWidth(12, 20 * 256);
-        sheet.setColumnWidth(13, 20 * 256);
-        sheet.setColumnWidth(14, 20 * 256);
+        sheet.setColumnWidth(10, 35 * 256);
+        sheet.setColumnWidth(11, 35 * 256);
+        sheet.setColumnWidth(12, 35 * 256);
+        sheet.setColumnWidth(13, 35 * 256);
+        sheet.setColumnWidth(14, 35 * 256);
         sheet.setColumnWidth(15, 20 * 256);
         sheet.setColumnWidth(16, 20 * 256);
         sheet.setColumnWidth(17, 20 * 256);
@@ -769,14 +769,23 @@ class ReportesController {
         Dicta.list().eachWithIndex { r, j ->
 
 //            def sql = "select * from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) "
-            def sql = "select horadscr from hora where hora__id in (select substr(lun,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(lun) > 4) order by horanmro"
-            def respLunes = cn.rows(sql.toString())
-            println("res " + respLunes)
-            def lunesDatos = []
-            respLunes.each {
-//                lunesDatos += (it.horadscr + '\n')
-                lunesDatos.add(it.horadscr)
-            }
+//            def resp = cn.rows(sql.toString())
+//            println("sql " + resp)
+
+            def sqlLunes = "select horadscr from hora where hora__id in (select substr(lun,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(lun) > 4) order by horanmro"
+            def respLunes = cn.rows(sqlLunes.toString())
+
+            def sqlMartes = "select horadscr from hora where hora__id in (select substr(mar,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(mar) > 4) order by horanmro"
+            def respMartes = cn.rows(sqlMartes.toString())
+
+            def sqlMiercoles = "select horadscr from hora where hora__id in (select substr(mie,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(mie) > 4) order by horanmro"
+            def respMiercoles = cn.rows(sqlMiercoles.toString())
+
+            def sqlJueves = "select horadscr from hora where hora__id in (select substr(jue,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(jue) > 4) order by horanmro"
+            def respJueves = cn.rows(sqlJueves.toString())
+
+            def sqlViernes = "select horadscr from hora where hora__id in (select substr(vie,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(vie) > 4) order by horanmro"
+            def respViernes = cn.rows(sqlViernes.toString())
 
 
             Row rowF1 = sheet.createRow(fila)
@@ -790,12 +799,11 @@ class ReportesController {
             rowF1.createCell(7).setCellValue(r?.curso?.asignatura?.horasTeoria?.toInteger())
             rowF1.createCell(8).setCellValue(r?.curso?.asignatura?.horasPractica?.toInteger())
             rowF1.createCell(9).setCellValue((r?.curso?.asignatura?.horasPractica?.toInteger() ?: 0) + (r?.curso?.asignatura?.horasTeoria?.toInteger() ?: 0))
-//            rowF1.createCell(10).setCellValue(lunesDatos.size() > 0 ? lunesDatos?.toString() : '')
             rowF1.createCell(10).setCellValue(respLunes?.horadscr?.join(",")?.toString() ?: '')
-            rowF1.createCell(11).setCellValue(0)
-            rowF1.createCell(12).setCellValue(0)
-            rowF1.createCell(13).setCellValue(0)
-            rowF1.createCell(14).setCellValue(0)
+            rowF1.createCell(11).setCellValue(respMartes?.horadscr?.join(",")?.toString() ?: '')
+            rowF1.createCell(12).setCellValue(respMiercoles?.horadscr?.join(",")?.toString() ?: '')
+            rowF1.createCell(13).setCellValue(respJueves?.horadscr?.join(",")?.toString() ?: '')
+            rowF1.createCell(14).setCellValue(respViernes?.horadscr?.join(",")?.toString() ?: '')
             rowF1.createCell(15).setCellValue(r?.curso?.asignatura?.creditos?.toString())
             rowF1.createCell(16).setCellValue(r?.curso?.asignatura?.factorPreparacion?.toDouble())
             rowF1.createCell(17).setCellValue(r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble())
