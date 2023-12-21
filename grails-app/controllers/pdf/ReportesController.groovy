@@ -11,6 +11,11 @@ import org.apache.poi.hssf.usermodel.HSSFPatriarch
 import org.apache.poi.hssf.usermodel.HSSFSimpleShape
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.usermodel.*
+import org.apache.poi.ss.util.CellRangeAddress
+import org.apache.poi.xssf.usermodel.XSSFCellStyle
+import org.apache.poi.xssf.usermodel.XSSFFont
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import tutor.Dicta
 
 
 class ReportesController {
@@ -614,7 +619,7 @@ class ReportesController {
         def row = 0
         WritableSheet sheet = workbook.createSheet('puntajes', 0)
 
-         //DATOS FINCA
+        //DATOS FINCA
 
         // fija el ancho de la columna
         sheet.setColumnView(0,30)
@@ -660,4 +665,146 @@ class ReportesController {
         response.setHeader("Content-Disposition", header);
         output.write(file.getBytes());
     }
+
+    def reportePofesoresExcel () {
+
+        def cn = dbConnectionService.getConnection()
+        def fila = 7
+
+        XSSFWorkbook wb = new XSSFWorkbook()
+        XSSFCellStyle style = wb.createCellStyle();
+        XSSFFont font = wb.createFont();
+        font.setBold(true);
+        style.setFont(font);
+
+        XSSFCellStyle style2 = wb.createCellStyle();
+        XSSFFont font2 = wb.createFont();
+        font2.setBold(true);
+        style2.setFont(font2);
+        style2.setAlignment(HorizontalAlignment.CENTER);
+
+        XSSFCellStyle style3 = wb.createCellStyle();
+        XSSFFont font3 = wb.createFont();
+        style3.setFont(font3);
+        style3.setAlignment(HorizontalAlignment.CENTER);
+
+        Sheet sheet = wb.createSheet("Profesores")
+        sheet.setColumnWidth(0, 35 * 256);
+        sheet.setColumnWidth(1, 20 * 256);
+        sheet.setColumnWidth(2, 20 * 256);
+        sheet.setColumnWidth(3, 40 * 256);
+        sheet.setColumnWidth(4, 40 * 256);
+        sheet.setColumnWidth(5, 20 * 256);
+        sheet.setColumnWidth(6, 20 * 256);
+        sheet.setColumnWidth(7, 20 * 256);
+        sheet.setColumnWidth(8, 20 * 256);
+        sheet.setColumnWidth(9, 20 * 256);
+        sheet.setColumnWidth(10, 20 * 256);
+        sheet.setColumnWidth(11, 20 * 256);
+        sheet.setColumnWidth(12, 20 * 256);
+        sheet.setColumnWidth(13, 20 * 256);
+        sheet.setColumnWidth(14, 20 * 256);
+        sheet.setColumnWidth(15, 20 * 256);
+        sheet.setColumnWidth(16, 20 * 256);
+        sheet.setColumnWidth(17, 20 * 256);
+        sheet.setColumnWidth(18, 20 * 256);
+        sheet.setColumnWidth(19, 20 * 256);
+
+        Row row = sheet.createRow(0)
+        row.createCell(0).setCellValue("")
+        Row row1 = sheet.createRow(2)
+        row1.createCell(0).setCellValue("PUCE")
+        row1.setRowStyle(style)
+        Row row2 = sheet.createRow(3)
+        row2.createCell(0).setCellValue("LISTA DE PROFESORES")
+        row2.setRowStyle(style)
+        Row row3 = sheet.createRow(4)
+        row3.createCell(0).setCellValue("")
+        Row row4 = sheet.createRow(5)
+        row4.createCell(0).setCellValue("Fecha: " + new Date().format("dd-MM-yyyy"))
+        row4.sheet.addMergedRegion(new CellRangeAddress(5, 5, 1, 3));
+//            row4.createCell(5).setCellValue("Fecha Act. P.U: " + fecha?.format("dd-MM-yyyy"))
+//            row4.sheet.addMergedRegion(new CellRangeAddress(5, 5, 5, 7));
+//            row4.setRowStyle(style)
+//            Row row5 = sheet.createRow(6)
+//            row5.createCell(1).setCellValue("Código: " + rubro.codigo)
+//            row5.sheet.addMergedRegion(new CellRangeAddress(6, 6, 1, 3));
+//            row5.createCell(5).setCellValue("Unidad: " + rubro.unidad?.codigo)
+//            row5.sheet.addMergedRegion(new CellRangeAddress(6, 6, 5, 7));
+//            row5.setRowStyle(style)
+//            Row row6 = sheet.createRow(7)
+//            row6.createCell(1).setCellValue("Código Especificación: " + (rubro?.codigoEspecificacion ?: ''))
+//            row6.setRowStyle(style)
+//            Row row7 = sheet.createRow(8)
+//            row7.createCell(1).setCellValue("Descripción: " + rubro.nombre)
+//            row7.setRowStyle(style)
+
+        fila++
+
+        Row rowC1 = sheet.createRow(fila)
+        rowC1.createCell(0).setCellValue("Carrera")
+        rowC1.createCell(1).setCellValue("NRC")
+        rowC1.createCell(2).setCellValue("Código Banner")
+        rowC1.createCell(3).setCellValue("Nombre Asignatura o Actividad")
+        rowC1.createCell(4).setCellValue("Docente")
+        rowC1.createCell(5).setCellValue("Nivel")
+        rowC1.createCell(6).setCellValue("Paralelo")
+        rowC1.createCell(7).setCellValue("Teoría")
+        rowC1.createCell(8).setCellValue("Praćtica")
+        rowC1.createCell(9).setCellValue("Horas Semana")
+        rowC1.createCell(10).setCellValue("Lunes ")
+        rowC1.createCell(11).setCellValue("Martes")
+        rowC1.createCell(12).setCellValue("Miércoles")
+        rowC1.createCell(13).setCellValue("Jueves")
+        rowC1.createCell(14).setCellValue("Viernes")
+        rowC1.createCell(15).setCellValue("Créditos")
+        rowC1.createCell(16).setCellValue("Factor Preparación")
+        rowC1.createCell(17).setCellValue("Horas Preparación")
+        rowC1.createCell(18).setCellValue("Horas gestión")
+        rowC1.createCell(19).setCellValue("Total horas")
+        rowC1.setRowStyle(style)
+        fila++
+
+        Dicta.list().eachWithIndex { r, j ->
+
+
+            def sql = "select * from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id})"
+            def resp = cn.rows(sql.toString())
+            println("res " + resp)
+
+            Row rowF1 = sheet.createRow(fila)
+            rowF1.createCell(0).setCellValue(r?.curso?.asignatura?.carrera?.nombre?.toString())
+            rowF1.createCell(1).setCellValue(r?.curso?.nrc?.toString())
+            rowF1.createCell(2).setCellValue(r?.curso?.asignatura?.codigo?.toString())
+            rowF1.createCell(3).setCellValue(r?.curso?.asignatura?.nombre?.toString())
+            rowF1.createCell(4).setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
+            rowF1.createCell(5).setCellValue(r?.curso?.asignatura?.nivel?.numero?.toString())
+            rowF1.createCell(6).setCellValue(r?.curso?.paralelo?.numero?.toString())
+            rowF1.createCell(7).setCellValue(r?.curso?.asignatura?.horasTeoria?.toInteger())
+            rowF1.createCell(8).setCellValue(r?.curso?.asignatura?.horasPractica?.toInteger())
+            rowF1.createCell(9).setCellValue((r?.curso?.asignatura?.horasPractica?.toInteger() ?: 0) + (r?.curso?.asignatura?.horasTeoria?.toInteger() ?: 0))
+            rowF1.createCell(10).setCellValue(0)
+            rowF1.createCell(11).setCellValue(0)
+            rowF1.createCell(12).setCellValue(0)
+            rowF1.createCell(13).setCellValue(0)
+            rowF1.createCell(14).setCellValue(0)
+            rowF1.createCell(15).setCellValue(r?.curso?.asignatura?.creditos?.toString())
+            rowF1.createCell(16).setCellValue(r?.curso?.asignatura?.factorPreparacion?.toString())
+            rowF1.createCell(17).setCellValue('')
+            rowF1.createCell(18).setCellValue(r?.curso?.asignatura?.horasGestion?.toString())
+            rowF1.createCell(19).setCellValue("")
+            rowF1.setRowStyle(style3)
+
+            fila++
+        }
+
+        def output = response.getOutputStream()
+        def header = "attachment; filename=" + "profesores.xlsx";
+        response.setContentType("application/octet-stream")
+        response.setHeader("Content-Disposition", header);
+        wb.write(output)
+    }
+
+
+
 }

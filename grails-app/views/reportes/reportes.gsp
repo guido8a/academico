@@ -1,9 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fabricio
-  Date: 21/09/20
-  Time: 10:22
---%>
 
 <%@ page contentType="text/html" %>
 
@@ -11,8 +5,6 @@
 <head>
     <meta name="layout" content="main"/>
     <title>Reportes</title>
-
-    %{--    <script type="text/javascript" src="${resource(dir: 'js/jquery/plugins', file: 'jquery.cookie.js')}"></script>--}%
 
     <style type="text/css">
 
@@ -106,9 +98,7 @@
 
 %{--<ul class="nav nav-tabs">--}%
 <ul class="nav nav-pills">
-    <li class="active"><a data-toggle="pill" href="#generales">Generales</a></li>
-%{--    <li><a data-toggle="pill" href="#obra">POA</a></li>--}%
-%{--    <li><a data-toggle="pill" href="#cont">Datos geográficos</a></li>--}%
+    <li class="active"><a data-toggle="pill" href="#generales">Reportes</a></li>
 </ul>
 
 <div class="tab-content">
@@ -118,18 +108,10 @@
             <div class="col-md-12 col-xs-5">
                 <p>
 
-                    <a href="#" id="btnFincaExcel" class="btn btn-info btn-ajax example_c item" texto="fnca">
+                    <a href="#" id="btnProfesoresExcel" class="btn btn-info btn-ajax example_c item" texto="fnca">
                         <i class="fa fa-file-excel fa-4x text-success"></i>
-                        <br/> Datos de Pacientes
+                        <br/> Reporte
                     </a>
-%{--                    <a href="#" id="btnSocios" class="btn btn-info btn-ajax example_c item" texto="dire">--}%
-%{--                        <i class="fa fa-users fa-4x text-success"></i>--}%
-%{--                        <br/> Socios--}%
-%{--                    </a>--}%
-%{--                    <a href="#" id="btnEncuestas" class="btn btn-info btn-ajax example_c item" texto="undd">--}%
-%{--                        <i class="fa fa-paste fa-4x text-success"></i>--}%
-%{--                        <br/> Encuestas--}%
-%{--                    </a>--}%
                 </p>
             </div>
         </div>
@@ -204,16 +186,16 @@
 </div>
 
 <div id="fnca" style="display:none">
-    <h3>Reporte Excel de fincas</h3><br>
-    <p>Listado de todas las fincas</p>
+    <h3>Reporte Excel de profesores</h3><br>
+    <p>Listado de profesores</p>
 </div>
 
 
 <script type="text/javascript">
 
-    $("#btnFincaExcel").click(function () {
-        location.href="${createLink(controller: 'reportes', action: 'reporteFincaExcel')}"
-    })
+    $("#btnProfesoresExcel").click(function () {
+        location.href="${createLink(controller: 'reportes', action: 'reportePofesoresExcel')}"
+    });
 
     function prepare() {
         $(".fa-ul li span").each(function () {
