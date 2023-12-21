@@ -1,12 +1,14 @@
 <g:if test="${profesor}">
-    <div class="col-md-12 text-info" style="font-weight: bold">Profesor asignado: ${profesor?.apellido} ${profesor?.nombre}  </div>
+    <div class="col-md-12 text-info" style="font-weight: bold">Profesor:
+        <span style="color:#0070B0">${profesor?.apellido} ${profesor?.nombre}</span></div>
 </g:if>
 <g:else>
-    <div class="col-md-12 text-warning">Sin profesor Asignado</div>
+    <div class="col-md-12 text-danger">Sin profesor Asignado</div>
 </g:else>
 <g:if test="${existe}">
     <table class="table-condensed table-bordered table-striped table-hover" style="margin-top: 20px; width: 100%">
-        <thead style="text-align: center; background-color: #acb3d5">
+        %{--<thead style="text-align: center; background-color: #acb3d5; color: #fff;">--}%
+        <thead style="text-align: center; background-color: #435a83; color: #fff;">
         <tr>
 
             <th width="9%" style="text-align: center">Hora</th>
@@ -21,7 +23,7 @@
         <g:each in="${horario}" var="h">
             <tr data-id="${h?.lun?.split(';')[0]}" >
             %{--<td width="9%" style="font-weight: bold; background-color: #acb3d5">${h?.hora}</td>--}%
-            <td width="9%" style="font-weight: bold; background-color: #ccd3f5">${h?.hora}</td>
+            <td width="9%" style="font-weight: bold; background-color: #435a83; color: #fff;">${h?.hora}</td>
 
         %{--"${h.lun}"--}%
         %{--"${h.lun.toString().split(';')}"--}%
