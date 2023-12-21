@@ -685,8 +685,9 @@ class ReportesController {
 
         XSSFCellStyle style3 = wb.createCellStyle();
         XSSFFont font3 = wb.createFont();
+        style3.setWrapText(true);
         style3.setFont(font3);
-        style3.setAlignment(HorizontalAlignment.CENTER);
+        style3.setAlignment(HorizontalAlignment.LEFT);
 
         Sheet sheet = wb.createSheet("Profesores")
         sheet.setColumnWidth(0, 35 * 256);
@@ -767,13 +768,19 @@ class ReportesController {
 
         Dicta.list().eachWithIndex { r, j ->
 
+//            def sql = "select * from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) "
+            def sql = "select horadscr from hora where hora__id in (select substr(lun,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(lun) > 4) order by horanmro"
+            def respLunes = cn.rows(sql.toString())
+            println("res " + respLunes)
+            def lunesDatos = []
+            respLunes.each {
+//                lunesDatos += (it.horadscr + '\n')
+                lunesDatos.add(it.horadscr)
+            }
 
-            def sql = "select * from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id})"
-            def resp = cn.rows(sql.toString())
-            println("res " + resp)
 
             Row rowF1 = sheet.createRow(fila)
-            rowF1.createCell(0).setCellValue(r?.curso?.asignatura?.carrera?.nombre?.toString())
+            rowF1.createCell(0).setCellValue(r?.curso?.asignatura?.carrera?.codigo?.toString())
             rowF1.createCell(1).setCellValue(r?.curso?.nrc?.toString())
             rowF1.createCell(2).setCellValue(r?.curso?.asignatura?.codigo?.toString())
             rowF1.createCell(3).setCellValue(r?.curso?.asignatura?.nombre?.toString())
@@ -783,16 +790,17 @@ class ReportesController {
             rowF1.createCell(7).setCellValue(r?.curso?.asignatura?.horasTeoria?.toInteger())
             rowF1.createCell(8).setCellValue(r?.curso?.asignatura?.horasPractica?.toInteger())
             rowF1.createCell(9).setCellValue((r?.curso?.asignatura?.horasPractica?.toInteger() ?: 0) + (r?.curso?.asignatura?.horasTeoria?.toInteger() ?: 0))
-            rowF1.createCell(10).setCellValue(0)
+//            rowF1.createCell(10).setCellValue(lunesDatos.size() > 0 ? lunesDatos?.toString() : '')
+            rowF1.createCell(10).setCellValue(respLunes?.horadscr?.join(",")?.toString() ?: '')
             rowF1.createCell(11).setCellValue(0)
             rowF1.createCell(12).setCellValue(0)
             rowF1.createCell(13).setCellValue(0)
             rowF1.createCell(14).setCellValue(0)
             rowF1.createCell(15).setCellValue(r?.curso?.asignatura?.creditos?.toString())
-            rowF1.createCell(16).setCellValue(r?.curso?.asignatura?.factorPreparacion?.toString())
-            rowF1.createCell(17).setCellValue('')
+            rowF1.createCell(16).setCellValue(r?.curso?.asignatura?.factorPreparacion?.toDouble())
+            rowF1.createCell(17).setCellValue(r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble())
             rowF1.createCell(18).setCellValue(r?.curso?.asignatura?.horasGestion?.toString())
-            rowF1.createCell(19).setCellValue("")
+            rowF1.createCell(19).setCellValue(r?.curso?.asignatura?.creditos?.toInteger() + (r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble()))
             rowF1.setRowStyle(style3)
 
             fila++
