@@ -6,12 +6,12 @@
 </g:else>
 <g:if test="${existe}">
     <table class="table-condensed table-bordered table-striped table-hover" style="margin-top: 20px; width: 100%">
-        <thead style="text-align: center">
+        <thead style="text-align: center; background-color: #acb3d5">
         <tr>
 
-            <th width="9%">Hora</th>
+            <th width="9%" style="text-align: center">Hora</th>
             <g:each in="${dias}" var="d">
-                <th width="13%">${d?.nombre}</th>
+                <th width="13%" style="text-align: center">${d?.nombre}</th>
             </g:each>
 
         </tr>
@@ -20,7 +20,8 @@
         %{--<g:each in="${horas}" var="hora">--}%
         <g:each in="${horario}" var="h">
             <tr data-id="${h?.lun?.split(';')[0]}" >
-            <td width="9%"><strong>${h?.hora}</strong></td>
+            %{--<td width="9%" style="font-weight: bold; background-color: #acb3d5">${h?.hora}</td>--}%
+            <td width="9%" style="font-weight: bold; background-color: #ccd3f5">${h?.hora}</td>
 
         %{--"${h.lun}"--}%
         %{--"${h.lun.toString().split(';')}"--}%
