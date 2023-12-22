@@ -1,6 +1,6 @@
 <g:if test="${existe}">
     <table class="table-condensed table-bordered table-striped table-hover" style="margin-top: 20px; width: 100%">
-        <thead style="text-align: center">
+        <thead style="text-align: center; background-color: #435a83; color: #fff;">
         <tr>
 
             <th width="9%">Hora</th>
