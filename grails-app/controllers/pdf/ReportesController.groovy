@@ -805,12 +805,12 @@ class ReportesController {
             rowF1.createCell(7).setCellValue(r?.curso?.asignatura?.horasTeoria?.toInteger())
             rowF1.createCell(8).setCellValue(r?.curso?.asignatura?.horasPractica?.toInteger())
             rowF1.createCell(9).setCellValue((r?.curso?.asignatura?.horasPractica?.toInteger() ?: 0) + (r?.curso?.asignatura?.horasTeoria?.toInteger() ?: 0))
-            rowF1.createCell(10).setCellValue(respLunes.resp?.join(",")?.toString() ?: '')
+            rowF1.createCell(10).setCellValue(respLunes)
 //            rowF1.createCell(10).setCellValue(respLunes?.horadscr?.join(",")?.toString() ?: '')
-            rowF1.createCell(11).setCellValue(respMartes?.resp?.join(",")?.toString() ?: '')
-            rowF1.createCell(12).setCellValue(respMiercoles?.resp?.join(",")?.toString() ?: '')
-            rowF1.createCell(13).setCellValue(respJueves?.resp?.join(",")?.toString() ?: '')
-            rowF1.createCell(14).setCellValue(respViernes?.resp?.join(",")?.toString() ?: '')
+            rowF1.createCell(11).setCellValue(respMartes)
+            rowF1.createCell(12).setCellValue(respMiercoles)
+            rowF1.createCell(13).setCellValue(respJueves)
+            rowF1.createCell(14).setCellValue(respViernes)
             rowF1.createCell(15).setCellValue(r?.curso?.asignatura?.creditos?.toString())
             rowF1.createCell(16).setCellValue(r?.curso?.asignatura?.factorPreparacion?.toDouble())
             rowF1.createCell(17).setCellValue(r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble())
@@ -832,14 +832,33 @@ class ReportesController {
     def retornaHoras(dia, nivel, paralelo, asignatura){
         def arreglo = []
         def cn = dbConnectionService.getConnection()
-        def sql = "select horadscr from hora where hora__id in (select substr(${dia},3,1)::int from horario(${nivel}, ${paralelo}, ${asignatura}) where length(${dia}) > 4) order by horanmro"
+        def sql = "select horadscr from hora where hora__id in (select substr(${dia},3,1)::int " +
+                "from horario(${nivel}, ${paralelo}, ${asignatura}) where length(${dia}) > 4) order by horanmro"
         def resp = cn.rows(sql.toString())
         resp.each {
             arreglo.add(it.horadscr)
         }
-        return [resp:arreglo]
+        println "retorna: $arreglo --> ${horario(arreglo)}"
+        return horario(arreglo)
     }
 
+    def horario(txto) {
+        def primero = ""
+        def ultimo = ""
+        def retorna = ""
+        if(txto.size() > 1) {
+            primero = txto[0]
+            ultimo = txto[-1]
+        } else if(txto.size() == 1) {
+            primero = txto[0]
+            ultimo = txto[-1]
+        }
+        if((primero + ultimo) != "") {
+            retorna = primero.split('-')[0] + "-" + ultimo.split('-')[1]
+        }
+        println "primero: ${primero}, ultimo: $ultimo"
+        return retorna
+    }
 
 
 }

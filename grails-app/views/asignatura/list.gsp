@@ -55,7 +55,7 @@
     </div>
     <div class="col-md-2">
         <label class="control-label text-info">Criterio</label>
-        <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control"/>
+        <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control" value="${params.criterio}"/>
     </div>
     <div class="col-md-1" style="margin-top: 20px">
         <button class="btn btn-info" id="btnBuscar"><i class="fa fa-search"></i>Normales</button>

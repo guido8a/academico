@@ -6,7 +6,7 @@
 <div class="col-md-8">
     <g:select name="profesor" from="${tutor.Profesor.list([sort: 'apellido'])}"
               class="form-control input-sm required" optionValue="${{it.apellido + " - " + it.nombre}}"
-              optionKey="id" value="params.parl"
+              optionKey="id" value="${params.prof}"
     />
 </div>
 

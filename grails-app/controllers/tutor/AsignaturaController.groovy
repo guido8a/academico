@@ -26,6 +26,7 @@ class AsignaturaController {
         }
 
         println "asignaturas: $asignaturas"
+        params.criterio = params.criterio ? params.criterio: params.criterioGes
 
         return[asignaturas: asignaturas]
     }
