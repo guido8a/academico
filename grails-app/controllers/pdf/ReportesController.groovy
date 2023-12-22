@@ -692,26 +692,26 @@ class ReportesController {
         style3.setAlignment(HorizontalAlignment.LEFT);
 
         Sheet sheet = wb.createSheet("Profesores")
-        sheet.setColumnWidth(0, 15 * 256);
-        sheet.setColumnWidth(1, 17 * 256);
-        sheet.setColumnWidth(2, 17 * 256);
-        sheet.setColumnWidth(3, 40 * 256);
-        sheet.setColumnWidth(4, 40 * 256);
-        sheet.setColumnWidth(5, 15 * 256);
-        sheet.setColumnWidth(6, 15 * 256);
-        sheet.setColumnWidth(7, 15 * 256);
-        sheet.setColumnWidth(8, 15 * 256);
-        sheet.setColumnWidth(9, 17 * 256);
-        sheet.setColumnWidth(10, 20 * 256);
-        sheet.setColumnWidth(11, 20 * 256);
-        sheet.setColumnWidth(12, 20 * 256);
-        sheet.setColumnWidth(13, 20 * 256);
-        sheet.setColumnWidth(14, 20 * 256);
-        sheet.setColumnWidth(15, 17 * 256);
-        sheet.setColumnWidth(16, 20 * 256);
-        sheet.setColumnWidth(17, 20 * 256);
-        sheet.setColumnWidth(18, 20 * 256);
-        sheet.setColumnWidth(19, 17 * 256);
+        sheet.setColumnWidth(0, 8 * 256);
+        sheet.setColumnWidth(1, 8 * 256);
+        sheet.setColumnWidth(2, 8 * 256);
+        sheet.setColumnWidth(3, 36 * 256);
+        sheet.setColumnWidth(4, 36 * 256);
+        sheet.setColumnWidth(5, 8 * 256);
+        sheet.setColumnWidth(6, 8 * 256);
+        sheet.setColumnWidth(7, 8 * 256);
+        sheet.setColumnWidth(8, 8 * 256);
+        sheet.setColumnWidth(9, 10 * 256);
+        sheet.setColumnWidth(10, 10 * 256);
+        sheet.setColumnWidth(11, 10 * 256);
+        sheet.setColumnWidth(12, 10 * 256);
+        sheet.setColumnWidth(13, 10 * 256);
+        sheet.setColumnWidth(14, 10 * 256);
+        sheet.setColumnWidth(15, 10 * 256);
+        sheet.setColumnWidth(16, 10 * 256);
+        sheet.setColumnWidth(17, 10 * 256);
+        sheet.setColumnWidth(18, 10 * 256);
+        sheet.setColumnWidth(19, 10 * 256);
 
         Row row = sheet.createRow(0)
         row.createCell(0).setCellValue("")
@@ -742,7 +742,7 @@ class ReportesController {
         rowC1.createCell(5).setCellValue("Nivel")
         rowC1.createCell(6).setCellValue("Paralelo")
         rowC1.createCell(7).setCellValue("Teoría")
-        rowC1.createCell(8).setCellValue("Praćtica")
+        rowC1.createCell(8).setCellValue("Práctica")
         rowC1.createCell(9).setCellValue("Horas Semana")
         rowC1.createCell(10).setCellValue("Lunes ")
         rowC1.createCell(11).setCellValue("Martes")
