@@ -838,7 +838,7 @@ class ReportesController {
         resp.each {
             arreglo.add(it.horadscr)
         }
-        println "retorna: $arreglo --> ${horario(arreglo)}"
+//        println "retorna: $arreglo --> ${horario(arreglo)}"
         return horario(arreglo)
     }
 
@@ -856,7 +856,7 @@ class ReportesController {
         if((primero + ultimo) != "") {
             retorna = primero.split('-')[0] + "-" + ultimo.split('-')[1]
         }
-        println "primero: ${primero}, ultimo: $ultimo"
+//        println "primero: ${primero}, ultimo: $ultimo"
         return retorna
     }
 
