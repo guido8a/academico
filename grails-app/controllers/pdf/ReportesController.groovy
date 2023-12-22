@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle
 import org.apache.poi.xssf.usermodel.XSSFFont
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import tutor.Dicta
+import tutor.Profesor
 
 
 class ReportesController {
@@ -668,7 +669,8 @@ class ReportesController {
 
     def reportePofesoresExcel () {
 
-        def cn = dbConnectionService.getConnection()
+        println("profesor " + params)
+
         def fila = 7
 
         XSSFWorkbook wb = new XSSFWorkbook()
@@ -690,26 +692,26 @@ class ReportesController {
         style3.setAlignment(HorizontalAlignment.LEFT);
 
         Sheet sheet = wb.createSheet("Profesores")
-        sheet.setColumnWidth(0, 35 * 256);
-        sheet.setColumnWidth(1, 20 * 256);
-        sheet.setColumnWidth(2, 20 * 256);
+        sheet.setColumnWidth(0, 15 * 256);
+        sheet.setColumnWidth(1, 17 * 256);
+        sheet.setColumnWidth(2, 17 * 256);
         sheet.setColumnWidth(3, 40 * 256);
         sheet.setColumnWidth(4, 40 * 256);
-        sheet.setColumnWidth(5, 20 * 256);
-        sheet.setColumnWidth(6, 20 * 256);
-        sheet.setColumnWidth(7, 20 * 256);
-        sheet.setColumnWidth(8, 20 * 256);
-        sheet.setColumnWidth(9, 20 * 256);
-        sheet.setColumnWidth(10, 35 * 256);
-        sheet.setColumnWidth(11, 35 * 256);
-        sheet.setColumnWidth(12, 35 * 256);
-        sheet.setColumnWidth(13, 35 * 256);
-        sheet.setColumnWidth(14, 35 * 256);
-        sheet.setColumnWidth(15, 20 * 256);
+        sheet.setColumnWidth(5, 15 * 256);
+        sheet.setColumnWidth(6, 15 * 256);
+        sheet.setColumnWidth(7, 15 * 256);
+        sheet.setColumnWidth(8, 15 * 256);
+        sheet.setColumnWidth(9, 17 * 256);
+        sheet.setColumnWidth(10, 20 * 256);
+        sheet.setColumnWidth(11, 20 * 256);
+        sheet.setColumnWidth(12, 20 * 256);
+        sheet.setColumnWidth(13, 20 * 256);
+        sheet.setColumnWidth(14, 20 * 256);
+        sheet.setColumnWidth(15, 17 * 256);
         sheet.setColumnWidth(16, 20 * 256);
         sheet.setColumnWidth(17, 20 * 256);
         sheet.setColumnWidth(18, 20 * 256);
-        sheet.setColumnWidth(19, 20 * 256);
+        sheet.setColumnWidth(19, 17 * 256);
 
         Row row = sheet.createRow(0)
         row.createCell(0).setCellValue("")
@@ -717,29 +719,18 @@ class ReportesController {
         row1.createCell(0).setCellValue("PUCE")
         row1.setRowStyle(style)
         Row row2 = sheet.createRow(3)
-        row2.createCell(0).setCellValue("LISTA DE PROFESORES")
+        if(params.profesor != 'null') {
+            def profesorNombre = Profesor.get(params.profesor)
+            row2.createCell(0).setCellValue("DOCENTE: " + profesorNombre?.apellido + " " + profesorNombre?.nombre)
+        }else{
+            row2.createCell(0).setCellValue("LISTA DE DOCENTES")
+        }
         row2.setRowStyle(style)
         Row row3 = sheet.createRow(4)
         row3.createCell(0).setCellValue("")
         Row row4 = sheet.createRow(5)
         row4.createCell(0).setCellValue("Fecha: " + new Date().format("dd-MM-yyyy"))
         row4.sheet.addMergedRegion(new CellRangeAddress(5, 5, 1, 3));
-//            row4.createCell(5).setCellValue("Fecha Act. P.U: " + fecha?.format("dd-MM-yyyy"))
-//            row4.sheet.addMergedRegion(new CellRangeAddress(5, 5, 5, 7));
-//            row4.setRowStyle(style)
-//            Row row5 = sheet.createRow(6)
-//            row5.createCell(1).setCellValue("Código: " + rubro.codigo)
-//            row5.sheet.addMergedRegion(new CellRangeAddress(6, 6, 1, 3));
-//            row5.createCell(5).setCellValue("Unidad: " + rubro.unidad?.codigo)
-//            row5.sheet.addMergedRegion(new CellRangeAddress(6, 6, 5, 7));
-//            row5.setRowStyle(style)
-//            Row row6 = sheet.createRow(7)
-//            row6.createCell(1).setCellValue("Código Especificación: " + (rubro?.codigoEspecificacion ?: ''))
-//            row6.setRowStyle(style)
-//            Row row7 = sheet.createRow(8)
-//            row7.createCell(1).setCellValue("Descripción: " + rubro.nombre)
-//            row7.setRowStyle(style)
-
         fila++
 
         Row rowC1 = sheet.createRow(fila)
@@ -766,7 +757,17 @@ class ReportesController {
         rowC1.setRowStyle(style)
         fila++
 
-        Dicta.list().eachWithIndex { r, j ->
+        def profesor
+        def dicta
+
+        if(params.profesor != 'null'){
+            profesor = Profesor.get(params.profesor)
+            dicta = Dicta.findAllByProfesor(profesor)
+        }else{
+            dicta = Dicta.list()
+        }
+
+        dicta.eachWithIndex { r, j ->
 
 //            def sql = "select * from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) "
 //            def resp = cn.rows(sql.toString())
@@ -774,19 +775,6 @@ class ReportesController {
 
 //            def sqlLunes = "select horadscr from hora where hora__id in (select substr(lun,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(lun) > 4) order by horanmro"
 //            def respLunes = cn.rows(sqlLunes.toString())
-
-            // def sqlMartes = "select horadscr from hora where hora__id in (select substr(mar,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(mar) > 4) order by horanmro"
-//            def respMartes = cn.rows(sqlMartes.toString())
-//
-//            def sqlMiercoles = "select horadscr from hora where hora__id in (select substr(mie,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(mie) > 4) order by horanmro"
-//            def respMiercoles = cn.rows(sqlMiercoles.toString())
-//
-//            def sqlJueves = "select horadscr from hora where hora__id in (select substr(jue,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(jue) > 4) order by horanmro"
-//            def respJueves = cn.rows(sqlJueves.toString())
-//
-//            def sqlViernes = "select horadscr from hora where hora__id in (select substr(vie,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(vie) > 4) order by horanmro"
-//            def respViernes = cn.rows(sqlViernes.toString())
-
 
             def respLunes = retornaHoras("lun", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
             def respMartes = retornaHoras("mar", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
@@ -806,7 +794,6 @@ class ReportesController {
             rowF1.createCell(8).setCellValue(r?.curso?.asignatura?.horasPractica?.toInteger())
             rowF1.createCell(9).setCellValue((r?.curso?.asignatura?.horasPractica?.toInteger() ?: 0) + (r?.curso?.asignatura?.horasTeoria?.toInteger() ?: 0))
             rowF1.createCell(10).setCellValue(respLunes)
-//            rowF1.createCell(10).setCellValue(respLunes?.horadscr?.join(",")?.toString() ?: '')
             rowF1.createCell(11).setCellValue(respMartes)
             rowF1.createCell(12).setCellValue(respMiercoles)
             rowF1.createCell(13).setCellValue(respJueves)
@@ -838,7 +825,6 @@ class ReportesController {
         resp.each {
             arreglo.add(it.horadscr)
         }
-//        println "retorna: $arreglo --> ${horario(arreglo)}"
         return horario(arreglo)
     }
 
@@ -856,9 +842,10 @@ class ReportesController {
         if((primero + ultimo) != "") {
             retorna = primero.split('-')[0] + "-" + ultimo.split('-')[1]
         }
-//        println "primero: ${primero}, ultimo: $ultimo"
         return retorna
     }
 
+    def profesores_ajax(){
 
+    }
 }

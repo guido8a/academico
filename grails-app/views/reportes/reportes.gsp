@@ -194,7 +194,36 @@
 <script type="text/javascript">
 
     $("#btnProfesoresExcel").click(function () {
-        location.href="${createLink(controller: 'reportes', action: 'reportePofesoresExcel')}"
+
+        $.ajax({
+            type    : "POST",
+            url: "${createLink(action:'profesores_ajax')}",
+            data    : {},
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgImpProfesores",
+                    title   : "Reporte",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-print'></i> Imprimir",
+                            className : "btn-success",
+                            callback  : function () {
+                                var profesor = $("#profesor option:selected").val();
+                                location.href="${createLink(controller: 'reportes', action: 'reportePofesoresExcel')}?profesor=" + profesor
+                            } //callback
+                        } //guardar
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
     });
 
     function prepare() {
