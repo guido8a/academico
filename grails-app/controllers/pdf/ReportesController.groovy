@@ -772,21 +772,27 @@ class ReportesController {
 //            def resp = cn.rows(sql.toString())
 //            println("sql " + resp)
 
-            def sqlLunes = "select horadscr from hora where hora__id in (select substr(lun,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(lun) > 4) order by horanmro"
-            def respLunes = cn.rows(sqlLunes.toString())
+//            def sqlLunes = "select horadscr from hora where hora__id in (select substr(lun,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(lun) > 4) order by horanmro"
+//            def respLunes = cn.rows(sqlLunes.toString())
 
-            def sqlMartes = "select horadscr from hora where hora__id in (select substr(mar,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(mar) > 4) order by horanmro"
-            def respMartes = cn.rows(sqlMartes.toString())
+            // def sqlMartes = "select horadscr from hora where hora__id in (select substr(mar,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(mar) > 4) order by horanmro"
+//            def respMartes = cn.rows(sqlMartes.toString())
+//
+//            def sqlMiercoles = "select horadscr from hora where hora__id in (select substr(mie,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(mie) > 4) order by horanmro"
+//            def respMiercoles = cn.rows(sqlMiercoles.toString())
+//
+//            def sqlJueves = "select horadscr from hora where hora__id in (select substr(jue,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(jue) > 4) order by horanmro"
+//            def respJueves = cn.rows(sqlJueves.toString())
+//
+//            def sqlViernes = "select horadscr from hora where hora__id in (select substr(vie,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(vie) > 4) order by horanmro"
+//            def respViernes = cn.rows(sqlViernes.toString())
 
-            def sqlMiercoles = "select horadscr from hora where hora__id in (select substr(mie,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(mie) > 4) order by horanmro"
-            def respMiercoles = cn.rows(sqlMiercoles.toString())
 
-            def sqlJueves = "select horadscr from hora where hora__id in (select substr(jue,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(jue) > 4) order by horanmro"
-            def respJueves = cn.rows(sqlJueves.toString())
-
-            def sqlViernes = "select horadscr from hora where hora__id in (select substr(vie,3,1)::int from horario(${r?.curso?.asignatura?.nivel?.id}, ${r?.curso?.paralelo?.id}, ${r?.curso?.asignatura?.id}) where length(vie) > 4) order by horanmro"
-            def respViernes = cn.rows(sqlViernes.toString())
-
+            def respLunes = retornaHoras("lun", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+            def respMartes = retornaHoras("mar", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+            def respMiercoles = retornaHoras("mie", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+            def respJueves = retornaHoras("jue", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+            def respViernes = retornaHoras("vie", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
 
             Row rowF1 = sheet.createRow(fila)
             rowF1.createCell(0).setCellValue(r?.curso?.asignatura?.carrera?.codigo?.toString())
@@ -799,11 +805,12 @@ class ReportesController {
             rowF1.createCell(7).setCellValue(r?.curso?.asignatura?.horasTeoria?.toInteger())
             rowF1.createCell(8).setCellValue(r?.curso?.asignatura?.horasPractica?.toInteger())
             rowF1.createCell(9).setCellValue((r?.curso?.asignatura?.horasPractica?.toInteger() ?: 0) + (r?.curso?.asignatura?.horasTeoria?.toInteger() ?: 0))
-            rowF1.createCell(10).setCellValue(respLunes?.horadscr?.join(",")?.toString() ?: '')
-            rowF1.createCell(11).setCellValue(respMartes?.horadscr?.join(",")?.toString() ?: '')
-            rowF1.createCell(12).setCellValue(respMiercoles?.horadscr?.join(",")?.toString() ?: '')
-            rowF1.createCell(13).setCellValue(respJueves?.horadscr?.join(",")?.toString() ?: '')
-            rowF1.createCell(14).setCellValue(respViernes?.horadscr?.join(",")?.toString() ?: '')
+            rowF1.createCell(10).setCellValue(respLunes.resp?.join(",")?.toString() ?: '')
+//            rowF1.createCell(10).setCellValue(respLunes?.horadscr?.join(",")?.toString() ?: '')
+            rowF1.createCell(11).setCellValue(respMartes?.resp?.join(",")?.toString() ?: '')
+            rowF1.createCell(12).setCellValue(respMiercoles?.resp?.join(",")?.toString() ?: '')
+            rowF1.createCell(13).setCellValue(respJueves?.resp?.join(",")?.toString() ?: '')
+            rowF1.createCell(14).setCellValue(respViernes?.resp?.join(",")?.toString() ?: '')
             rowF1.createCell(15).setCellValue(r?.curso?.asignatura?.creditos?.toString())
             rowF1.createCell(16).setCellValue(r?.curso?.asignatura?.factorPreparacion?.toDouble())
             rowF1.createCell(17).setCellValue(r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble())
@@ -819,6 +826,18 @@ class ReportesController {
         response.setContentType("application/octet-stream")
         response.setHeader("Content-Disposition", header);
         wb.write(output)
+    }
+
+
+    def retornaHoras(dia, nivel, paralelo, asignatura){
+        def arreglo = []
+        def cn = dbConnectionService.getConnection()
+        def sql = "select horadscr from hora where hora__id in (select substr(${dia},3,1)::int from horario(${nivel}, ${paralelo}, ${asignatura}) where length(${dia}) > 4) order by horanmro"
+        def resp = cn.rows(sql.toString())
+        resp.each {
+            arreglo.add(it.horadscr)
+        }
+        return [resp:arreglo]
     }
 
 
