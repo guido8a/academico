@@ -1,17 +1,17 @@
 
 <div class="modal-contenido">
-    <g:form class="form-horizontal" name="frmPeriodo" role="form" action="savePeriodo_ajax" method="POST">
-        <g:hiddenField name="id" value="${periodo?.id}"/>
+    <g:form class="form-horizontal" name="frmParalelo" role="form" action="saveParalelo_ajax" method="POST">
+        <g:hiddenField name="id" value="${paralelo?.id}"/>
 
-        <div class="form-group keeptogether ${hasErrors(bean: periodo, field: 'descripcion', 'error')}">
+        <div class="form-group keeptogether ${hasErrors(bean: paralelo, field: 'numero', 'error')}">
             <div class="row">
-                <label for="descripcion" class="col-md-2 control-label">
-                    Descripcion
+                <label for="numero" class="col-md-2 control-label">
+                    Paralelo
                 </label>
 
                 <div class="col-md-8">
-                    <g:textField name="descripcion" maxlength="200" class="form-control required"
-                                 value="${periodo?.descripcion}"/>
+                    <g:textField name="numero" maxlength="10" class="form-control required"
+                                 value="${paralelo?.numero}"/>
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
 <script type="text/javascript">
 
 
-    $("#frmPeriodo").validate({
+    $("#frmParalelo").validate({
         errorClass     : "help-block",
         errorPlacement : function (error, element) {
             if (element.parent().hasClass("input-group")) {
@@ -38,7 +38,7 @@
 
     $(".form-control").keydown(function (ev) {
         if (ev.keyCode === 13) {
-            submitPeriodo();
+            submitFormParalelo();
             return false;
         }
         return true;

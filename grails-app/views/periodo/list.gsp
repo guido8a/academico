@@ -1,8 +1,9 @@
+<%@ page import="tutor.Periodo" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="layout" content="main">
-    <title>Tipo Profesor</title>
+    <title>Períodos</title>
 </head>
 
 <body>
@@ -95,7 +96,7 @@
     } //createEdit
 
     function submitFormPeriodo() {
-        var $form = $("#frmtipoprofesor");
+        var $form = $("#frmPeriodo");
         if ($form.valid()) {
             var data = $form.serialize();
             var dialog = cargarLoader("Guardando...");
@@ -148,13 +149,14 @@
                             },
                             success: function (msg) {
                                 db.modal("hide");
-                                if (msg === 'ok') {
-                                    log("Borrado correctamente", "success");
+                                var parts = msg.split("_");
+                                if (parts[0] === 'ok') {
+                                    log(parts[1], "success");
                                     setTimeout(function () {
                                         location.reload();
                                     }, 800);
                                 } else {
-                                    log("Error al borrar el período", "error")
+                                    bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
                                 }
                             }
                         });

@@ -4,7 +4,7 @@
 
         <div class="form-group keeptogether ${hasErrors(bean: gestion, field: 'observaciones', 'error')}">
                 <div class="col-md-12">
-                    <g:textArea name="observaciones" maxlength="255" class="form-control required" style="resize: none; height: 100px" value="${gestion?.observaciones}"/>
+                    <g:textArea name="observaciones" maxlength="255" class="form-control" style="resize: none; height: 100px" value="${gestion?.observaciones}"/>
                 </div>
         </div>
     </g:form>

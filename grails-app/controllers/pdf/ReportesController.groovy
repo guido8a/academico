@@ -730,7 +730,7 @@ class ReportesController {
         row3.createCell(0).setCellValue("")
         Row row4 = sheet.createRow(5)
         row4.createCell(0).setCellValue("Fecha: " + new Date().format("dd-MM-yyyy"))
-        row4.sheet.addMergedRegion(new CellRangeAddress(5, 5, 1, 3));
+        row4.sheet.addMergedRegion(new CellRangeAddress(5, 5, 0, 3));
         fila++
 
         Row rowC1 = sheet.createRow(fila)
