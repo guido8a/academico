@@ -7,11 +7,11 @@ class Asignatura {
     TipoActividad tipoActividad
     String codigo
     String nombre
-    int creditos
-    int horasTeoria
-    int horasPractica
-    int factorPreparacion = 0.5
-    int horasGestion
+    double creditos
+    double horasTeoria
+    double horasPractica
+    double factorPreparacion = 0.5
+    double horasGestion
 
     /**
      * Define el mapeo entre los campos del dominio y las columnas de la base de datos

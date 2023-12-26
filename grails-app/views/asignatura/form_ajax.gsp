@@ -55,7 +55,7 @@
                 </label>
 
                 <div class="col-md-2">
-                    <g:textField name="creditos" maxlength="1" class="form-control input-sm required"
+                    <g:textField name="creditos" maxlength="3" class="form-control input-sm required"
                                  style="border:solid 1px #ccc; width: 40px"
                                  value="${asignatura?.creditos}"/>
                 </div>
@@ -65,7 +65,7 @@
                 </label>
 
                 <div class="col-md-1">
-                    <g:textField name="horasTeoria" maxlength="1" class="form-control input-sm required"
+                    <g:textField name="horasTeoria" maxlength="3" class="form-control input-sm required"
                                  style="border:solid 1px #ccc; width: 40px"
                                  value="${asignatura?.horasTeoria}"/>
                 </div>
@@ -75,7 +75,7 @@
                 </label>
 
                 <div class="col-md-1">
-                    <g:textField name="horasPractica" maxlength="1" class="form-control input-sm required"
+                    <g:textField name="horasPractica" maxlength="3" class="form-control input-sm required"
                                  style="border:solid 1px #ccc; width: 40px"
                                  value="${asignatura?.horasPractica}"/>
                 </div>

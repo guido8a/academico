@@ -59,6 +59,12 @@ class AsignaturaController {
         }
 
         asignatura.properties = params
+        asignatura.factorPreparacion = params.factorPreparacion.toDouble()
+        asignatura.creditos = params.creditos.toDouble()
+        asignatura.horasTeoria = params.horasTeoria.toDouble()
+        asignatura.horasPractica = params.horasPractica.toDouble()
+        asignatura.horasGestion = params.horasGestion.toDouble()
+
         if(!asignatura.save(flush:true)){
             println("error al guardar al asignatura " + asignatura.errors)
             render "no_Error al guardar la asignatura"
