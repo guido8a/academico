@@ -253,31 +253,20 @@ class ProgramaController {
         def asignatura = Asignatura.get(params.asignatura)
 
         def gestion
-        def existe = Gestion.findByPeriodoAndAsignaturaAndProfesor(periodo, asignatura, profesor)
+        def existe
 
         if(params.id){
             gestion = Gestion.get(params.id)
-
-            if(existe.id == gestion.id){
-                gestion.asignatura = asignatura
-                gestion.hora = params.hora.toInteger()
-            }else{
-                render "no_La asignatura seleccionada ya fue asignada al profesor"
-                return
-            }
-
+            gestion.asignatura = asignatura
+            gestion.periodo = periodo
+            gestion.profesor = profesor
+            gestion.hora = params.hora.toInteger()
         }else{
-
-            if(existe){
-                render "no_La asignatura seleccionada ya fue asignada al profesor"
-                return
-            }else{
                 gestion = new Gestion()
                 gestion.periodo = periodo
                 gestion.asignatura = asignatura
-                gestion.hora = params.hora.toInteger()
+                gestion.hora = params.hora.toDouble()
                 gestion.profesor = profesor
-            }
         }
 
         if(!gestion.save(flush:true)){

@@ -516,9 +516,9 @@
             ev.keyCode === 37 || ev.keyCode === 39);
     }
 
-    $("#hora").keydown(function (ev) {
-        return validarNum(ev);
-    });
+//    $("#hora").keydown(function (ev) {
+//        return validarNum(ev);
+//    });
 
 
 

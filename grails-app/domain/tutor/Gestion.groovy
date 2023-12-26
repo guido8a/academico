@@ -5,7 +5,7 @@ class Gestion {
     Periodo periodo
     Asignatura asignatura
     Profesor profesor
-    int hora
+    double hora
     String observaciones
 
     static mapping = {
