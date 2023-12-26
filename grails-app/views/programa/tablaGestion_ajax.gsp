@@ -6,7 +6,7 @@
             <th style="width: 30%">Asignatura</th>
             <th style="width: 29%">Profesor</th>
             <th style="width: 8%">Horas</th>
-            <th style="width: 8%">Horas</th>
+            <th style="width: 8%">Total</th>
             <th style="width: 10%">Acciones</th>
         </tr>
         </thead>
