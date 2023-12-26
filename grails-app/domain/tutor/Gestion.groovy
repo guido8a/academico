@@ -30,4 +30,12 @@ class Gestion {
         hora(blank: false, nullable: false, attributes: [title:'hora'])
         observaciones(blank: true, nullable: true, attributes: [title:'observaciones'])
     }
+
+    def getHoras() {
+        if(this.asignatura.factorPreparacion == 0) {
+            return this.hora
+        } else {
+            return (1 + this.asignatura.factorPreparacion) * this.hora
+        }
+    }
 }

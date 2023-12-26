@@ -2,10 +2,11 @@
     <table class="table table-bordered table-striped table-condensed table-hover">
         <thead>
         <tr>
-            <th style="width: 20%">Período</th>
+            <th style="width: 10%">Período</th>
             <th style="width: 30%">Asignatura</th>
-            <th style="width: 25%">Profesor</th>
-            <th style="width: 10%">Horas</th>
+            <th style="width: 29%">Profesor</th>
+            <th style="width: 8%">Horas</th>
+            <th style="width: 8%">Horas</th>
             <th style="width: 10%">Acciones</th>
         </tr>
         </thead>
@@ -18,10 +19,11 @@
         <g:if test="${gestiones.size() > 0}">
             <g:each in="${gestiones}" status="i" var="gestion">
                 <tr data-id="${gestion.id}">
-                    <td style="width: 20%">${gestion?.periodo?.descripcion}</td>
+                    <td style="width: 10%">${gestion?.periodo?.descripcion}</td>
                     <td style="width: 30%">${gestion?.asignatura?.nombre}</td>
-                    <td style="width: 25%">${gestion?.profesor?.apellido + " " + gestion?.profesor?.nombre}</td>
-                    <td style="width: 10%">${gestion?.hora}</td>
+                    <td style="width: 29%">${gestion?.profesor?.apellido + " " + gestion?.profesor?.nombre}</td>
+                    <td style="width: 8%">${gestion?.hora}</td>
+                    <td style="width: 8%">${gestion?.horas}</td>
                     <td style="width: 10%;">
                         <a href="#" class="btn btn-success btn-xs btnEditarGestion" title="Editar" data-id="${gestion.id}" data-prof="${gestion?.profesor?.id}" data-asig="${gestion?.asignatura?.id}" data-hora="${gestion?.hora}">
                             <i class="fa fa-edit"></i>

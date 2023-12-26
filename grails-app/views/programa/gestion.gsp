@@ -318,29 +318,29 @@
     }
 
 
-    function cargaTabla(id) {
-        var asig = $("#asignatura option:selected").val();
-        var data = {asig: asig, parl: id};
+    %{--function cargaTabla(id) {--}%
+        %{--var asig = $("#asignatura option:selected").val();--}%
+        %{--var data = {asig: asig, parl: id};--}%
 
-        $.ajax({
-            type: "POST",
-            url: "${createLink(controller: 'programa', action:'tabla_ajax')}",
-            data: data,
-            success: function (msg) {
-                $("#divTabla").html(msg);
-            } //success
-        });
-        //location.reload()//ajax
-    }// /createEdit
+        %{--$.ajax({--}%
+            %{--type: "POST",--}%
+            %{--url: "${createLink(controller: 'programa', action:'tabla_ajax')}",--}%
+            %{--data: data,--}%
+            %{--success: function (msg) {--}%
+                %{--$("#divTabla").html(msg);--}%
+            %{--} //success--}%
+        %{--});--}%
+        %{--//location.reload()//ajax--}%
+    %{--}// /createEdit--}%
 
-    // $(function () {
+    %{--// $(function () {--}%
 
-    $( document ).ready(function() {
-        //console.log( "ready!" );
-        var asig = $("#asignatura").val();
-        var parl = $("#paralelo").val();
-        $("#paralelo").change()
-    });
+    %{--$( document ).ready(function() {--}%
+        %{--//console.log( "ready!" );--}%
+        %{--var asig = $("#asignatura").val();--}%
+        %{--var parl = $("#paralelo").val();--}%
+        %{--$("#paralelo").change()--}%
+    %{--});--}%
 
     $("#btnParalelo").click(function () {
         createEditRow();
