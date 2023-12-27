@@ -61,7 +61,7 @@
 
     <asset:javascript src="/apli/bootstrap-datetimepicker.min.js"/>
     <asset:javascript src="/apli/bootstrap-maxlength.min.js"/>
-
+    <asset:javascript src="/apli/jquery.switcher.min.js"/>
 
     <asset:javascript src="/bootstrap-3.3.2/dist/js/bootstrap.min.js"/>
 

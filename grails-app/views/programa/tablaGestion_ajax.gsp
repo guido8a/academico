@@ -13,19 +13,22 @@
     </table>
 </div>
 
+%{--<g:set var="prdo" value="${params.id}"></g:set>--}%
+
 <div class="" style="width: 99.7%;height: 600px; overflow-y: auto;float: right; margin-top: -20px">
     <table class="table-bordered table-striped table-condensed table-hover" style="width: 100%">
         <tbody>
         <g:if test="${gestiones.size() > 0}">
             <g:each in="${gestiones}" status="i" var="gestion">
-                <tr data-id="${gestion.id}">
-                    <td style="width: 10%">${gestion?.periodo?.descripcion}</td>
-                    <td style="width: 30%">${gestion?.asignatura?.nombre}</td>
-                    <td style="width: 29%">${gestion?.profesor?.apellido + " " + gestion?.profesor?.nombre}</td>
+                <tr data-id="${gestion.id}" class="${gestion?.periodo?.id == params.id.toInteger() ? 'usado' : 'otro' }">
+                    <td style="width: 10%">${gestion?.periodo?.descripcion} ${gestion?.periodo?.id}</td>
+                    <td style="width: 30%; text-align: left">${gestion?.asignatura?.nombre}</td>
+                    <td style="width: 29%; text-align: left">${gestion?.profesor?.apellido + " " + gestion?.profesor?.nombre}</td>
                     <td style="width: 8%">${gestion?.hora}</td>
                     <td style="width: 8%">${gestion?.horas}</td>
                     <td style="width: 10%;">
-                        <a href="#" class="btn btn-success btn-xs btnEditarGestion" title="Editar" data-id="${gestion.id}" data-prof="${gestion?.profesor?.id}" data-asig="${gestion?.asignatura?.id}" data-hora="${gestion?.hora}">
+                        <a href="#" class="btn btn-success btn-xs btnEditarGestion" title="Editar" data-id="${gestion.id}"
+                           data-prof="${gestion?.profesor?.id}" data-asig="${gestion?.asignatura?.id}" data-hora="${gestion?.hora}">
                             <i class="fa fa-edit"></i>
                         </a>
                         <a href="#" class="btn btn-danger btn-xs btnBorrarGestion" data-id="${gestion.id}" title="Borrar">
@@ -39,7 +42,8 @@
             </g:each>
         </g:if>
         <g:else>
-            <div class="alert alert-warning" style="text-align: center; font-size: 14px"><i class="fa fa-exclamation-triangle fa-3x text-info"></i> No existen datos para el período <strong>${periodo?.descripcion}</strong> </div>
+            <div class="alert alert-warning" style="text-align: center; font-size: 14px"><i class="fa fa-exclamation-triangle fa-3x text-info"></i>
+                No existen datos para el período <strong>${periodo?.descripcion}</strong> </div>
         </g:else>
         </tbody>
     </table>

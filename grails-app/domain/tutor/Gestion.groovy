@@ -35,7 +35,11 @@ class Gestion {
         if(this.asignatura.factorPreparacion == 0) {
             return this.hora
         } else {
-            return (1 + this.asignatura.factorPreparacion) * this.hora
+            if(this.periodo.tipo == 'N'){
+                return (1 + this.asignatura.factorPreparacion) * this.hora
+            } else {
+                return (this.asignatura.factorPreparacion) * this.hora
+            }
         }
     }
 }

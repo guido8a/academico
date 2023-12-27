@@ -15,7 +15,11 @@ import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.usermodel.XSSFCellStyle
 import org.apache.poi.xssf.usermodel.XSSFFont
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import tutor.Curso
 import tutor.Dicta
+import tutor.Gestion
+import tutor.Paralelo
+import tutor.Periodo
 import tutor.Profesor
 
 
@@ -670,8 +674,12 @@ class ReportesController {
     def reportePofesoresExcel () {
 
         println("profesor " + params)
-
-        def fila = 7
+        def cn = dbConnectionService.getConnection()
+        def sql = ""
+        def prdo = Periodo.get(params.prdo)
+        def p_padre = prdo.tipo == 'I'? prdo.padre : 0
+        def p_hijo  = prdo.tipo == 'N'? Periodo.findByPadre(prdo) : 0
+        def fila = 4
 
         XSSFWorkbook wb = new XSSFWorkbook()
         XSSFCellStyle style = wb.createCellStyle();
@@ -691,8 +699,8 @@ class ReportesController {
         style3.setFont(font3);
         style3.setAlignment(HorizontalAlignment.LEFT);
 
-        Sheet sheet = wb.createSheet("Profesores")
-        sheet.setColumnWidth(0, 8 * 256);
+        Sheet sheet = wb.createSheet("Periodo ${prdo.descripcion}")
+        sheet.setColumnWidth(0, 9 * 256);
         sheet.setColumnWidth(1, 8 * 256);
         sheet.setColumnWidth(2, 8 * 256);
         sheet.setColumnWidth(3, 36 * 256);
@@ -715,22 +723,22 @@ class ReportesController {
 
         Row row = sheet.createRow(0)
         row.createCell(0).setCellValue("")
-        Row row1 = sheet.createRow(2)
-        row1.createCell(0).setCellValue("PUCE")
-        row1.setRowStyle(style)
-        Row row2 = sheet.createRow(3)
+//        Row row1 = sheet.createRow(2)
+//        row1.createCell(0).setCellValue("PUCE")
+//        row1.setRowStyle(style)
+        Row row2 = sheet.createRow(1)
         if(params.profesor != 'null') {
             def profesorNombre = Profesor.get(params.profesor)
-            row2.createCell(0).setCellValue("DOCENTE: " + profesorNombre?.apellido + " " + profesorNombre?.nombre)
+            row2.createCell(0).setCellValue("DOCENTE")
+            row2.createCell(1).setCellValue(profesorNombre?.apellido + " " + profesorNombre?.nombre)
         }else{
-            row2.createCell(0).setCellValue("LISTA DE DOCENTES")
+            row2.createCell(1).setCellValue("LISTA DE DOCENTES")
         }
         row2.setRowStyle(style)
-        Row row3 = sheet.createRow(4)
-        row3.createCell(0).setCellValue("")
-        Row row4 = sheet.createRow(5)
-        row4.createCell(0).setCellValue("Fecha: " + new Date().format("dd-MM-yyyy"))
-        row4.sheet.addMergedRegion(new CellRangeAddress(5, 5, 0, 3));
+        Row row4 = sheet.createRow(3)
+        row4.createCell(0).setCellValue("Fecha:")
+        row4.createCell(1).setCellValue(new Date().format("dd-MM-yyyy"))
+//        row4.sheet.addMergedRegion(new CellRangeAddress(5, 5, 0, 3));
         fila++
 
         Row rowC1 = sheet.createRow(fila)
@@ -759,12 +767,27 @@ class ReportesController {
 
         def profesor
         def dicta
+        def gestion = []
+        def parl
+        def crso
+        def suma = 0
 
         if(params.profesor != 'null'){
             profesor = Profesor.get(params.profesor)
-            dicta = Dicta.findAllByProfesor(profesor)
+            if(prdo.tipo == 'N'){
+                parl = Paralelo.findAllByPeriodo(prdo)
+                crso = Curso.findAllByParaleloInList(parl)
+                dicta = Dicta.findAllByProfesorAndCursoInList(profesor, crso)
+            } else {
+                parl = Paralelo.findAllByPeriodo(prdo.padre)
+                crso = Curso.findAllByParaleloInList(parl)
+                dicta = Dicta.findAllByProfesorAndCursoInList(profesor, crso)
+            }
+            gestion = Gestion.findAllByProfesorAndPeriodo(profesor, prdo)
         }else{
-            dicta = Dicta.list()
+            parl = Paralelo.findAllByPeriodo(prdo)
+            crso = Curso.findAllByParaleloInList(parl)
+            dicta = Dicta.findAllByCursoInList(profesor, crso)
         }
 
         dicta.eachWithIndex { r, j ->
@@ -781,6 +804,15 @@ class ReportesController {
             def respMiercoles = retornaHoras("mie", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
             def respJueves = retornaHoras("jue", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
             def respViernes = retornaHoras("vie", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+
+            def horasAcad = 0
+
+            if(prdo.tipo == 'N') {
+                horasAcad = r?.curso?.asignatura?.creditos?.toInteger() +
+                        (r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble())
+            } else {
+                horasAcad = r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble()
+            }
 
             Row rowF1 = sheet.createRow(fila)
             rowF1.createCell(0).setCellValue(r?.curso?.asignatura?.carrera?.codigo?.toString())
@@ -802,10 +834,74 @@ class ReportesController {
             rowF1.createCell(16).setCellValue(r?.curso?.asignatura?.factorPreparacion?.toDouble())
             rowF1.createCell(17).setCellValue(r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble())
             rowF1.createCell(18).setCellValue(r?.curso?.asignatura?.horasGestion?.toString())
-            rowF1.createCell(19).setCellValue(r?.curso?.asignatura?.creditos?.toInteger() + (r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble()))
+            rowF1.createCell(19).setCellValue(horasAcad)
+            rowF1.setRowStyle(style3)
+
+            suma += horasAcad
+            fila++
+        }
+
+//        gestion = Gestion.findAllByProfesorAndPeriodo(profesor, prdo)
+        gestion.eachWithIndex { r, j ->
+            Row rowF1 = sheet.createRow(fila)
+            rowF1.createCell(0).setCellValue(r?.asignatura?.carrera?.codigo?.toString())
+            rowF1.createCell(1).setCellValue("")
+            rowF1.createCell(2).setCellValue(r?.asignatura?.codigo?.toString())
+            rowF1.createCell(3).setCellValue(r?.asignatura?.nombre?.toString())
+            rowF1.createCell(4).setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
+            rowF1.createCell(5).setCellValue(r?.asignatura?.nivel?.numero?.toString())
+            rowF1.createCell(6).setCellValue("")
+            rowF1.createCell(7).setCellValue("")
+            rowF1.createCell(8).setCellValue("")
+            rowF1.createCell(9).setCellValue((r?.asignatura?.horasGestion?.toDouble() ?: 0))
+            rowF1.createCell(10).setCellValue("")
+            rowF1.createCell(11).setCellValue("")
+            rowF1.createCell(12).setCellValue("")
+            rowF1.createCell(13).setCellValue("")
+            rowF1.createCell(14).setCellValue("")
+            rowF1.createCell(15).setCellValue("")
+            rowF1.createCell(16).setCellValue(r?.asignatura?.factorPreparacion?.toDouble()?:'')
+            rowF1.createCell(17).setCellValue(r?.asignatura?.creditos?.toInteger() * r?.asignatura?.factorPreparacion?.toDouble())
+            rowF1.createCell(18).setCellValue(r?.horas?.toDouble())
+            rowF1.createCell(19).setCellValue(r?.horas?.toDouble())
             rowF1.setRowStyle(style3)
 
             fila++
+            suma += r?.horas.toDouble()
+        }
+
+//        suma = 41.2 //borrar
+
+        Row rowF1 = sheet.createRow(fila)
+        rowF1.createCell(18).setCellValue("Total")
+        rowF1.createCell(19).setCellValue(suma)
+        rowF1.setRowStyle(style)
+
+        fila++
+
+
+
+        if(suma > 40 && prdo.tipo == 'N') {
+            Row rowS = sheet.createRow(fila)
+            rowS.createCell(1).setCellValue("El valor de ${Math.round((suma - 40)*10)/10} horas, que sobrepasa a las " +
+                    "40 horas semanales, se compensará en el periodo \"${p_hijo?.descripcion}\" como " +
+                    "${Math.round((suma - 40)*(prdo.semanas/p_hijo.semanas)*10)/10} horas de trabajo")
+            rowS.setRowStyle(style)
+        }
+
+        if(prdo.tipo == 'I') {
+            sql = "select comphora from compensa(${profesor.id}, ${p_padre.id})"
+            def hh = (cn.rows(sql.toString())[0].comphora - 40) * p_padre.semanas / prdo.semanas
+            hh = Math.round(hh * 10) / 10
+            Row rowS = sheet.createRow(fila)
+            rowS.createCell(1).setCellValue("Compensación del periodo \"${p_padre?.descripcion}\" ${hh} horas de trabajo")
+            rowS.createCell(18).setCellValue("Compensación")
+            rowS.createCell(19).setCellValue(hh)
+            rowS.setRowStyle(style)
+            Row rowS1 = sheet.createRow(fila + 1)
+            rowS1.createCell(17).setCellValue("Total del periodo")
+            rowS1.createCell(19).setCellValue(suma + hh)
+            rowS1.setRowStyle(style)
         }
 
         def output = response.getOutputStream()

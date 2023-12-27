@@ -217,7 +217,9 @@
                             className : "btn-success",
                             callback  : function () {
                                 var profesor = $("#profesor option:selected").val();
-                                location.href="${createLink(controller: 'reportes', action: 'reportePofesoresExcel')}?profesor=" + profesor
+                                var prdo = $("#periodo option:selected").val();
+                                location.href="${createLink(controller: 'reportes', action: 'reportePofesoresExcel')}?profesor=" +
+                                    profesor + "&prdo=" + prdo
                             } //callback
                         } //guardar
                     } //buttons

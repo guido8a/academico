@@ -17,11 +17,11 @@
     }
     .usado {
         text-align: center !important;
-        background-color: #91caef;
+        background-color: #91caef !important;
     }
     .otro {
         text-align: center !important;
-        background-color: #d7bec8;
+        background-color: #d7bec8 !important;
     }
     .libre {
     //background-color: #dadada;
@@ -51,11 +51,6 @@
 
 
 <div class="col-md-12">
-    <div class="btn-group col-md-2">
-        <g:link controller="asignatura" action="list" class="btn btn-primary">
-            <i class="fa fa-arrow-left"></i> Regresar
-        </g:link>
-    </div>
     <h3 class="titl">Programación de Gestión </h3>
 </div>
 <!-- botones -->
@@ -64,23 +59,24 @@
 
         <g:hiddenField name="idGestion" value="" />
 
-        <div class="col-md-12">
-            <label for="periodo" class="col-md-1 control-label text-info" style="text-align: right">
-                Período
-            </label>
-            <div class="col-md-3">
-                <g:select name="periodo" from="${Periodo.list([sort: 'descripcion'])}"
-                          class="form-control input-sm required" optionValue="descripcion" optionKey="id"
-                />
-            </div>
-        </div>
-
         <div class="col-md-12" style="margin-top: 25px">
+            <div class="col-md-2">
+                <label for="periodo" class="col-md-1 control-label text-info" style="text-align: right">
+                    Período
+                </label>
+                <input type="checkbox" id="prdoChck" name="prdoChck" style="margin-left: 40px"/> Todos
+                    <g:select name="periodo" from="${Periodo.list([sort: 'descripcion'])}"
+                              class="form-control input-sm required" optionValue="descripcion" optionKey="id"
+                    />
+            </div>
 
             <div class="col-md-3">
                 <label for="profesor" class="control-label" style="text-align: right">
                     Profesor
                 </label>
+                <a href="#" class="btn btn-xs btn-success" id="btnActual" style="margin-left: 40px">
+                    <i class="fa fa-sync"></i> Actualizar
+                </a>
                 <g:select name="profesor" from="${tutor.Profesor.list([sort: 'apellido'])}"
                           class="form-control input-sm required" optionValue="${{it.apellido + " " +  it.nombre}}" optionKey="id"
                 />
@@ -99,23 +95,23 @@
                 <label for="hora" class="control-label" style="text-align: right">
                     Horas
                 </label>
-                <g:textField name="hora" maxlength="2" class="form-control required text-uppercase"
-                             style="border:solid 1px #ccc; width: 40px"
+                <g:textField name="hora" maxlength="3" class="form-control required text-uppercase"
+                             style="border:solid 1px #ccc; width: 50px"
                              value="${''}"/>
             </div>
 
-            <div class="col-md-1" id="divBoton" style="margin-top: 20px">
-                <a href="#" class="btn btn-success" id="btnAsignar">
+            <div class="col-md-1" id="divBoton" style="margin-top: 23px">
+                <a href="#" class="btn btn-success" id="btnAsignar" title="Asignar">
                     <i class="fa fa-check"></i> Asignar
                 </a>
             </div>
 
-            <div class="col-md-3 hide" id="divBoton2" style="margin-top: 20px">
-                <a href="#" class="btn btn-success" id="btnGuardarEdicion">
-                    <i class="fa fa-save"></i> Guardar
+            <div class="col-md-1 hide" id="divBoton2" style="margin-top: 23px; width: 80px; padding: 0; margin-left: -5px">
+                <a href="#" class="btn btn-success" id="btnGuardarEdicion" title="Guardar">
+                    <i class="fa fa-save"></i>
                 </a>
-                <a href="#" class="btn btn-info" id="btnCancelarEdicion">
-                    <i class="fa fa-times"></i> Cancelar
+                <a href="#" class="btn btn-info" id="btnCancelarEdicion" title="Cancelar">
+                    <i class="fa fa-times"></i>
                 </a>
             </div>
 
@@ -377,18 +373,26 @@
 
     cargarTablaGestion();
 
-    $("#periodo").change(function () {
+    $("#profesor").change(function () {
+        cargarTablaGestion();
+        cancelarEdicion();
+    });
+
+    $("#btnActual").click(function () {
         cargarTablaGestion();
         cancelarEdicion();
     });
 
     function cargarTablaGestion(){
         var idPeriodo = $("#periodo option:selected").val();
+        var prof = $("#profesor").val();
+        var ck_prdo = $("#prdoChck").is(':checked');
+//        console.log('ck', ck_prdo)
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'tablaGestion_ajax')}",
             data: {
-                id: idPeriodo
+                id: idPeriodo, prof: prof, ck_prdo: ck_prdo
             },
             success: function (msg) {
                 $("#divTabla").html(msg);

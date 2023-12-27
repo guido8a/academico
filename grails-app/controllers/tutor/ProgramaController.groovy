@@ -240,7 +240,13 @@ class ProgramaController {
 
     def tablaGestion_ajax(){
         def periodo = Periodo.get(params.id)
-        def gestiones = Gestion.findAllByPeriodo(periodo)
+        def profesor = Profesor.get(params.prof)
+        def gestiones
+        if(params.ck_prdo != "true") {
+            gestiones = Gestion.findAllByPeriodoAndProfesor(periodo, profesor)
+        } else {
+            gestiones = Gestion.findAllByProfesor(profesor)
+        }
 
         return[gestiones: gestiones, periodo: periodo]
     }
@@ -260,7 +266,7 @@ class ProgramaController {
             gestion.asignatura = asignatura
             gestion.periodo = periodo
             gestion.profesor = profesor
-            gestion.hora = params.hora.toInteger()
+            gestion.hora = params.hora.toDouble()
         }else{
                 gestion = new Gestion()
                 gestion.periodo = periodo
