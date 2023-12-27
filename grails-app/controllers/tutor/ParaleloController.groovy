@@ -26,5 +26,43 @@ class ParaleloController {
         return [paralelo: paralelo]
     }
 
+    def saveParalelo_ajax() {
+        def paralelo
+
+        if(params.id){
+            paralelo = Paralelo.get(params.id)
+        }else{
+            paralelo = new Paralelo()
+        }
+
+        paralelo.properties = params
+
+        if(!paralelo.save(flush: true)){
+            println("error al gaurdar el paralelo " + paralelo.errors)
+            render "no_Error al guardar el paralelo"
+        }else{
+            render "ok_Paralelo guardado correctamente"
+        }
+    }
+
+    def delete_ajax(){
+
+        def paralelo = Paralelo.get(params.id)
+
+        if(paralelo){
+
+            try{
+                paralelo.delete(flush:true)
+                render "ok_Borrado correctamente"
+            }catch(e){
+                println("error al borrar el paralelo")
+                render "no_Error al borrar el paralelo"
+            }
+
+        }else{
+            render "no_Error al borrar el paralelo"
+        }
+    }
+
 
 }

@@ -30,7 +30,7 @@
         </label>
         <div class="col-md-3">
             <g:select name="periodo" from="${tutor.Periodo.list([sort: 'descripcion'])}"
-                      class="form-control input-sm required" optionValue="descripcion" optionKey="id"
+                      class="form-control input-sm" optionValue="descripcion" optionKey="id"
             />
         </div>
     </div>
@@ -59,9 +59,9 @@
 <script type="text/javascript">
     var id = null;
 
-    cargarParalelos( $("#periodo option:selected").val());
+    cargarTablaParalelos( $("#periodo option:selected").val());
 
-    function cargarParalelos(periodo){
+    function cargarTablaParalelos(periodo){
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'paralelo', action:'tablaParalelos_ajax')}",
@@ -76,7 +76,7 @@
 
     $("#periodo").change(function () {
        var periodo = $(this).val();
-       cargarParalelos(periodo)
+        cargarTablaParalelos(periodo)
     });
 
 
@@ -127,9 +127,7 @@
                     var parts = msg.split("_");
                     if(parts[0] === 'ok'){
                         log(parts[1], "success");
-                        setTimeout(function () {
-                            location.reload();
-                        }, 800);
+                        cargarTablaParalelos( $("#periodo option:selected").val());
                     }else{
                         bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
                         return false;
@@ -170,9 +168,7 @@
                                 var parts = msg.split("_");
                                 if (parts[0] === 'ok') {
                                     log(parts[1], "success");
-                                    setTimeout(function () {
-                                        location.reload();
-                                    }, 800);
+                                    cargarTablaParalelos( $("#periodo option:selected").val());
                                 } else {
                                     bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
                                 }

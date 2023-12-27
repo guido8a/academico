@@ -21,7 +21,6 @@ class FacultadController {
     }
 
     def saveFacultad_ajax(){
-        println "guarda facultad. Paràmetros: $params"
         def facultad
 
         if(params.id){
@@ -31,31 +30,32 @@ class FacultadController {
         }
 
         facultad.properties = params
-        if(!facultad.save(flush:true)){
-            println("error al guardar la facultad " + facultad.errors)
-            render "no"
+
+        if(!facultad.save(flush: true)){
+            println("error al gaurdar la facultad " + facultad.errors)
+            render "no_Error al guardar la facultad"
         }else{
-            println "errores: ${facultad.errors}"
-            render "ok"
+            render "ok_Facultad guardada correctamente"
         }
     }
 
     def delete_ajax(){
+
         def facultad = Facultad.get(params.id)
 
-        try{
-            facultad.delete(flush:true)
-            render "ok"
-        }catch(e){
-            println("error al borrar la facultad " + facultad.errors)
-            render "no"
+        if(facultad){
+
+            try{
+                facultad.delete(flush:true)
+                render "ok_Borrado correctamente"
+            }catch(e){
+                println("error al borrar el facultad")
+                render "no_Error al borrar la facultad"
+            }
+
+        }else{
+            render "no_Error al borrar la facultad"
         }
-    }
-
-    def show_ajax(){
-        println "show: $params"
-        def facultad = Facultad.get(params.id)
-        return [facultad: facultad]
     }
 
 }

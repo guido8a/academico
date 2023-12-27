@@ -2,12 +2,12 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <title>Carrera</title>
+    <title>Lista de Carreras</title>
 </head>
 
 <body>
 
-<!-- Botones -->
+<!-- botones -->
 <div class="btn-toolbar toolbar">
     <div class="btn-group">
         <g:link controller="inicio" action="index" class="btn btn-primary">
@@ -16,78 +16,130 @@
     </div>
 
     <div class="btn-group">
-        <a href="${createLink(controller: 'carrera', action: 'form_ajax')}" class="btn btn-info" id="btnCrearCarrera">
-            <i class="fa fa-clipboard-list"></i> Nueva Carrera
+        <a href="#" class="btn btn-info btnCrear">
+            <i class="fa fa-clipboard-list"></i> Nueva carrera
         </a>
     </div>
 </div>
 
+
+<div class="btn-toolbar toolbar" style="margin-top: 10px">
+    <div class="col-md-12">
+        <label for="facultad" class="col-md-1 control-label text-info" style="text-align: right">
+            Facultad
+        </label>
+        <div class="col-md-3">
+            <g:select name="facultad" from="${tutor.Facultad?.list([sort: 'nombre'])}"
+                      class="form-control input-sm" optionValue="nombre" optionKey="id"
+            />
+        </div>
+    </div>
+</div>
+
+
 <table class="table table-condensed table-bordered table-striped table-hover">
     <thead>
     <tr>
-        <th>Nombre</th>
-        <th>Facultad</th>
-        <th>Acciones</th>
+        <th style="width: 30%">Facultad</th>
+        <th style="width: 40%">Nombre</th>
+        <th style="width: 15%">Código</th>
+        <th style="width: 15%">Acciones</th>
     </tr>
     </thead>
-    <tbody>
-    <g:if test="${carreras.size() > 0}">
-        <g:each in="${carreras}" var="carrera">
-            <tr data-id="${carrera?.id}">
-                <td>${carrera?.nombre}</td>
-                <td>${carrera?.facultad?.nombre}</td>
-                <td>
-                    <a href="#" data-id="${carrera?.id}" class="btn btn-success btn-xs btn-edit btn-ajax" title="Editar">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <a href="#" data-id="${carrera?.id}" class="btn btn-danger btn-xs btn-borrar btn-ajax" title="Eliminar">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                    <a href="#" data-id="${carrera?.id}" class="btn btn-info btn-xs btn-show btn-ajax" title="Ver">
-                        <i class="fa fa-search"></i>
-                    </a>
-                </td>
-            </tr>
-        </g:each>
-    </g:if>
-    <g:else>
-        <tr class="danger">
-            <td class="text-center" colspan="3">
-                No se encontraron registros que mostrar
-            </td>
-        </tr>
-    </g:else>
-    </tbody>
 </table>
+
+<div id="divCarrera">
+
+</div>
+
 
 <script type="text/javascript">
     var id = null;
 
-    function submitForm() {
-        var $form = $("#frmCarrera");
-        var $btn = $("#dlgCreateEdit").find("#btnSave");
+    cargarTablaCarreras( $("#facultad option:selected").val());
+
+    function cargarTablaCarreras(facultad){
         $.ajax({
             type: "POST",
-            url: $form.attr("action"),
-            data: $form.serialize(),
+            url: "${createLink(controller: 'carrera', action:'tablaCarrera_ajax')}",
+            data: {
+                facultad: facultad
+            },
             success: function (msg) {
-                if (msg === 'ok') {
-                    log("Carrera guardada correctamente", "success");
-                    setTimeout(function () {
-                        location.reload(true);
-                    }, 1000);
-                } else {
-                    log("Error al guardar la carrera", "error");
-                }
-            }
+                $("#divCarrera").html(msg);
+            } //success
         });
+    }
+
+    $("#facultad").change(function () {
+        var facultad = $(this).val();
+        cargarTablaCarreras(facultad)
+    });
+
+    function createEditRowCarrera(id) {
+        var title = id ? "Editar" : "Crear";
+        var data = id ? {id: id} : {};
+        $.ajax({
+            type    : "POST",
+            url: "${createLink(controller: 'carrera', action:'form_ajax')}",
+            data    : data,
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgCreateEdit",
+                    title   : title + " Carrera",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-save'></i> Guardar",
+                            className : "btn-success",
+                            callback  : function () {
+                                return submitFormCarrera();
+                            } //callback
+                        } //guardar
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    } //createEdit
+
+    function submitFormCarrera() {
+        var $form = $("#frmCarrera");
+        if ($form.valid()) {
+            var data = $form.serialize();
+            var dialog = cargarLoader("Guardando...");
+            $.ajax({
+                type    : "POST",
+                url     : $form.attr("action"),
+                data    : data,
+                success : function (msg) {
+                    dialog.modal('hide');
+                    var parts = msg.split("_");
+                    if(parts[0] === 'ok'){
+                        log(parts[1], "success");
+                        cargarTablaCarreras( $("#facultad option:selected").val());
+                    }else{
+                        bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
+                        return false;
+                    }
+                }
+            });
+        } else {
+            return false;
+        }
     }
 
     function deleteRow(itemId) {
         bootbox.dialog({
             title: "Alerta",
-            message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p>" +
-            "¿Está seguro de que desea eliminar la carrera seleccionada? Esta acción no se puede deshacer.</p>",
+            message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p style='font-size: 14px; font-weight: bold'>" +
+                "¿Está seguro que desea eliminar esta carrera ? Esta acción no se puede deshacer.</p>",
             closeButton: false,
             buttons: {
                 cancelar: {
@@ -100,6 +152,7 @@
                     label: "<i class='fa fa-trash'></i> Eliminar",
                     className: "btn-danger",
                     callback: function () {
+                        var db= cargarLoader("Borrando...");
                         $.ajax({
                             type: "POST",
                             url: '${createLink(controller: 'carrera', action:'delete_ajax')}',
@@ -107,12 +160,13 @@
                                 id: itemId
                             },
                             success: function (msg) {
-                                if (msg == 'ok') {
-                                    setTimeout(function () {
-                                        location.reload(true);
-                                    }, 300);
+                                db.modal("hide");
+                                var parts = msg.split("_");
+                                if (parts[0] === 'ok') {
+                                    log(parts[1], "success");
+                                    cargarTablaCarreras( $("#facultad option:selected").val());
                                 } else {
-                                    log("Error al borrar la carrera", "error");
+                                    bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
                                 }
                             }
                         });
@@ -122,71 +176,11 @@
         });
     }
 
-    function createEditRow(id) {
-        var title = id ? "Editar" : "Crear";
-        var data = id ? {id: id} : {};
-        $.ajax({
-            type: "POST",
-            url: "${createLink(controller: 'carrera', action:'form_ajax')}",
-            data: data,
-            success: function (msg) {
-                var b = bootbox.dialog({
-                    title: title + " Carrera",
-                    closeButton: false,
-                    message: msg,
-                });
-                setTimeout(function () {
-                    b.find(".form-control").first().focus();
-                }, 500);
-            }
-        });
-    }
-
-    $(function () {
-        $("#btnCrearCarrera").on('click', function () {
-            createEditRow();
-            return false;
-        });
-
-        $(".btn-edit").on('click', function () {
-            var id = $(this).data("id");
-            createEditRow(id);
-        });
-
-        $(".btn-borrar").on('click', function () {
-            var id = $(this).data("id");
-            deleteRow(id);
-        });
-
-        $(".btn-show").click(function () {
-            var title = "Ver Carrera";
-            var id = $(this).data("id");
-            $.ajax({
-                type: "POST",
-                url: "${createLink(controller: 'carrera', action:'show_ajax')}",
-                data: {id: id},
-                success: function (msg) {
-                    var b = bootbox.dialog({
-                        title: title,
-                        closeButton: false,
-                        message: msg,
-                        buttons: {
-                            aceptar: {
-                                label: "Aceptar",
-                                className: "btn-primary",
-                                callback: function () {
-                                }
-                            }
-                        },
-                    }); //dialog
-                    setTimeout(function () {
-                        b.find(".form-control").first().focus()
-                    }, 500);
-                } //successJava
-            });
-            //location.reload()//ajax
-        });
+    $(".btnCrear").click(function () {
+        createEditRowCarrera();
+        return false;
     });
+
 </script>
 
 </body>
