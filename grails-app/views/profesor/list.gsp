@@ -1,120 +1,147 @@
 <!DOCTYPE html>
 <html>
 <head>
-    %{--<meta name="layout" content="login">--}%
     <meta name="layout" content="main">
-    <title>Profesores</title>
-
-    <style type="text/css">
-    input:invalid {
-        border: 2px dashed red; !important;
-    }
-
-    input:invalid:required {
-        background-image: linear-gradient(to right, pink, lightgreen);
-    }
-
-    input:valid {
-        border: 2px solid black;
-    }
-    </style>
-
+    <title>Lista de Profesores</title>
 </head>
 
 <body>
 
-<g:if test="${flash.message}">
-    <div class="message" role="status">${flash.message}</div>
-</g:if>
-
-<!-- Botones -->
+<!-- botones -->
 <div class="btn-toolbar toolbar">
     <div class="btn-group">
-        <g:link controller="inicio" action="index" class="btn btn-secondary">
+        <g:link controller="inicio" action="index" class="btn btn-primary">
             <i class="fa fa-arrow-left"></i> Regresar
         </g:link>
     </div>
 
     <div class="btn-group">
-    <a href="${createLink(controller: 'profesor', action: 'form_ajax')}" class="btn btn-primary" id="btnCrearFacultad">
-        <i class="fa fa-user-plus"></i> Nuevo Profesor
-    </a>
+        <a href="#" class="btn btn-info btnCrear">
+            <i class="fa fa-clipboard-list"></i> Nuevo profesor
+        </a>
     </div>
 </div>
+
+
+<div class="btn-toolbar toolbar" style="margin-top: 10px">
+    <div class="col-md-12">
+        <label for="tipoProfesor" class="col-md-1 control-label text-info" style="text-align: right">
+            Tipo de Profesor
+        </label>
+        <div class="col-md-3">
+            <g:select name="tipoProfesor" from="${tutor.TipoProfesor.list([sort: 'descripcion'])}"
+                      class="form-control input-sm" optionValue="descripcion" optionKey="id"
+            />
+        </div>
+    </div>
+</div>
+
 
 <table class="table table-condensed table-bordered table-striped table-hover">
     <thead>
     <tr>
-        <th>Apellido</th>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Extension</th>
-        <th>Sexo</th>
-        <th>Tipo de Profesor</th>
-        <th>Acciones</th>
+        <th style="width: 20%">Tipo Profesor</th>
+        <th style="width: 20%">Apellido</th>
+        <th style="width: 20%">Nombre</th>
+        <th style="width: 15%">Email</th>
+        <th style="width: 10%">Teléfono</th>
+        <th style="width: 15%">Acciones</th>
     </tr>
     </thead>
-    <tbody>
-    <g:if test="${profesores.size() > 0}">
-        <g:each in="${profesores}" var="profesor">
-            <tr data-id="${profesor?.id}">
-                <td>${profesor?.apellido}</td>
-                <td>${profesor?.nombre}</td>
-                <td>${profesor?.mail}</td>
-                <td>${profesor?.extension}</td>
-                <td>${profesor?.sexo}</td>
-                <td>${profesor?.tipoProfesor?.descripcion}</td>
-                <td>
-                    <a href="#" data-id="${profesor?.id}" class="btn btn-success btn-sm btn-edit btn-ajax" title="Editar">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <a href="#" data-id="${profesor?.id}" class="btn btn-danger btn-sm btn-borrar btn-ajax" title="Eliminar">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                    <a href="#" data-id="${profesor?.id}" class="btn btn-info btn-sm btn-show btn-ajax" title="Ver">
-                        <i class="fa fa-search"></i>
-                    </a>
-                </td>
-            </tr>
-        </g:each>
-    </g:if>
-    <g:else>
-        <tr class="danger">
-            <td class="text-center" colspan="8">
-                No se encontraron registros que mostrar
-            </td>
-        </tr>
-    </g:else>
-    </tbody>
 </table>
+
+<div id="divProfesores">
+
+</div>
+
 
 <script type="text/javascript">
     var id = null;
-    function submitForm() {
-        var $form = $("#frmProfesor");
-        var $btn = $("#dlgCreateEdit").find("#btnSave");
+
+    cargarTablaProfesores( $("#tipoProfesor option:selected").val());
+
+    function cargarTablaProfesores(tipoProfesor){
         $.ajax({
             type: "POST",
-            url: $form.attr("action"),
-            data: $form.serialize(),
+            url: "${createLink(controller: 'profesor', action:'tablaProfesores_ajax')}",
+            data: {
+                tipoProfesor: tipoProfesor
+            },
             success: function (msg) {
-                if (msg == 'ok') {
-                    log("Profesor guardado correctamente", "success");
-                    setTimeout(function () {
-                        location.reload(true);
-                    }, 1000);
-                } else {
-                    log("Error al guardar al profesor", "error")
-                }
-            }
+                $("#divProfesores").html(msg);
+            } //success
         });
+    }
+
+    $("#tipoProfesor").change(function () {
+        var tipoProfesor = $(this).val();
+        cargarTablaProfesores(tipoProfesor)
+    });
+
+    function createEditRowProfesor(id) {
+        var title = id ? "Editar" : "Crear";
+        var data = id ? {id: id} : {};
+        $.ajax({
+            type    : "POST",
+            url: "${createLink(controller: 'profesor', action:'form_ajax')}",
+            data    : data,
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgCreateEdit",
+                    title   : title + " Profesor",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-save'></i> Guardar",
+                            className : "btn-success",
+                            callback  : function () {
+                                return submitFormProfesor();
+                            } //callback
+                        } //guardar
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    } //createEdit
+
+    function submitFormProfesor() {
+        var $form = $("#frmProfesor");
+        if ($form.valid()) {
+            var data = $form.serialize();
+            var dialog = cargarLoader("Guardando...");
+            $.ajax({
+                type    : "POST",
+                url     : $form.attr("action"),
+                data    : data,
+                success : function (msg) {
+                    dialog.modal('hide');
+                    var parts = msg.split("_");
+                    if(parts[0] === 'ok'){
+                        log(parts[1], "success");
+                        cargarTablaProfesores( $("#tipoProfesor option:selected").val());
+                    }else{
+                        bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
+                        return false;
+                    }
+                }
+            });
+        } else {
+            return false;
+        }
     }
 
     function deleteRow(itemId) {
         bootbox.dialog({
             title: "Alerta",
-            message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p>" +
-            "¿Está seguro de que desea eliminar al profesor seleccionado? Esta acción no se puede deshacer.</p>",
+            message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p style='font-size: 14px; font-weight: bold'>" +
+                "¿Está seguro que desea eliminar este profesor ? Esta acción no se puede deshacer.</p>",
             closeButton: false,
             buttons: {
                 cancelar: {
@@ -127,6 +154,7 @@
                     label: "<i class='fa fa-trash'></i> Eliminar",
                     className: "btn-danger",
                     callback: function () {
+                        var db= cargarLoader("Borrando...");
                         $.ajax({
                             type: "POST",
                             url: '${createLink(controller: 'profesor', action:'delete_ajax')}',
@@ -134,12 +162,13 @@
                                 id: itemId
                             },
                             success: function (msg) {
-                                if (msg == 'ok') {
-                                    setTimeout(function () {
-                                        location.reload();
-                                    }, 300);
+                                db.modal("hide");
+                                var parts = msg.split("_");
+                                if (parts[0] === 'ok') {
+                                    log(parts[1], "success");
+                                    cargarTablaProfesores( $("#tipoProfesor option:selected").val());
                                 } else {
-                                    log("Error al borrar al profesor", "error")
+                                    bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
                                 }
                             }
                         });
@@ -149,70 +178,10 @@
         });
     }
 
-    function createEditRow(id) {
-        var title = id ? "Editar" : "Crear";
-        var data = id ? {id: id} : {};
-        $.ajax({
-            type: "POST",
-            url: "${createLink(controller: 'profesor', action:'form_ajax')}",
-            data: data,
-            success: function (msg) {
-                var b = bootbox.dialog({
-                    title: title + " Profesor",
-                    closeButton: false,
-                    message: msg,
-                });
-                setTimeout(function () {
-                    b.find(".form-control").first().focus()
-                }, 500);
-            }
-        });
-    }
-
-    $(function () {
-    $("#btnCrearFacultad").on('click', function () {
-        createEditRow();
+    $(".btnCrear").click(function () {
+        createEditRowProfesor();
         return false;
     });
-
-    $(".btn-edit").on('click', function () {
-        var id = $(this).data("id");
-        createEditRow(id);
-    });
-
-    $(".btn-borrar").on('click', function () {
-        var id = $(this).data("id");
-        deleteRow(id);
-    });
-     $(".btn-show").click(function () {
-            var title = "Ver Profesor";
-            var id = $(this).data("id");
-            $.ajax({
-                type: "POST",
-                url: "${createLink(controller: 'profesor', action:'show_ajax')}",
-                data: {id: id},
-                success: function (msg) {
-                    var b = bootbox.dialog({
-                        title: title,
-                        closeButton: false,
-                        message: msg,
-                        buttons: {
-                            aceptar: {
-                                label: "Aceptar",
-                                className: "btn-primary",
-                                callback: function () {
-                                }
-                            }
-                        },
-                    }); //dialog
-                    setTimeout(function () {
-                        b.find(".form-control").first().focus()
-                    }, 500);
-                } //successJava
-            });
-            //location.reload()//ajax
-        });
-});
 
 </script>
 

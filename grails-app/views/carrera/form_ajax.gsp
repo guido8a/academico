@@ -31,7 +31,7 @@
         <div class="form-group keeptogether ${hasErrors(bean: carrera, field: 'codigo', 'error')}">
             <div class="row">
                 <label for="codigo" class="col-md-2 control-label">
-                    Nombre
+                    Código
                 </label>
 
                 <div class="col-md-4">

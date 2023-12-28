@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <title>Lista de Facultades</title>
+    <title>Lista de Niveles</title>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
 
     <div class="btn-group">
         <a href="#" class="btn btn-info btnCrear">
-            <i class="fa fa-clipboard-list"></i> Nueva facultad
+            <i class="fa fa-clipboard-list"></i> Nuevo nivel
         </a>
     </div>
 </div>
@@ -35,16 +35,16 @@
 <div class="" style="width: 99.7%;height: 600px; overflow-y: auto;float: right; margin-top: -20px">
     <table class="table-bordered table-striped table-condensed table-hover" style="width: 100%">
         <tbody>
-        <g:if test="${facultades.size() > 0}">
-            <g:each in="${facultades}" var="facultad">
-                <tr data-id="${facultad?.id}">
-                    <td style="width: 30%">${facultad?.id}</td>
-                    <td style="width: 40%">${facultad?.nombre}</td>
+        <g:if test="${niveles.size() > 0}">
+            <g:each in="${niveles}" var="nivel">
+                <tr data-id="${nivel?.id}">
+                    <td style="width: 30%">${nivel?.numero}</td>
+                    <td style="width: 40%">${nivel?.descripcion}</td>
                     <td style="width: 15%; text-align: center">
-                        <a href="#" data-id="${facultad?.id}" class="btn btn-success btn-xs btn-edit btn-ajax" title="Editar">
+                        <a href="#" data-id="${nivel?.id}" class="btn btn-success btn-xs btn-edit btn-ajax" title="Editar">
                             <i class="fa fa-edit"></i>
                         </a>
-                        <a href="#" data-id="${facultad?.id}" class="btn btn-danger btn-xs btn-borrar btn-ajax" title="Eliminar">
+                        <a href="#" data-id="${nivel?.id}" class="btn btn-danger btn-xs btn-borrar btn-ajax" title="Eliminar">
                             <i class="fa fa-trash"></i>
                         </a>
                     </td>
@@ -66,17 +66,17 @@
 <script type="text/javascript">
     var id = null;
 
-    function createEditRowFacultad(id) {
+    function createEditRowNivel(id) {
         var title = id ? "Editar" : "Crear";
         var data = id ? {id: id} : {};
         $.ajax({
             type    : "POST",
-            url: "${createLink(controller: 'facultad', action:'form_ajax')}",
+            url: "${createLink(controller: 'nivel', action:'form_ajax')}",
             data    : data,
             success : function (msg) {
                 var b = bootbox.dialog({
                     id      : "dlgCreateEdit",
-                    title   : title + " Facultad",
+                    title   : title + " Nivel",
                     message : msg,
                     buttons : {
                         cancelar : {
@@ -90,7 +90,7 @@
                             label     : "<i class='fa fa-save'></i> Guardar",
                             className : "btn-success",
                             callback  : function () {
-                                return submitFormFacultad();
+                                return submitFormNivel();
                             } //callback
                         } //guardar
                     } //buttons
@@ -99,8 +99,8 @@
         }); //ajax
     } //createEdit
 
-    function submitFormFacultad() {
-        var $form = $("#frmFacultad");
+    function submitFormNivel() {
+        var $form = $("#frmNivel");
         if ($form.valid()) {
             var data = $form.serialize();
             var dialog = cargarLoader("Guardando...");
@@ -131,7 +131,7 @@
         bootbox.dialog({
             title: "Alerta",
             message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p style='font-size: 14px; font-weight: bold'>" +
-                "¿Está seguro que desea eliminar esta facultad ? Esta acción no se puede deshacer.</p>",
+                "¿Está seguro que desea eliminar este nivel ? Esta acción no se puede deshacer.</p>",
             closeButton: false,
             buttons: {
                 cancelar: {
@@ -147,7 +147,7 @@
                         var db= cargarLoader("Borrando...");
                         $.ajax({
                             type: "POST",
-                            url: '${createLink(controller: 'facultad', action:'delete_ajax')}',
+                            url: '${createLink(controller: 'nivel', action:'delete_ajax')}',
                             data: {
                                 id: itemId
                             },
@@ -171,13 +171,13 @@
     }
 
     $(".btnCrear").click(function () {
-        createEditRowFacultad();
+        createEditRowNivel();
         return false;
     });
 
     $(".btn-edit").click(function () {
         var id = $(this).data("id");
-        createEditRowFacultad(id);
+        createEditRowNivel(id);
     });
     $(".btn-borrar").click(function () {
         var id = $(this).data("id");
