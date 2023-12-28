@@ -59,6 +59,7 @@ class AsignaturaController {
         }
 
         asignatura.properties = params
+        asignatura.codigo = params.codigo.toUpperCase()
         asignatura.factorPreparacion = params.factorPreparacion.toDouble()
         asignatura.creditos = params.creditos.toDouble()
         asignatura.horasTeoria = params.horasTeoria.toDouble()
