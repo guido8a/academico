@@ -672,7 +672,6 @@ class ReportesController {
     }
 
     def reportePofesoresExcel () {
-
         println("profesor " + params)
         def cn = dbConnectionService.getConnection()
         def sql = ""
