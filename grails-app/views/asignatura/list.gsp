@@ -42,21 +42,22 @@
 </div>
 
 
-<div class="btn-toolbar toolbar"style="margin-left: 10px; text-align: center">
-    <div class="col-md-4" style="margin-left: 150px">
+<div class="btn-toolbar toolbar alert alert-info" style="text-align: center">
+    <label class="col-md-2" style="margin-top: 20px">Búsqueda por</label>
+    <div class="col-md-4" >
         <label class="control-label text-info">Carrera</label>
-        <g:select name="buscarPor" class="buscarPor col-md-12 form-control" value="${params.carrera}"
+        <g:select name="carrera" class="col-md-12 form-control"
                   from="${tutor.Carrera.list([sort: 'nombre'])}" optionKey="id" optionValue="nombre" />
     </div>
     <div class="col-md-2">
         <label class="control-label text-info">Nivel</label>
-        <g:select name="nivel" class="estado form-control" from="${tutor.Nivel.list([sort: 'id'])}"
-                  optionKey="id" optionValue="descripcion" value="${params.nivel}"/>
+        <g:select name="nivel" class="form-control" from="${tutor.Nivel.list([sort: 'id'])}"
+                  optionKey="id" optionValue="descripcion" />
     </div>
-    <div class="col-md-2">
-        <label class="control-label text-info">Criterio</label>
-        <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control" value="${params.criterio}"/>
-    </div>
+    %{--    <div class="col-md-2">--}%
+    %{--        <label class="control-label text-info">Criterio</label>--}%
+    %{--        <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control" value="${params.criterio}"/>--}%
+    %{--    </div>--}%
     <div class="col-md-1" style="margin-top: 20px">
         <button class="btn btn-info" id="btnBuscar"><i class="fa fa-search"></i>Normales</button>
     </div>
@@ -65,6 +66,22 @@
         <button class="btn btn-danger" id="btnBuscaGes"><i class="fa fa-search"></i>Gestión</button>
     </div>
 </div>
+
+<div class="btn-toolbar toolbar alert alert-success" style="text-align: center">
+    <label class="col-md-2" style="margin-top: 20px">Búsqueda general</label>
+    <div class="col-md-6">
+        <label class="control-label text-info">Criterio</label>
+        <g:textField name="criterio" id="criterio" class="form-control" />
+    </div>
+    <div class="col-md-1" style="margin-top: 20px">
+        <button class="btn btn-info" id="btnBuscarGeneral"><i class="fa fa-search"></i>Normales</button>
+    </div>
+
+    <div class="col-md-1" style="margin-top: 20px">
+        <button class="btn btn-danger" id="btnBuscaGesGeneral"><i class="fa fa-search"></i>Gestión</button>
+    </div>
+</div>
+
 
 
 <div role="main" style="margin-top: 10px;">
@@ -85,58 +102,82 @@
     </table>
 </div>
 
-<div class="" style="width: 99.7%;height: 600px; overflow-y: auto;float: right; margin-top: -20px">
-    <table class="table-bordered table-striped table-condensed table-hover" style="width: 100%">
+<div id="divTablaAsignaturas">
 
-        <tbody>
-        <g:if test="${asignaturas?.size() > 0}">
-            <g:each in="${asignaturas}" var="asignatura">
-                <tr data-id="${asignatura?.id}">
-                    <td style="width: 7%">${asignatura?.codigo}</td>
-                    <td style="width: 25%">${asignatura?.nombre}</td>
-                    <td style="width: 23%">${asignatura?.carrera?.nombre}</td>
-                    <td style="width: 10%">${asignatura?.nivel?.descripcion}</td>
-                    <td style="width: 5%">${asignatura?.creditos}</td>
-                    <td style="width: 5%">${asignatura?.horasPractica}</td>
-                    <td style="width: 5%">${asignatura?.horasTeoria}</td>
-                    <td style="width: 5%">${asignatura?.horasGestion}</td>
-
-                    <td style="width: 15%">
-                        <a href="#" data-id="${asignatura?.id}" class="btn btn-success btn-xs btn-edit btn-ajax"
-                           title="Editar">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                        <a href="#" data-id="${asignatura?.id}" class="btn btn-danger btn-xs btn-borrar btn-ajax"
-                           title="Eliminar">
-                            <i class="fa fa-trash"></i>
-                        </a>
-                        <a href="#" data-id="${asignatura?.id}" class="btn btn-info btn-xs btn-show btn-ajax" title="Ver">
-                            <i class="fa fa-search"></i>
-                        </a>
-                        <g:if test="${asignatura?.tipoActividad?.descripcion == 'Académica'}">
-                            <a href="#" data-id="${asignatura?.id}" class="btn btn-warning btn-xs btn-curso btn-ajax"
-                               title="Programación académica">
-                                <i class="fa fa-check"></i>
-                            </a>
-                        </g:if>
-                    </td>
-                </tr>
-            </g:each>
-        </g:if>
-        <g:else>
-            <tr>
-                <td class="text-center" colspan="9">
-                    <i class="fa fa-exclamation-triangle text-info fa-3x"></i> <strong style="font-size: 14px"> No se encontraron registros que mostrar </strong>
-                </td>
-            </tr>
-        </g:else>
-        </tbody>
-    </table>
 </div>
+
+%{--<div class="" style="width: 99.7%;height: 600px; overflow-y: auto;float: right; margin-top: -20px">--}%
+%{--    <table class="table-bordered table-striped table-condensed table-hover" style="width: 100%">--}%
+
+%{--        <tbody>--}%
+%{--        <g:if test="${asignaturas?.size() > 0}">--}%
+%{--            <g:each in="${asignaturas}" var="asignatura">--}%
+%{--                <tr data-id="${asignatura?.id}">--}%
+%{--                    <td style="width: 7%">${asignatura?.codigo}</td>--}%
+%{--                    <td style="width: 25%">${asignatura?.nombre}</td>--}%
+%{--                    <td style="width: 23%">${asignatura?.carrera?.nombre}</td>--}%
+%{--                    <td style="width: 10%">${asignatura?.nivel?.descripcion}</td>--}%
+%{--                    <td style="width: 5%">${asignatura?.creditos}</td>--}%
+%{--                    <td style="width: 5%">${asignatura?.horasPractica}</td>--}%
+%{--                    <td style="width: 5%">${asignatura?.horasTeoria}</td>--}%
+%{--                    <td style="width: 5%">${asignatura?.horasGestion}</td>--}%
+
+%{--                    <td style="width: 15%">--}%
+%{--                        <a href="#" data-id="${asignatura?.id}" class="btn btn-success btn-xs btn-edit btn-ajax"--}%
+%{--                           title="Editar">--}%
+%{--                            <i class="fa fa-edit"></i>--}%
+%{--                        </a>--}%
+%{--                        <a href="#" data-id="${asignatura?.id}" class="btn btn-danger btn-xs btn-borrar btn-ajax"--}%
+%{--                           title="Eliminar">--}%
+%{--                            <i class="fa fa-trash"></i>--}%
+%{--                        </a>--}%
+%{--                        <a href="#" data-id="${asignatura?.id}" class="btn btn-info btn-xs btn-show btn-ajax" title="Ver">--}%
+%{--                            <i class="fa fa-search"></i>--}%
+%{--                        </a>--}%
+%{--                        <g:if test="${asignatura?.tipoActividad?.descripcion == 'Académica'}">--}%
+%{--                            <a href="#" data-id="${asignatura?.id}" class="btn btn-warning btn-xs btn-curso btn-ajax"--}%
+%{--                               title="Programación académica">--}%
+%{--                                <i class="fa fa-check"></i>--}%
+%{--                            </a>--}%
+%{--                        </g:if>--}%
+%{--                    </td>--}%
+%{--                </tr>--}%
+%{--            </g:each>--}%
+%{--        </g:if>--}%
+%{--        <g:else>--}%
+%{--            <tr>--}%
+%{--                <td class="text-center" colspan="9">--}%
+%{--                    <i class="fa fa-exclamation-triangle text-info fa-3x"></i> <strong style="font-size: 14px"> No se encontraron registros que mostrar </strong>--}%
+%{--                </td>--}%
+%{--            </tr>--}%
+%{--        </g:else>--}%
+%{--        </tbody>--}%
+%{--    </table>--}%
+%{--</div>--}%
 
 
 <script type="text/javascript">
     var id = null;
+
+    cargarTablaAsignaturas($("#carrera option:selected").val(), $("#nivel option:selected").val(), $("#criterio").val(), 1);
+
+
+    function cargarTablaAsignaturas(carrera, nivel, criterio, tipo){
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller: 'asignatura', action:'tablaAsignaturas_ajax')}",
+            data: {
+                carrera: carrera,
+                nivel: nivel,
+                criterio: criterio,
+                tipo: tipo
+            },
+            success: function (msg) {
+                $("#divTablaAsignaturas").html(msg);
+            } //success
+        });
+    }
+
     function submitForm() {
         var $form = $("#frmAsignatura");
         var $btn = $("#dlgCreateEdit").find("#btnSave");
@@ -145,11 +186,9 @@
             url: $form.attr("action"),
             data: $form.serialize(),
             success: function (msg) {
-                if (msg == 'ok') {
+                if (msg === 'ok') {
                     log("Asignatura guardada correctamente", "success");
-                    setTimeout(function () {
-                        location.reload(true);
-                    }, 1000);
+                    cargarTablaAsignaturas($("#carrera option:selected").val(), $("#nivel option:selected").val(), $("#criterio").val(), 1);
                 } else {
                     log("Error al guardar la asignatura", "error")
                 }
@@ -181,10 +220,9 @@
                                 id: itemId
                             },
                             success: function (msg) {
-                                if (msg == 'ok') {
-                                    setTimeout(function () {
-                                        location.reload();
-                                    }, 300);
+                                if (msg === 'ok') {
+                                    log("Borrado correctamente", "success");
+                                    cargarTablaAsignaturas($("#carrera option:selected").val(), $("#nivel option:selected").val(), $("#criterio").val(), 1);
                                 } else {
                                     log("Error al borrar la asignatura", "error")
                                 }
@@ -245,11 +283,8 @@
                     var parts = msg.split("_");
                     if(parts[0] === 'ok'){
                         log(parts[1], "success");
-                        setTimeout(function () {
-                            location.reload();
-                        }, 800);
+                        cargarTablaAsignaturas($("#carrera option:selected").val(), $("#nivel option:selected").val(), $("#criterio").val(), 1);
                     }else{
-
                         bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
                         return false;
                     }
@@ -261,85 +296,43 @@
     }
 
 
-    $(function () {
-
-
-        $(".btnCrear").click(function () {
-            createEditRow();
-            return false;
-        });
-
-        $(".btn-edit").click(function () {
-            var id = $(this).data("id");
-            createEditRow(id);
-        });
-
-        $(".btn-borrar").click(function () {
-            var id = $(this).data("id");
-            deleteRow(id);
-        });
-
-        $(".btn-show").click(function () {
-            var title = "Ver Asignatura";
-            var id = $(this).data("id");
-            $.ajax({
-                type: "POST",
-                url: "${createLink(controller: 'asignatura', action:'show_ajax')}",
-                data: {id: id},
-                success: function (msg) {
-                    var b = bootbox.dialog({
-                        title: title,
-                        closeButton: false,
-                        message: msg,
-                        buttons: {
-                            aceptar: {
-                                label: "Aceptar",
-                                className: "btn-primary",
-                                callback: function () {
-                                }
-                            }
-                        },
-                    }); //dialog
-                    setTimeout(function () {
-                        b.find(".form-control").first().focus()
-                    }, 500);
-                } //successJava
-            });
-            //location.reload()//ajax
-        });
-
-
-        $(".btn-curso").click(function () {
-            var id = $(this).data("id");
-            location.href = "${createLink(controller: 'programa', action:'horario')}" + "?id=" + id
-        });
-
-        function buscarAsignaturas(){
-            var d = cargarLoader("Cargando...");
-            var carrera = $('#buscarPor option:selected').val();
-            var nivel = $('#nivel option:selected').val();
-            var criterio = $('#criterioCriterio').val();
-            console.log('Buscar', carrera, nivel, criterio)
-            location.href = "${createLink(controller: 'asignatura', action:'list')}"
-                + "?carrera=" + carrera + "&nivel=" + nivel + "&criterio=" + criterio
-        }
-
-        $("#btnBuscar").click(function () {
-            buscarAsignaturas();
-        });
-
-        // $("#buscarPor, #nivel").change(function () {
-        //     buscarAsignaturas();
-        // });
-
-        $("#btnBuscaGes").click(function () {
-            var criterio = $('#criterioCriterio').val();
-            console.log('BuscarGes', criterio)
-            location.href = "${createLink(controller: 'asignatura', action:'list')}"
-                + "?criterioGes=" + criterio
-        });
-
+    $(".btnCrear").click(function () {
+        createEditRow();
+        return false;
     });
+
+
+    %{--function buscarAsignaturas(){--}%
+    %{--    var d = cargarLoader("Cargando...");--}%
+    %{--    var carrera = $('#buscarPor option:selected').val();--}%
+    %{--    var nivel = $('#nivel option:selected').val();--}%
+    %{--    var criterio = $('#criterioCriterio').val();--}%
+    %{--    console.log('Buscar', carrera, nivel, criterio)--}%
+    %{--    location.href = "${createLink(controller: 'asignatura', action:'list')}"--}%
+    %{--        + "?carrera=" + carrera + "&nivel=" + nivel + "&criterio=" + criterio--}%
+    %{--}--}%
+
+    $("#btnBuscar").click(function () {
+        var carrera = $('#carrera option:selected').val();
+        var nivel = $('#nivel option:selected').val();
+        cargarTablaAsignaturas(carrera, nivel, null, 1)
+        // buscarAsignaturas();
+    });
+
+    $("#btnBuscaGes, #btnBuscaGesGeneral").click(function () {
+        var criterio = $("#criterio").val();
+        cargarTablaAsignaturas(null, null, criterio, 2);
+        %{--var criterio = $('#criterioCriterio').val();--}%
+        %{--console.log('BuscarGes', criterio)--}%
+        %{--location.href = "${createLink(controller: 'asignatura', action:'list')}"--}%
+        %{--    + "?criterioGes=" + criterio--}%
+    });
+
+    $("#btnBuscarGeneral").click(function () {
+        var criterio = $("#criterio").val();
+        cargarTablaAsignaturas(null, null, criterio, 1);
+    })
+
 </script>
 
 </body>

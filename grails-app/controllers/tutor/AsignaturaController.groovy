@@ -3,32 +3,32 @@ package tutor
 class AsignaturaController {
 
     def list(){
-        println "parametros: $params"
-        def asignaturas
-        if(params.carrera){
-            def carrera = Carrera.get(params.carrera)
-            def nivel = Nivel.get(params.nivel)
-            asignaturas = Asignatura.findAllByCarreraAndNivel(carrera,nivel)
-
-        }
-        else if(params.criterio?.size() > 0){
-            println "... no gestión"
-            asignaturas = Asignatura.findAllByNombreIlike("%${params.criterioGes}%",[sort: "nombre"])
-        }
-        else if(params.criterioGes?.size() > 1){
-            println "... gestión"
-            asignaturas = Asignatura.findAllByNombreIlikeAndTipoActividad("%${params.criterioGes}%", TipoActividad.get(2),
-                    [sort: "nombre"])
-        }
-        else if(params.criterioGes?.size() == 0){
-            println "solo gestión"
-            asignaturas = Asignatura.findAllByTipoActividad(TipoActividad.get(2), [sort: "nombre"])
-        }
-
-        println "asignaturas: $asignaturas"
-        params.criterio = params.criterio ? params.criterio: params.criterioGes
-
-        return[asignaturas: asignaturas]
+//        println "parametros: $params"
+//        def asignaturas
+//        if(params.carrera){
+//            def carrera = Carrera.get(params.carrera)
+//            def nivel = Nivel.get(params.nivel)
+//            asignaturas = Asignatura.findAllByCarreraAndNivel(carrera,nivel)
+//
+//        }
+//        else if(params.criterio?.size() > 0){
+//            println "... no gestión"
+//            asignaturas = Asignatura.findAllByNombreIlike("%${params.criterioGes}%",[sort: "nombre"])
+//        }
+//        else if(params.criterioGes?.size() > 1){
+//            println "... gestión"
+//            asignaturas = Asignatura.findAllByNombreIlikeAndTipoActividad("%${params.criterioGes}%", TipoActividad.get(2),
+//                    [sort: "nombre"])
+//        }
+//        else if(params.criterioGes?.size() == 0){
+//            println "solo gestión"
+//            asignaturas = Asignatura.findAllByTipoActividad(TipoActividad.get(2), [sort: "nombre"])
+//        }
+//
+//        println "asignaturas: $asignaturas"
+//        params.criterio = params.criterio ? params.criterio: params.criterioGes
+//
+//        return[asignaturas: asignaturas]
     }
 
 
@@ -90,6 +90,63 @@ class AsignaturaController {
     def show_ajax(){
         def asignatura = Asignatura.get(params.id)
         return[asignatura:asignatura]
+    }
+
+    def tablaAsignaturas_ajax(){
+
+        println "parametros: $params"
+
+        def carrera = Carrera.get(params.carrera)
+        def nivel = Nivel.get(params.nivel)
+        def asignaturas
+
+        if(params.tipo == '1'){
+            if(params.criterio){
+                asignaturas = Asignatura.findAllByNombreIlike("%${params.criterio}%",[sort: "nombre"])
+            }else{
+                if(params.carrera){
+                    asignaturas = Asignatura.findAllByCarreraAndNivel(carrera,nivel)
+                }else{
+                    asignaturas = Asignatura.findAllByTipoActividad(TipoActividad.get(1), [sort: "nombre"])
+                }
+            }
+        }else{
+            if(params.criterio){
+                asignaturas = Asignatura.findAllByNombreIlikeAndTipoActividad("%${params.criterio}%", TipoActividad.get(2))
+            }else{
+                asignaturas = Asignatura.findAllByTipoActividad(TipoActividad.get(2), [sort: "nombre"])
+//                asignaturas = Asignatura.findAllByTipoActividadAndCarreraAndNivel(TipoActividad.get(2), carrera, nivel,  [sort: "nombre"])
+            }
+        }
+
+
+
+
+//        if(params.carrera){
+//            def carrera = Carrera.get(params.carrera)
+//            def nivel = Nivel.get(params.nivel)
+//            asignaturas = Asignatura.findAllByCarreraAndNivel(carrera,nivel)
+//
+//        }
+//        else if(params.criterio?.size() > 0){
+//            println "... no gestión"
+//            asignaturas = Asignatura.findAllByNombreIlike("%${params.criterioGes}%",[sort: "nombre"])
+//        }
+//        else if(params.criterioGes?.size() > 1){
+//            println "... gestión"
+//            asignaturas = Asignatura.findAllByNombreIlikeAndTipoActividad("%${params.criterioGes}%", TipoActividad.get(2),
+//                    [sort: "nombre"])
+//        }
+//        else if(params.criterioGes?.size() == 0){
+//            println "solo gestión"
+//            asignaturas = Asignatura.findAllByTipoActividad(TipoActividad.get(2), [sort: "nombre"])
+//        }
+
+//        println "asignaturas: $asignaturas"
+//        params.criterio = params.criterio ? params.criterio: params.criterioGes
+
+        return[asignaturas: asignaturas]
+
     }
 
 }
