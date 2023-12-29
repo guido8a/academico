@@ -2,6 +2,8 @@ package tutor
 
 import groovy.sql.Sql
 
+import java.time.Period
+
 class ProgramaController {
 
     def dataSource
@@ -41,6 +43,34 @@ class ProgramaController {
         }
     }
 
+    def resumen() {
+    }
+
+    def rsmn_ajax(){
+        def cn = getConnection()
+        def sql
+        def respN, respI
+        def existe = false
+        def prdo = Periodo.get(params.prdo)
+        println("rsmn_ajax " + params)
+        def hijo = prdo.padre? prdo.id : Periodo.findByPadre(prdo)
+        def pdre = hijo.padre.id
+
+        if(prdo){
+            sql = "select * from rep_resumen(${pdre})"
+            respN = cn.rows(sql.toString())
+            println "sql --> $sql"
+            existe = respN.size() > 0
+
+            sql = "select * from rep_resumen(${hijo.id})"
+            respI = cn.rows(sql.toString())
+            println "sql --> $sql"
+            return[existe: existe, prdoN: respN, prdoI: respI]
+        }else{
+            return[existe: existe]
+        }
+    }
+
 
     def paralelo() {
     }
@@ -66,7 +96,7 @@ class ProgramaController {
             return[existe: false]
         }
     }
-
+                                                                                             
     def cursos_ajax(){
         println "cursos_ajax: $params"
         def periodo = Periodo.get(params.periodo)

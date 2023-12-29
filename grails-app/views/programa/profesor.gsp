@@ -60,7 +60,7 @@
     <h3 class="titl" style="margin-top: -35px">Carga horaria por profesor</h3>
 </div>
 <!-- botones -->
-<div class="container" style="width: 1000px">
+<div class="container" style="width: 1200px">
     <div class="btn-toolbar toolbar" style="margin-top: 10px">
 
         <div class="col-md-1">

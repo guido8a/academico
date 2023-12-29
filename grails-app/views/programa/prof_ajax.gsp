@@ -1,5 +1,5 @@
 <g:if test="${existe}">
-    <table class="table-condensed table-bordered table-striped table-hover" style="margin-top: 20px; width: 100%">
+    <table class="table table-condensed table-bordered table-striped table-hover" style="margin-top: 20px; width: 100%">
         <thead style="text-align: center">
         <tr>
 

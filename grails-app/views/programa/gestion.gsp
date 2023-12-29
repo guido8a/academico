@@ -54,7 +54,7 @@
     <h3 class="titl">Programación de Gestión </h3>
 </div>
 <!-- botones -->
-<div class="container" style="width: 1000px">
+<div class="container" style="width: 1200px">
     <div class="btn-toolbar toolbar" style="margin-top: 10px">
 
         <g:hiddenField name="idGestion" value="" />
