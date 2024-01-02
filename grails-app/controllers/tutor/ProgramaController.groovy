@@ -443,4 +443,9 @@ class ProgramaController {
         return [asignaturas: asignaturas]
     }
 
+    def tablaTotales_ajax(){
+        println("params " + params)
+        return [total: params.total]
+    }
+
 }

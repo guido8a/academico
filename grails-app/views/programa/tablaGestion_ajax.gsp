@@ -13,12 +13,12 @@
     </table>
 </div>
 
-%{--<g:set var="prdo" value="${params.id}"></g:set>--}%
-
 <div class="" style="width: 99.7%;height: 600px; overflow-y: auto;float: right; margin-top: -20px">
     <table class="table-bordered table-striped table-condensed table-hover" style="width: 100%">
         <tbody>
         <g:if test="${gestiones.size() > 0}">
+            <g:set var="total" value="${0}" />
+
             <g:each in="${gestiones}" status="i" var="gestion">
                 <tr data-id="${gestion.id}" class="${gestion?.periodo?.id == params.id.toInteger() ? 'usado' : 'otro' }">
                     <td style="width: 10%">${gestion?.periodo?.descripcion} ${gestion?.periodo?.id}</td>
@@ -39,7 +39,15 @@
                         </a>
                     </td>
                 </tr>
+
+                <g:set var="total" value="${total += (gestion.horas ?: 0)}" />
+
             </g:each>
+
+            <tr id="divTotales" style="background-color: #89b674" data-valor="${total}">
+
+            </tr>
+
         </g:if>
         <g:else>
             <div class="alert alert-warning" style="text-align: center; font-size: 14px"><i class="fa fa-exclamation-triangle fa-3x text-info"></i>
@@ -50,6 +58,22 @@
 </div>
 
 <script type="text/javascript">
+
+    cargarTotales();
+
+    function cargarTotales(){
+        var total = '${total}';
+        $.ajax({
+           type: 'POST',
+           url: '${createLink(controller: 'programa', action: 'tablaTotales_ajax')}',
+           data:{
+               total:total
+           },
+           success:function (msg) {
+               $("#divTotales").html(msg)
+           } 
+        });
+    }
 
     $(".btnEditarGestion").click(function () {
         var id = $(this).data("id");

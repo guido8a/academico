@@ -59,30 +59,26 @@
     <div class="col-md-6">
         <h3 class="titl">Resumen de cargas horarias</h3>
     </div>
-        <div class="col-md-1">
-            <label for="periodo" class="col-md-1 control-label" style="text-align: right">
-                Período
-            </label>
-        </div>
-        <div class="col-md-2">
-            <g:select name="periodo" from="${tutor.Periodo.list([sort: 'descripcion'])}"
-                      class="form-control input-sm required" optionValue="descripcion" optionKey="id"
-            />
-        </div>
+    <div class="col-md-1">
+        <label for="periodo" class="col-md-1 control-label" style="text-align: right">
+            Período
+        </label>
+    </div>
+    <div class="col-md-2">
+        <g:select name="periodo" from="${tutor.Periodo.list([sort: 'descripcion'])}"
+                  class="form-control input-sm required" optionValue="descripcion" optionKey="id"
+        />
+    </div>
 </div>
 
-    <div id="divTabla">
+<div id="divTabla">
 
-    </div>
-
-%{--</div>--}%
-
+</div>
 
 <script type="text/javascript">
 
     function cargaTabla(prdo) {
         var data = {prdo: prdo};
-        console.log('prdo:', prdo)
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'rsmn_ajax')}",
@@ -94,12 +90,9 @@
         //location.reload()//ajax
     }// /createEdit
 
-
-
-        $( document ).ready(function() {
-            $("#periodo").change()
-        });
-
+    $( document ).ready(function() {
+        $("#periodo").change()
+    });
 
     $("#periodo").change(function () {
         var idPeriodo = $(this).val();

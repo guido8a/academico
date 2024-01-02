@@ -13,7 +13,7 @@
             </thead>
             <tbody>
             <g:each in="${prdoN}" var="pn">
-                <tr>
+                <tr class="${pn?.tppr__id == 1 ? 'text-success' : (pn?.tppr__id == 2 ? 'text-info' : 'text-danger' )}">
                     <td>${pn?.profnmbr}</td>
                     <td>${pn?.comphrcl}</td>
                     <td>${pn?.comphrpp}</td>
@@ -39,7 +39,7 @@
             </thead>
             <tbody>
             <g:each in="${prdoI}" var="pn">
-                <tr>
+                <tr class="${pn?.tppr__id == 1 ? 'text-success' : (pn?.tppr__id == 2 ? 'text-info' : 'text-danger' )}">
                     <td>${pn?.profnmbr}</td>
                     %{--<td>${pn?.comphrcl}</td>--}%
                     <td>${pn?.comphrpp}</td>
