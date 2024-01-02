@@ -444,8 +444,32 @@ class ProgramaController {
     }
 
     def tablaTotales_ajax(){
-        println("params " + params)
         return [total: params.total]
+    }
+
+    def horas(){
+
+    }
+
+    def tablaHoras_ajax(){
+        println("params " + params)
+
+        def profesor = Profesor.get(params.profesor)
+        def periodo = Periodo.get(params.periodo)
+        def paralelos = Paralelo.findAllByPeriodo(periodo)
+        def cursos
+        def dicta
+        if(paralelos.size() > 0){
+            cursos = Curso.findAllByParaleloInList(paralelos)
+            if(cursos.size() > 0){
+                dicta = Dicta.findAllByProfesorAndCursoInList(profesor, cursos)
+            }else{
+                dicta = []
+            }
+        }else{
+           dicta = []
+        }
+        return[dicta: dicta]
     }
 
 }
