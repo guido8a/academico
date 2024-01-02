@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    %{--<meta name="layout" content="login">--}%
     <meta name="layout" content="main">
     <title>Asignaturas</title>
 
@@ -59,7 +58,7 @@
     %{--        <g:textField name="buscarCriterio" id="criterioCriterio" class="form-control" value="${params.criterio}"/>--}%
     %{--    </div>--}%
     <div class="col-md-1" style="margin-top: 20px">
-        <button class="btn btn-info" id="btnBuscar"><i class="fa fa-search"></i>Normales</button>
+        <button class="btn btn-info" id="btnBuscar"><i class="fa fa-search"></i> Asignaturas</button>
     </div>
 
     <div class="col-md-1" style="margin-top: 20px">
@@ -74,7 +73,7 @@
         <g:textField name="criterio" id="criterio" class="form-control" />
     </div>
     <div class="col-md-1" style="margin-top: 20px">
-        <button class="btn btn-info" id="btnBuscarGeneral"><i class="fa fa-search"></i>Normales</button>
+        <button class="btn btn-info" id="btnBuscarGeneral"><i class="fa fa-search"></i> Asignaturas</button>
     </div>
 
     <div class="col-md-1" style="margin-top: 20px">

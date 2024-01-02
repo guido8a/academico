@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <title>Programación</title>
+    <title>Resumen</title>
 
     <style type="text/css">
     .gestion > td {
