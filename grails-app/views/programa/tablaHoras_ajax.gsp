@@ -2,16 +2,29 @@
     <table class="table-bordered table-striped table-condensed table-hover" style="width: 100%">
         <tbody>
         <g:if test="${dicta.size() > 0}">
+            <g:set var="total" value="${0}" />
+
             <g:each in="${dicta}" var="horas">
                 <tr >
-                    <td style="width: 15%">${horas?.curso?.asignatura?.carrera?.nombre}</td>
-                    <td style="width: 30%">${horas?.curso?.asignatura?.nombre}</td>
-                    <td style="width: 15%">${horas?.curso?.asignatura?.creditos}</td>
-                    <td style="width: 10%">${horas?.curso?.asignatura?.factorPreparacion}</td>
-                    <td style="width: 10%">${horas?.curso?.asignatura?.creditos * horas?.curso?.asignatura?.factorPreparacion}</td>
-                    <td style="width: 10%">${horas?.curso?.asignatura?.creditos + (horas?.curso?.asignatura?.creditos?.toInteger() * horas?.curso?.asignatura?.factorPreparacion?.toDouble())}</td>
+                    <td style="width: 25%">${horas?.curso?.asignatura?.carrera?.nombre}</td>
+                    <td style="width: 35%">${horas?.curso?.asignatura?.nombre}</td>
+                    <td style="width: 10%; text-align: center">${horas?.curso?.asignatura?.creditos}</td>
+                    <td style="width: 10%; text-align: center">${horas?.curso?.asignatura?.factorPreparacion}</td>
+                    <td style="width: 10%; text-align: center">${horas?.curso?.asignatura?.creditos * horas?.curso?.asignatura?.factorPreparacion}</td>
+                    <td style="width: 10%; text-align: center">${horas?.curso?.asignatura?.creditos + (horas?.curso?.asignatura?.creditos?.toInteger() * horas?.curso?.asignatura?.factorPreparacion?.toDouble())}</td>
                 </tr>
+
+                <g:set var="total" value="${total += (horas?.curso?.asignatura?.creditos + (horas?.curso?.asignatura?.creditos?.toInteger() * horas?.curso?.asignatura?.factorPreparacion?.toDouble()))}" />
+
             </g:each>
+            <tr style="background-color: #89b674">
+                <td style="width: 25%"></td>
+                <td style="width: 35%"></td>
+                <td style="width: 10%; text-align: center"></td>
+                <td style="width: 10%; text-align: center"></td>
+                <td style="width: 10%; text-align: center; font-weight: bold">Total:</td>
+                <td style="width: 10%; text-align: center; font-weight: bold">${total}</td>
+            </tr>
         </g:if>
         <g:else>
             <tr>

@@ -42,12 +42,12 @@
 <table class="table table-condensed table-bordered table-striped table-hover">
     <thead>
     <tr>
-        <th style="width: 30%">Carrera</th>
-        <th style="width: 15%">Nombre</th>
+        <th style="width: 25%">Carrera</th>
+        <th style="width: 35%">Asignatura</th>
         <th style="width: 10%">Creditos</th>
         <th style="width: 10%">Factor de preparación</th>
         <th style="width: 10%">Horas</th>
-        <th style="width: 15%">Total horas</th>
+        <th style="width: 10%">Total horas</th>
     </tr>
     </thead>
 </table>
