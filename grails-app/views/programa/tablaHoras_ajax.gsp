@@ -6,10 +6,12 @@
 
             <g:each in="${dicta}" var="horas">
                 <tr >
-                    <td style="width: 25%">${horas?.curso?.asignatura?.carrera?.nombre}</td>
-                    <td style="width: 35%">${horas?.curso?.asignatura?.nombre}</td>
-                    <td style="width: 10%; text-align: center">${horas?.curso?.asignatura?.creditos}</td>
-                    <td style="width: 10%; text-align: center">${horas?.curso?.asignatura?.factorPreparacion}</td>
+                    <td style="width: 20%">${horas?.curso?.asignatura?.carrera?.nombre}</td>
+                    <td style="width: 30%">${horas?.curso?.asignatura?.nombre}</td>
+                    <td style="width: 8%; text-align: center">${horas?.curso?.paralelo?.nivel?.descripcion}</td>
+                    <td style="width: 6%; text-align: center">${horas?.curso?.paralelo?.numero}</td>
+                    <td style="width: 8%; text-align: center">${horas?.curso?.asignatura?.creditos}</td>
+                    <td style="width: 8%; text-align: center">${horas?.curso?.asignatura?.factorPreparacion}</td>
                     <td style="width: 10%; text-align: center">${horas?.curso?.asignatura?.creditos * horas?.curso?.asignatura?.factorPreparacion}</td>
                     <td style="width: 10%; text-align: center">${horas?.curso?.asignatura?.creditos + (horas?.curso?.asignatura?.creditos?.toInteger() * horas?.curso?.asignatura?.factorPreparacion?.toDouble())}</td>
                 </tr>
@@ -18,10 +20,12 @@
 
             </g:each>
             <tr style="background-color: #89b674">
-                <td style="width: 25%"></td>
-                <td style="width: 35%"></td>
-                <td style="width: 10%; text-align: center"></td>
-                <td style="width: 10%; text-align: center"></td>
+                <td style="width: 20%"></td>
+                <td style="width: 30%"></td>
+                <td style="width: 8%; text-align: center"></td>
+                <td style="width: 6%; text-align: center"></td>
+                <td style="width: 8%; text-align: center; font-weight: bold">Total:</td>
+                <td style="width: 10%; text-align: center; font-weight: bold">Total:</td>
                 <td style="width: 10%; text-align: center; font-weight: bold">Total:</td>
                 <td style="width: 10%; text-align: center; font-weight: bold">${total}</td>
             </tr>
