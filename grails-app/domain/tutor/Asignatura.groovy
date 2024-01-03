@@ -45,7 +45,7 @@ class Asignatura {
         nivel(nullable: true, attributes: [mensaje: 'Nivel de la asignatura'])
         tipoActividad(nullable: true, attributes: [mensaje: 'Tipo de actividad de la asignatura'])
         codigo(size: 1..15, blank: true, nullable: false, attributes: [mensaje: 'Código de la asignatura'])
-        nombre(size: 1..63, blank: true, nullable: false, attributes: [mensaje: 'Nombre de la asignatura'])
+        nombre(size: 1..70, blank: true, nullable: false, attributes: [mensaje: 'Nombre de la asignatura'])
         creditos(nullable: true, attributes: [mensaje: 'Número de créditos de la asignatura'])
         horasTeoria(nullable: true, attributes: [mensaje: 'Horas teóricas de la asignatura'])
         horasPractica(nullable: true, attributes: [mensaje: 'Horas prácticas de la asignatura'])

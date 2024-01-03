@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <title>Programación</title>
+    <title>Gestión</title>
 
     <style type="text/css">
     .gestion > td {
@@ -95,8 +95,8 @@
                 <label for="hora" class="control-label" style="text-align: right">
                     Horas
                 </label>
-                <g:textField name="hora" maxlength="3" class="form-control required text-uppercase"
-                             style="border:solid 1px #ccc; width: 50px"
+                <g:textField name="hora" maxlength="5" class="form-control required text-uppercase"
+                             style="border:solid 1px #ccc; width: 60px"
                              value="${''}"/>
             </div>
 

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <title>Horas por profesor</title>
+    <title>Docencia</title>
 </head>
 
 <body>

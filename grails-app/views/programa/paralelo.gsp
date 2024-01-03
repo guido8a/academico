@@ -4,7 +4,7 @@
 <head>
     %{--<meta name="layout" content="login">--}%
     <meta name="layout" content="main">
-    <title>Programación</title>
+    <title>Horario paralelo</title>
 
     <style type="text/css">
     .gestion > td {

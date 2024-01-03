@@ -86,7 +86,7 @@
                 </label>
 
                 <div class="col-md-9">
-                    <g:textField name="nombre" maxlength="63" class="form-control input-sm required"
+                    <g:textField name="nombre" maxlength="70" class="form-control input-sm required"
                                  style="border:solid 1px #ccc;"
                                  value="${asignatura?.nombre}"/>
                 </div>
