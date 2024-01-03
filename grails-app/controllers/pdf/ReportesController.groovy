@@ -18,6 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import tutor.Curso
 import tutor.Dicta
 import tutor.Gestion
+import tutor.Nivel
 import tutor.Paralelo
 import tutor.Periodo
 import tutor.Profesor
@@ -1171,5 +1172,16 @@ class ReportesController {
 
     def profesores_ajax(){
 
+    }
+
+    def horario_ajax(){
+
+    }
+
+    def paralelo_ajax(){
+        def periodo = Periodo.get(params.periodo)
+        def nivel = Nivel.get(params.nivel)
+        def paralelos = Paralelo.findAllByPeriodoAndNivel(periodo, nivel)
+        return[paralelos: paralelos]
     }
 }

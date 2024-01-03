@@ -289,7 +289,7 @@ class ProgramaController {
         def asignatura = Asignatura.get(params.asignatura)
 
         def gestion
-        def existe
+        def existe = Gestion.findByPeriodoAndAsignaturaAndProfesor(periodo, asignatura, profesor)
 
         if(params.id){
             gestion = Gestion.get(params.id)
@@ -298,11 +298,16 @@ class ProgramaController {
             gestion.profesor = profesor
             gestion.hora = params.hora.toDouble()
         }else{
+            if(existe){
+                gestion = Gestion.get(existe.id)
+                gestion.hora = params.hora.toDouble()
+            }else{
                 gestion = new Gestion()
                 gestion.periodo = periodo
                 gestion.asignatura = asignatura
                 gestion.hora = params.hora.toDouble()
                 gestion.profesor = profesor
+            }
         }
 
         if(!gestion.save(flush:true)){
