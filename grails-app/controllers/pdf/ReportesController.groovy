@@ -15,6 +15,7 @@ import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.usermodel.XSSFCellStyle
 import org.apache.poi.xssf.usermodel.XSSFFont
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import tutor.Asignatura
 import tutor.Curso
 import tutor.Dicta
 import tutor.Gestion
@@ -1073,25 +1074,6 @@ class ReportesController {
             cell19.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble()?:r?.hora?.toDouble());
 
 
-//            rowF1.createCell(0).setCellValue(r?.asignatura?.carrera?.codigo?.toString())
-//            rowF1.createCell(1).setCellValue("")
-//            rowF1.createCell(2).setCellValue()
-//            rowF1.createCell(3).setCellValue(r?.asignatura?.nombre?.toString())
-//            rowF1.createCell(4).setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
-//            rowF1.createCell(5).setCellValue(r?.asignatura?.nivel?.numero?.toString())
-//            rowF1.createCell(6).setCellValue("")
-//            rowF1.createCell(7).setCellValue("")
-//            rowF1.createCell(8).setCellValue("")
-//            rowF1.createCell(9).setCellValue((r?.asignatura?.horasGestion?.toDouble() ?: 0))
-//            rowF1.createCell(10).setCellValue("")
-//            rowF1.createCell(11).setCellValue("")
-//            rowF1.createCell(12).setCellValue("")
-//            rowF1.createCell(13).setCellValue("")
-//            rowF1.createCell(14).setCellValue("")
-//            rowF1.createCell(15).setCellValue()
-//            rowF1.createCell(16).setCellValue(r?.hora.toDouble() * r?.asignatura?.factorPreparacion?.toDouble()?:r?.hora?.toDouble())
-//            rowF1.createCell(17).setCellValue(r?.hora.toDouble() * r?.asignatura?.factorPreparacion?.toDouble()?:r?.hora?.toDouble())
-//            rowF1.createCell(18).setCellValue(r?.hora.toDouble() * r?.asignatura?.factorPreparacion?.toDouble()?:r?.hora?.toDouble())
 //            rowF1.createCell(19).setCellValue(r?.hora.toDouble() * r?.asignatura?.factorPreparacion?.toDouble()?:r?.hora?.toDouble())
 //            rowF1.setRowStyle(style3)
 
@@ -1182,6 +1164,253 @@ class ReportesController {
         def periodo = Periodo.get(params.periodo)
         def nivel = Nivel.get(params.nivel)
         def paralelos = Paralelo.findAllByPeriodoAndNivel(periodo, nivel)
-        return[paralelos: paralelos]
+        def asignaturas = Asignatura.findAllByNivel(nivel)
+        return[paralelos: paralelos, asignaturas: asignaturas]
+    }
+
+
+    def reporteHorarioExcel(){
+        println("params hora excel " + params)
+        def cn = dbConnectionService.getConnection()
+        def asignatura = Asignatura.get(params.asignatura)
+        def sql = "select * from horario(${asignatura.nivel.id}, ${params.paralelo}, ${params.asignatura})"
+        println("sql " + sql)
+        def resp = cn.rows(sql.toString())
+        def fila = 4
+
+        XSSFWorkbook wb = new XSSFWorkbook()
+        XSSFCellStyle style = wb.createCellStyle();
+        XSSFFont font = wb.createFont();
+        font.setBold(true);
+        style.setFont(font);
+
+        XSSFCellStyle style2 = wb.createCellStyle();
+        XSSFFont font2 = wb.createFont();
+        font2.setBold(true);
+        style2.setFont(font2);
+        style2.setAlignment(HorizontalAlignment.CENTER);
+
+        XSSFCellStyle style3 = wb.createCellStyle();
+        XSSFFont font3 = wb.createFont();
+        style3.setWrapText(true);
+        style3.setFont(font3);
+        style3.setAlignment(HorizontalAlignment.LEFT);
+
+        XSSFCellStyle style4 = wb.createCellStyle();
+        XSSFFont font4 = wb.createFont();
+        style4.setWrapText(true);
+        style4.setFont(font4);
+        style4.setAlignment(HorizontalAlignment.RIGHT);
+
+        Sheet sheet = wb.createSheet("Horario")
+        sheet.setColumnWidth(0, 30 * 256);
+        sheet.setColumnWidth(1, 30 * 256);
+        sheet.setColumnWidth(2, 30 * 256);
+        sheet.setColumnWidth(3, 30 * 256);
+        sheet.setColumnWidth(4, 30 * 256);
+        sheet.setColumnWidth(5, 30 * 256);
+        sheet.setColumnWidth(6, 30 * 256);
+        sheet.setColumnWidth(7, 30 * 256);
+
+        Row row = sheet.createRow(0)
+        row.createCell(0).setCellValue("")
+        Row row2 = sheet.createRow(1)
+        row2.setRowStyle(style)
+        Row row4 = sheet.createRow(3)
+        row4.createCell(0).setCellValue("Fecha:")
+        row4.createCell(1).setCellValue(new Date().format("dd-MM-yyyy"))
+//        row4.sheet.addMergedRegion(new CellRangeAddress(5, 5, 0, 3));
+        fila++
+
+        Row rowC1 = sheet.createRow(fila)
+        rowC1.createCell(0).setCellValue("Hora")
+        rowC1.createCell(1).setCellValue("Lunes")
+        rowC1.createCell(2).setCellValue("Martes")
+        rowC1.createCell(3).setCellValue("Miércoles")
+        rowC1.createCell(4).setCellValue("Jueves")
+        rowC1.createCell(5).setCellValue("Viernes")
+        rowC1.createCell(6).setCellValue("Sábado")
+        rowC1.createCell(7).setCellValue("Domingo")
+        rowC1.setRowStyle(style)
+        fila++
+
+        resp.eachWithIndex { r, j ->
+            Row rowF1 = sheet.createRow(fila)
+            rowF1.createCell(0).setCellValue(r?.hora?.toString())
+
+            if(r?.lun?.size() > 7){
+                rowF1.createCell(1).setCellValue(r?.lun[5][0..12]?.toString())
+            }else{
+                rowF1.createCell(1).setCellValue("")
+            }
+
+            if(r?.mar?.size() > 7){
+                rowF1.createCell(2).setCellValue(r?.mar?.toString())
+            }else{
+                rowF1.createCell(2).setCellValue("")
+            }
+
+            if(r?.mie?.size() > 7){
+                rowF1.createCell(3).setCellValue(r?.mie?.toString())
+            }else{
+                rowF1.createCell(3).setCellValue("")
+            }
+
+            if(r?.jue?.size() > 7){
+                rowF1.createCell(4).setCellValue(r?.jue?.toString())
+            }else{
+                rowF1.createCell(4).setCellValue("")
+            }
+
+            if(r?.vie?.size() > 7){
+                rowF1.createCell(5).setCellValue(r?.vie?.toString())
+            }else{
+                rowF1.createCell(5).setCellValue("")
+            }
+
+            if(r?.sab?.size() > 7){
+                rowF1.createCell(6).setCellValue(r?.sab?.toString())
+            }else{
+                rowF1.createCell(6).setCellValue("")
+            }
+
+            if(r?.dom?.size() > 7){
+                rowF1.createCell(7).setCellValue(r?.dom?.toString())
+            }else{
+                rowF1.createCell(7).setCellValue("")
+            }
+
+            fila++
+        }
+
+//        Row rowF1 = sheet.createRow(fila)
+//        rowF1.createCell(0).setCellValue("7:00 - 8:00")
+//        Row rowF2 = sheet.createRow(7)
+//        rowF2.createCell(0).setCellValue("7:00 - 8:00")
+//        Row rowF3 = sheet.createRow(8)
+//        rowF3.createCell(0).setCellValue("7:00 - 8:00")
+//        Row rowF4 = sheet.createRow(9)
+//        rowF4.createCell(0).setCellValue("7:00 - 8:00")
+//        Row rowF5 = sheet.createRow(10)
+//        rowF5.createCell(0).setCellValue("7:00 - 8:00")
+//        rowF1.setRowStyle(style3)
+
+//        dicta.eachWithIndex { r, j ->
+//            def respLunes = retornaHoras("lun", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+//            def respMartes = retornaHoras("mar", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+//            def respMiercoles = retornaHoras("mie", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+//            def respJueves = retornaHoras("jue", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+//            def respViernes = retornaHoras("vie", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+//
+//            def horasAcad = 0
+//
+//            if(prdo.tipo == 'N') {
+//                horasAcad = r?.curso?.asignatura?.creditos?.toInteger() +
+//                        (r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble())
+//            } else {
+//                horasAcad = r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble()
+//            }
+//
+//            Row rowF1 = sheet.createRow(fila)
+//
+//            Cell cell0 = rowF1.createCell(0);
+//            cell0.setCellStyle(style3);
+//            cell0.setCellValue(r?.curso?.asignatura?.carrera?.codigo?.toString());
+//
+//            Cell cell1 = rowF1.createCell(1);
+//            cell1.setCellStyle(style3);
+//            cell1.setCellValue(r?.curso?.nrc?.toString());
+//
+//            Cell cell2 = rowF1.createCell(2);
+//            cell2.setCellStyle(style3);
+//            cell2.setCellValue(r?.curso?.asignatura?.codigo?.toString());
+//
+//            Cell cell3 = rowF1.createCell(3);
+//            cell3.setCellStyle(style3);
+//            cell3.setCellValue(r?.curso?.asignatura?.nombre?.toString());
+//
+//            Cell cell4 = rowF1.createCell(4);
+//            cell4.setCellStyle(style3);
+//            cell4.setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
+//
+//            Cell cell5 = rowF1.createCell(5);
+//            cell5.setCellStyle(style3);
+//            cell5.setCellValue(r?.curso?.asignatura?.nivel?.numero?.toString())
+//
+//            Cell cell6 = rowF1.createCell(6);
+//            cell6.setCellStyle(style3);
+//            cell6.setCellValue(r?.curso?.paralelo?.numero?.toString())
+//
+//            Cell cell7 = rowF1.createCell(7);
+//            cell7.setCellStyle(style4);
+//            cell7.setCellValue(r?.curso?.asignatura?.horasTeoria?.toInteger())
+//
+//            Cell cell8 = rowF1.createCell(8);
+//            cell8.setCellStyle(style4);
+//            cell8.setCellValue(r?.curso?.asignatura?.horasPractica?.toInteger())
+//
+//            Cell cell9 = rowF1.createCell(9);
+//            cell9.setCellStyle(style4);
+//            cell9.setCellValue((r?.curso?.asignatura?.horasPractica?.toInteger() ?: 0) + (r?.curso?.asignatura?.horasTeoria?.toInteger() ?: 0))
+//
+//            Cell cell10 = rowF1.createCell(10);
+//            cell10.setCellStyle(style3);
+//            cell10.setCellValue(respLunes);
+//
+//            Cell cell11 = rowF1.createCell(11);
+//            cell11.setCellStyle(style3);
+//            cell11.setCellValue(respMartes);
+//
+//            Cell cell12 = rowF1.createCell(12);
+//            cell12.setCellStyle(style3);
+//            cell12.setCellValue(respMiercoles);
+//
+//            Cell cell13 = rowF1.createCell(13);
+//            cell13.setCellStyle(style3);
+//            cell13.setCellValue(respJueves);
+//
+//            Cell cell14 = rowF1.createCell(14);
+//            cell14.setCellStyle(style3);
+//            cell14.setCellValue(respViernes);
+//
+//            Cell cell15 = rowF1.createCell(15);
+//            cell15.setCellStyle(style4);
+//            cell15.setCellValue(r?.curso?.asignatura?.creditos?.toDouble());
+//
+//            Cell cell16 = rowF1.createCell(16);
+//            cell16.setCellStyle(style4);
+//            cell16.setCellValue(r?.curso?.asignatura?.factorPreparacion?.toDouble());
+//
+//            Cell cell17 = rowF1.createCell(17);
+//            cell17.setCellStyle(style4);
+//            cell17.setCellValue(r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble());
+//
+//            Cell cell18 = rowF1.createCell(18);
+//            cell18.setCellStyle(style4);
+//            cell18.setCellValue(r?.curso?.asignatura?.horasGestion?.toDouble());
+//
+//            Cell cell19 = rowF1.createCell(19);
+//            cell19.setCellStyle(style4);
+//            cell19.setCellValue(horasAcad);
+//
+////            rowF1.createCell(19).setCellValue(r?.hora.toDouble() * r?.asignatura?.factorPreparacion?.toDouble()?:r?.hora?.toDouble())
+////            rowF1.setRowStyle(style3)
+//
+//            fila++
+//        }
+
+
+//        Row rowF1 = sheet.createRow(fila)
+//        rowF1.createCell(18).setCellValue("Total")
+//        rowF1.createCell(19).setCellValue(suma)
+//        rowF1.setRowStyle(style)
+
+
+        def output = response.getOutputStream()
+        def header = "attachment; filename=" + "horario.xlsx";
+        response.setContentType("application/octet-stream")
+        response.setHeader("Content-Disposition", header);
+        wb.write(output)
+
     }
 }

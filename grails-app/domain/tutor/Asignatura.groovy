@@ -10,7 +10,7 @@ class Asignatura {
     double creditos
     double horasTeoria
     double horasPractica
-    double factorPreparacion = 0.5
+    double factorPreparacion
     double horasGestion
 
     /**

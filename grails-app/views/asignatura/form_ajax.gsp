@@ -100,7 +100,7 @@
                 <div class="col-md-2">
                     <g:textField name="factorPreparacion" maxlength="4" class="form-control input-sm required"
                                  style="border:solid 1px #ccc; width: 50px"
-                                 value="${asignatura?.factorPreparacion?:0.5}"/>
+                                 value="${asignatura?.factorPreparacion}" />
                 </div>
 
                 <label for="horasGestion" class="col-md-5 control-label" style="text-align: right">

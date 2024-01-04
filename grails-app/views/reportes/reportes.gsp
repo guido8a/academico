@@ -199,10 +199,14 @@
                             label     : "<i class='fa fa-print'></i> Imprimir",
                             className : "btn-success",
                             callback  : function () {
-                                var profesor = $("#profesor option:selected").val();
-                                var prdo = $("#periodo option:selected").val();
-                                location.href="${createLink(controller: 'reportes', action: 'reporteHorarioExcel')}?profesor=" +
-                                    profesor + "&prdo=" + prdo
+                                var paralelo = $("#paralelo option:selected").val();
+                                var asignatura = $("#asignatura option:selected").val();
+                                if(paralelo){
+                                    location.href="${createLink(controller: 'reportes', action: 'reporteHorarioExcel')}?paralelo=" + paralelo + "&asignatura=" + asignatura
+                                }else{
+                                    bootbox.alert( '<div style="text-align: center">' + '<i class="fa fa-exclamation-triangle fa-2x text-danger"></i>'  + '<strong style="font-size: 14px">' + "Seleccione un paralelo" +  '</strong>' + '</div>')
+                                    return false
+                                }
                             } //callback
                         } //guardar
                     } //buttons
