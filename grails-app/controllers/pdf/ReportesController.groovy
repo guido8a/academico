@@ -19,6 +19,7 @@ import tutor.Asignatura
 import tutor.Curso
 import tutor.Dicta
 import tutor.Gestion
+import tutor.Horario
 import tutor.Nivel
 import tutor.Paralelo
 import tutor.Periodo
@@ -1178,6 +1179,8 @@ class ReportesController {
         def resp = cn.rows(sql.toString())
         def fila = 4
 
+        def horr, prof
+
         XSSFWorkbook wb = new XSSFWorkbook()
         XSSFCellStyle style = wb.createCellStyle();
         XSSFFont font = wb.createFont();
@@ -1246,7 +1249,10 @@ class ReportesController {
             }
 
             if(r?.mar?.size() > 7){
-                rowF1.createCell(2).setCellValue(r?.mar?.toString())
+                horr = Horario.get(r?.mar?.split(';')[2])
+                prof = Dicta.findByCurso(horr.curso)
+//                rowF1.createCell(2).setCellValue(r?.mar?.toString())
+                rowF1.createCell(2).setCellValue("${horr.curso.asignatura.nombre} \n${prof.profesor.apellido} ${prof.profesor.nombre}")
             }else{
                 rowF1.createCell(2).setCellValue("")
             }
