@@ -1239,7 +1239,8 @@ class ReportesController {
             rowF1.createCell(0).setCellValue(r?.hora?.toString())
 
             if(r?.lun?.size() > 7){
-                rowF1.createCell(1).setCellValue(r?.lun[5][0..12]?.toString())
+//                rowF1.createCell(1).setCellValue(r?.lun[8][0..12]?.toString())
+                rowF1.createCell(1).setCellValue("")
             }else{
                 rowF1.createCell(1).setCellValue("")
             }
