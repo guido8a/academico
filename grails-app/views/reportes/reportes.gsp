@@ -114,6 +114,10 @@
                         <i class="fa fa-file-excel fa-4x text-success"></i>
                         <br/> Horario
                     </a>
+                    <a href="#" id="btnPeriodoExcel" class="btn btn-info btn-ajax example_c item" texto="peri">
+                        <i class="fa fa-file-excel fa-4x text-success"></i>
+                        <br/> Período
+                    </a>
                 </p>
 
             </div>
@@ -213,6 +217,10 @@
                 }); //dialog
             } //success
         }); //ajax
+    });
+
+    $("#btnPeriodoExcel").click(function () {
+        location.href="${createLink(controller: 'reportes', action: 'reportePeriodoExcel')}"
     });
 
     function prepare() {
