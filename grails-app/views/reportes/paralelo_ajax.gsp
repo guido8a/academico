@@ -9,7 +9,7 @@
     </div>
 </div>
 
-<div class="col-md-12" style="margin-top: 13px">
+<div class="col-md-12 hidden" style="margin-top: 13px">
     <div class="col-md-1">
         <label>
             Asignatura

@@ -1171,11 +1171,11 @@ class ReportesController {
 
 
     def reporteHorarioExcel(){
-        println("params hora excel " + params)
+//        println("params hora excel " + params)
         def cn = dbConnectionService.getConnection()
         def asignatura = Asignatura.get(params.asignatura)
         def sql = "select * from horario(${asignatura.nivel.id}, ${params.paralelo}, ${params.asignatura})"
-        println("sql " + sql)
+//        println("sql " + sql)
         def resp = cn.rows(sql.toString())
         def fila = 4
 
@@ -1191,7 +1191,7 @@ class ReportesController {
         XSSFFont font2 = wb.createFont();
         font2.setBold(true);
         style2.setFont(font2);
-        style2.setAlignment(HorizontalAlignment.CENTER);
+        style2.setAlignment(HorizontalAlignment.LEFT);
 
         XSSFCellStyle style3 = wb.createCellStyle();
         XSSFFont font3 = wb.createFont();
@@ -1232,59 +1232,66 @@ class ReportesController {
         rowC1.createCell(3).setCellValue("Miércoles")
         rowC1.createCell(4).setCellValue("Jueves")
         rowC1.createCell(5).setCellValue("Viernes")
-        rowC1.createCell(6).setCellValue("Sábado")
-        rowC1.createCell(7).setCellValue("Domingo")
         rowC1.setRowStyle(style)
         fila++
 
         resp.eachWithIndex { r, j ->
             Row rowF1 = sheet.createRow(fila)
-            rowF1.createCell(0).setCellValue(r?.hora?.toString())
+            rowF1.setHeight((short) 650)
+
+            Cell cell0 = rowF1.createCell(0);
+            cell0.setCellStyle(style3);
+            Cell cell1 = rowF1.createCell(1);
+            cell1.setCellStyle(style2);
+            Cell cell2 = rowF1.createCell(2);
+            cell2.setCellStyle(style2);
+            Cell cell3 = rowF1.createCell(3);
+            cell3.setCellStyle(style2);
+            Cell cell4 = rowF1.createCell(4);
+            cell4.setCellStyle(style2);
+            Cell cell5 = rowF1.createCell(5);
+            cell5.setCellStyle(style2);
+
+            cell0.setCellValue(r?.hora?.toString());
 
             if(r?.lun?.size() > 7){
-//                rowF1.createCell(1).setCellValue(r?.lun[8][0..12]?.toString())
-                rowF1.createCell(1).setCellValue("")
+                horr = Horario.get(r?.lun?.split(';')[2])
+                prof = Dicta.findByCurso(horr.curso)
+                cell1.setCellValue("${horr.curso.asignatura.nombre} \n${prof.profesor.apellido} ${prof.profesor.nombre}");
             }else{
-                rowF1.createCell(1).setCellValue("")
+                cell1.setCellValue("")
             }
 
             if(r?.mar?.size() > 7){
                 horr = Horario.get(r?.mar?.split(';')[2])
                 prof = Dicta.findByCurso(horr.curso)
-//                rowF1.createCell(2).setCellValue(r?.mar?.toString())
-                rowF1.createCell(2).setCellValue("${horr.curso.asignatura.nombre} \n${prof.profesor.apellido} ${prof.profesor.nombre}")
+                cell2.setCellValue("${horr.curso.asignatura.nombre} \n${prof.profesor.apellido} ${prof.profesor.nombre}");
             }else{
-                rowF1.createCell(2).setCellValue("")
+                cell2.setCellValue("")
             }
 
             if(r?.mie?.size() > 7){
-                rowF1.createCell(3).setCellValue(r?.mie?.toString())
+                horr = Horario.get(r?.mie?.split(';')[2])
+                prof = Dicta.findByCurso(horr.curso)
+                cell3.setCellValue("${horr.curso.asignatura.nombre} \n${prof.profesor.apellido} ${prof.profesor.nombre}");
             }else{
-                rowF1.createCell(3).setCellValue("")
+                cell3.setCellValue("")
             }
 
             if(r?.jue?.size() > 7){
-                rowF1.createCell(4).setCellValue(r?.jue?.toString())
+                horr = Horario.get(r?.jue?.split(';')[2])
+                prof = Dicta.findByCurso(horr.curso)
+                cell4.setCellValue("${horr.curso.asignatura.nombre} \n${prof.profesor.apellido} ${prof.profesor.nombre}");
             }else{
-                rowF1.createCell(4).setCellValue("")
+                cell4.setCellValue("")
             }
 
             if(r?.vie?.size() > 7){
-                rowF1.createCell(5).setCellValue(r?.vie?.toString())
+                horr = Horario.get(r?.vie?.split(';')[2])
+                prof = Dicta.findByCurso(horr.curso)
+                cell5.setCellValue("${horr.curso.asignatura.nombre} \n${prof.profesor.apellido} ${prof.profesor.nombre}");
             }else{
-                rowF1.createCell(5).setCellValue("")
-            }
-
-            if(r?.sab?.size() > 7){
-                rowF1.createCell(6).setCellValue(r?.sab?.toString())
-            }else{
-                rowF1.createCell(6).setCellValue("")
-            }
-
-            if(r?.dom?.size() > 7){
-                rowF1.createCell(7).setCellValue(r?.dom?.toString())
-            }else{
-                rowF1.createCell(7).setCellValue("")
+                cell5.setCellValue("")
             }
 
             fila++
@@ -1307,12 +1314,8 @@ class ReportesController {
                 "carr.carr__id = parl.carr__id and crso.parl__id = parl.parl__id and dcta.crso__id = crso.crso__id and " +
                 "prof.prof__id = dcta.prof__id and asig.asig__id = crso.asig__id order by carr.carr__id, nvel.nvelnmro, parlnmro, profapll;"
 
-        println("sql " + sql)
-
         def resp = cn.rows(sql.toString())
         def fila = 4
-
-        def horr, prof
 
         XSSFWorkbook wb = new XSSFWorkbook()
         XSSFCellStyle style = wb.createCellStyle();
