@@ -1841,7 +1841,8 @@ class ReportesController {
 //            wb.write(output)
 
         }
-        render "se han generado los archivos excel con los reportes de todos los profesores"
+//        render "se han generado los archivos excel con los reportes de todos los profesores"
+        redirect(controller: "reportes", action: "reportes")
 
     }
 
