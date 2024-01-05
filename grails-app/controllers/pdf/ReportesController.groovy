@@ -1840,8 +1840,8 @@ class ReportesController {
 //            response.setHeader("Content-Disposition", header);
 //            wb.write(output)
 
-
         }
+        render "se han generado los archivos excel con los reportes de todos los profesores"
 
     }
 
