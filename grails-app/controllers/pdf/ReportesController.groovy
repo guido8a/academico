@@ -1842,6 +1842,9 @@ class ReportesController {
 
         }
 //        render "se han generado los archivos excel con los reportes de todos los profesores"
+        flash.message = "Se han generado los archivos excel con los reportes de todos los profesores."
+        flash.tipo = "info"
+        flash.icon = "icon-warning"
         redirect(controller: "reportes", action: "reportes")
 
     }

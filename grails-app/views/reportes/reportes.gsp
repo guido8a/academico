@@ -92,6 +92,8 @@
 
 <body>
 
+<elm:flashMessage tipo="${flash.tipo}" icon="${flash.icon}"
+                  clase="${flash.clase}">${flash.message}</elm:flashMessage>
 
 <g:set var="iconGen" value="fa fa-cog"/>
 <g:set var="iconEmpr" value="fa fa-building-o"/>
