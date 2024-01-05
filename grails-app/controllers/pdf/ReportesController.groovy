@@ -795,8 +795,8 @@ class ReportesController {
             gestion = Gestion.findAllByProfesorAndPeriodo(profesor, prdo)
         }else{
 
-          return  imprimeExcel(prdo?.id);
-//            return
+            return imprimeExcel(prdo?.id);
+
 
 //            parl = Paralelo.findAllByPeriodo(prdo)
 //            crso = Curso.findAllByParaleloInList(parl)
@@ -1408,61 +1408,63 @@ class ReportesController {
         def prdo = Periodo.get(periodo)
         def p_padre = prdo.tipo == 'I'? prdo.padre : 0
         def p_hijo  = prdo.tipo == 'N'? Periodo.findByPadre(prdo) : 0
-        def fila = 4
 
-        XSSFWorkbook wb = new XSSFWorkbook()
-        XSSFCellStyle style = wb.createCellStyle();
-        XSSFFont font = wb.createFont();
-        font.setBold(true);
-        style.setFont(font);
-
-        XSSFCellStyle style2 = wb.createCellStyle();
-        XSSFFont font2 = wb.createFont();
-        font2.setBold(true);
-        style2.setFont(font2);
-        style2.setAlignment(HorizontalAlignment.CENTER);
-
-        XSSFCellStyle style3 = wb.createCellStyle();
-        XSSFFont font3 = wb.createFont();
-        style3.setWrapText(true);
-        style3.setFont(font3);
-        style3.setAlignment(HorizontalAlignment.LEFT);
-
-        XSSFCellStyle style4 = wb.createCellStyle();
-        XSSFFont font4 = wb.createFont();
-        style4.setWrapText(true);
-        style4.setFont(font4);
-        style4.setAlignment(HorizontalAlignment.RIGHT);
-
-        Sheet sheet = wb.createSheet("Período ${prdo.descripcion}")
-        sheet.setColumnWidth(0, 9 * 256);
-        sheet.setColumnWidth(1, 8 * 256);
-        sheet.setColumnWidth(2, 8 * 256);
-        sheet.setColumnWidth(3, 36 * 256);
-        sheet.setColumnWidth(4, 36 * 256);
-        sheet.setColumnWidth(5, 8 * 256);
-        sheet.setColumnWidth(6, 8 * 256);
-        sheet.setColumnWidth(7, 8 * 256);
-        sheet.setColumnWidth(8, 8 * 256);
-        sheet.setColumnWidth(9, 10 * 256);
-        sheet.setColumnWidth(10, 10 * 256);
-        sheet.setColumnWidth(11, 10 * 256);
-        sheet.setColumnWidth(12, 10 * 256);
-        sheet.setColumnWidth(13, 10 * 256);
-        sheet.setColumnWidth(14, 10 * 256);
-        sheet.setColumnWidth(15, 10 * 256);
-        sheet.setColumnWidth(16, 10 * 256);
-        sheet.setColumnWidth(17, 10 * 256);
-        sheet.setColumnWidth(18, 10 * 256);
-        sheet.setColumnWidth(19, 10 * 256);
-
-        Row row = sheet.createRow(0)
-        row.createCell(0).setCellValue("")
-        Row row2 = sheet.createRow(1)
 
         def profesores = Profesor.list()
 
         profesores.each { p->
+
+            def fila = 4
+
+            XSSFWorkbook wb = new XSSFWorkbook()
+            XSSFCellStyle style = wb.createCellStyle();
+            XSSFFont font = wb.createFont();
+            font.setBold(true);
+            style.setFont(font);
+
+            XSSFCellStyle style2 = wb.createCellStyle();
+            XSSFFont font2 = wb.createFont();
+            font2.setBold(true);
+            style2.setFont(font2);
+            style2.setAlignment(HorizontalAlignment.CENTER);
+
+            XSSFCellStyle style3 = wb.createCellStyle();
+            XSSFFont font3 = wb.createFont();
+            style3.setWrapText(true);
+            style3.setFont(font3);
+            style3.setAlignment(HorizontalAlignment.LEFT);
+
+            XSSFCellStyle style4 = wb.createCellStyle();
+            XSSFFont font4 = wb.createFont();
+            style4.setWrapText(true);
+            style4.setFont(font4);
+            style4.setAlignment(HorizontalAlignment.RIGHT);
+
+            Sheet sheet = wb.createSheet("Período ${prdo.descripcion}")
+            sheet.setColumnWidth(0, 9 * 256);
+            sheet.setColumnWidth(1, 8 * 256);
+            sheet.setColumnWidth(2, 8 * 256);
+            sheet.setColumnWidth(3, 36 * 256);
+            sheet.setColumnWidth(4, 36 * 256);
+            sheet.setColumnWidth(5, 8 * 256);
+            sheet.setColumnWidth(6, 8 * 256);
+            sheet.setColumnWidth(7, 8 * 256);
+            sheet.setColumnWidth(8, 8 * 256);
+            sheet.setColumnWidth(9, 10 * 256);
+            sheet.setColumnWidth(10, 10 * 256);
+            sheet.setColumnWidth(11, 10 * 256);
+            sheet.setColumnWidth(12, 10 * 256);
+            sheet.setColumnWidth(13, 10 * 256);
+            sheet.setColumnWidth(14, 10 * 256);
+            sheet.setColumnWidth(15, 10 * 256);
+            sheet.setColumnWidth(16, 10 * 256);
+            sheet.setColumnWidth(17, 10 * 256);
+            sheet.setColumnWidth(18, 10 * 256);
+            sheet.setColumnWidth(19, 10 * 256);
+
+            Row row = sheet.createRow(0)
+            row.createCell(0).setCellValue("")
+            Row row2 = sheet.createRow(1)
 
             def profesorNombre = Profesor.get(p?.id)
             row2.createCell(0).setCellValue("DOCENTE")
