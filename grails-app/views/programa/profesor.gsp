@@ -275,8 +275,8 @@
 
 
     function cargaTabla(prof) {
-        // var asig = $("#asignatura option:selected").val();
-        var data = {prof: prof};
+        var prdo = $("#periodo option:selected").val();
+        var data = {prof: prof, prdo: prdo};
 
         $.ajax({
             type: "POST",

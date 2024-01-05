@@ -29,10 +29,10 @@ class ProgramaController {
         if(params.prof){
             def horas = Hora.list([sort: 'numero'])
             def dias  = Dias.list([sort: 'numero'])
-            def sql = "select * from profesor(${params.prof})"
+            def sql = "select * from profesor(${params.prof}, ${params.prdo})"
             def resp = cn.rows(sql.toString())
             println "sql --> $sql"
-            sql = "select count(*) cnta from profesor(${params.prof}) where length(coalesce(lun, '')||" +
+            sql = "select count(*) cnta from profesor(${params.prof}, ${params.prdo}) where length(coalesce(lun, '')||" +
                     "coalesce(mar, '')||coalesce(mie, '')||coalesce(jue, '')||coalesce(vie, '')||" +
                     "coalesce(sab, '')||coalesce(dom, '')) > 0"
             def existe = cn.rows(sql.toString())[0]?.cnta

@@ -1382,6 +1382,11 @@ class ReportesController {
             fila++
         }
 
+        //escribe a archivo
+//        def file = new File("/tmp/prueba.xlsx")
+//        FileOutputStream outputStream = new FileOutputStream(file)
+//        wb.write(outputStream)
+
         def output = response.getOutputStream()
         def header = "attachment; filename=" + "periodo.xlsx";
         response.setContentType("application/octet-stream")
