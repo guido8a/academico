@@ -8,6 +8,7 @@ class Profesor {
     String mail
     String extension
     String sexo
+    int horas
 
     static mapping = {
         table 'prof'
@@ -23,6 +24,7 @@ class Profesor {
             mail column: 'profmail'
             extension column: 'profextn'
             sexo column: 'profsexo'
+            horas column: 'profhora'
         }
     }
 
@@ -32,5 +34,6 @@ class Profesor {
         mail(email: true, blank: false, nullable: false, maxSize: 255, attributes: [title: 'mail'])
         extension(maxSize: 255, blank: true, nullable: true, attributes: [title: 'extension'])
         sexo(inList: ["M", "F"], blank: false, nullable: false, maxSize: 15, attributes: [title: 'sexo'])
+        horas(blank: false, nullable: false, attributes: [title: 'horas'])
     }
 }

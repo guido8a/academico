@@ -7,9 +7,10 @@
                     <td style="width: 20%">${profesor?.tipoProfesor?.descripcion}</td>
                     <td style="width: 20%">${profesor?.apellido}</td>
                     <td style="width: 20%">${profesor?.nombre}</td>
-                    <td style="width: 15%">${profesor?.mail}</td>
+                    <td style="width: 13%">${profesor?.mail}</td>
                     <td style="width: 10%">${profesor?.extension}</td>
-                    <td style="width: 15%; text-align: center">
+                    <td style="width: 7%; text-align: center">${profesor?.horas}</td>
+                    <td style="width: 10%; text-align: center">
                         <a href="#" data-id="${profesor?.id}" class="btn btn-success btn-xs btn-edit btn-ajax" title="Editar">
                             <i class="fa fa-edit"></i>
                         </a>

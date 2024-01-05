@@ -43,9 +43,10 @@
         <th style="width: 20%">Tipo Profesor</th>
         <th style="width: 20%">Apellido</th>
         <th style="width: 20%">Nombre</th>
-        <th style="width: 15%">Email</th>
+        <th style="width: 13%">Email</th>
         <th style="width: 10%">Teléfono</th>
-        <th style="width: 15%">Acciones</th>
+        <th style="width: 7%">Horas</th>
+        <th style="width: 10%">Acciones</th>
     </tr>
     </thead>
 </table>

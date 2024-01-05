@@ -48,8 +48,7 @@
                 </label>
 
                 <div class="col-md-8">
-                    <g:textField name="mail" class="form-control email"
-                                 value="${profesor?.mail}"/>
+                    <g:textField name="mail" class="form-control email required" value="${profesor?.mail}"/>
                 </div>
             </div>
         </div>
@@ -63,17 +62,26 @@
                     <g:textField name="extension" class="form-control"
                                  value="${profesor?.extension}"/>
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group keeptogether ${hasErrors(bean: profesor, field: 'sexo', 'error')}">
-            <div class="row">
+
                 <label for="sexo" class="col-md-2 control-label">
                     Sexo
                 </label>
 
                 <div class="col-md-3">
                     <g:select name="sexo" from="${['F' : 'Femenino', 'M' : 'Masculino']}" optionKey="key" optionValue="value" class="form-control" value="${profesor?.sexo}"/>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group keeptogether ${hasErrors(bean: profesor, field: 'horas', 'error')}">
+            <div class="row">
+                <label for="extension" class="col-md-2 control-label">
+                    Horas
+                </label>
+                <div class="col-md-3">
+                    <g:textField name="horas" class="form-control required" value="${profesor?.horas ?: ''}"/>
                 </div>
             </div>
         </div>
@@ -126,7 +134,7 @@
             ev.keyCode === 37 || ev.keyCode === 39);
     }
 
-    $("#numero").keydown(function (ev) {
+    $("#numero, #horas").keydown(function (ev) {
         return validarNum(ev);
     });
 
