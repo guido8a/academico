@@ -736,7 +736,7 @@ class ReportesController {
             def profesorNombre = Profesor.get(params.profesor)
             row2.createCell(0).setCellValue("DOCENTE")
             row2.createCell(1).setCellValue(profesorNombre?.apellido + " " + profesorNombre?.nombre)
-            row2.createCell(4).setCellValue("Perìodo: ${prdo.descripcion}")
+            row2.createCell(4).setCellValue("Período: ${prdo.descripcion}")
         }else{
             row2.createCell(1).setCellValue("LISTA DE DOCENTES")
         }
@@ -792,6 +792,7 @@ class ReportesController {
                 dicta = Dicta.findAllByProfesorAndCursoInList(profesor, crso)
                 gestionN = Gestion.findAllByProfesorAndPeriodo(profesor, prdo.padre)
             }
+            println "dicta: $dicta"
             gestion = Gestion.findAllByProfesorAndPeriodo(profesor, prdo)
         }else{
 
@@ -1131,8 +1132,16 @@ class ReportesController {
     def retornaHoras(dia, nivel, paralelo, asignatura){
         def arreglo = []
         def cn = dbConnectionService.getConnection()
-        def sql = "select horadscr from hora where hora__id in (select substr(${dia},3,1)::int " +
-                "from horario(${nivel}, ${paralelo}, ${asignatura}) where length(${dia}) > 4) order by horanmro"
+//        def sql = "select horadscr from hora where hora__id in (select substr(${dia},3,1)::int " +
+//                "from horario(${nivel}, ${paralelo}, ${asignatura}) where length(${dia}) > 4) order by horanmro"
+//        def sql = "select hora from horario(${nivel}, ${paralelo}, ${asignatura}) where length(${dia}) > 10 and " +
+//                "split_part(${dia}, ';', 4) = 'S' order by hora"
+        def sql = "select horadscr from hora where hora__id in (select split_part(mar, ';',2)::int " +
+                "from horario(${nivel}, ${paralelo}, ${asignatura}) where length(${dia}) > 10 and " +
+                "split_part(${dia}, ';', 4) = 'S') order by horanmro"
+        if(asignatura == 86) {
+            println "sql: $sql"
+        }
         def resp = cn.rows(sql.toString())
         resp.each {
             arreglo.add(it.horadscr)
