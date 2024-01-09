@@ -52,12 +52,12 @@
 
 
 <div class="col-md-12">
-    <div class="btn-group">
-        <g:link controller="asignatura" action="list" class="btn btn-primary">
-            <i class="fa fa-arrow-left"></i> Regresar
-        </g:link>
-    </div>
-    <h3 class="titl" style="margin-top: -35px">Programación por Niveles - Paralelos y Asignaturas </h3>
+    %{--<div class="btn-group">--}%
+        %{--<g:link controller="asignatura" action="list" class="btn btn-primary">--}%
+            %{--<i class="fa fa-arrow-left"></i> Regresar--}%
+        %{--</g:link>--}%
+    %{--</div>--}%
+    <h3 class="titl" style="margin-top: 5px">Programación por Niveles - Paralelos y Asignaturas </h3>
 </div>
 <!-- botones -->
 %{--<div class="container" style="width: 1000px">--}%
@@ -76,6 +76,9 @@
             <label for="nivel" class="col-md-1 control-label" style="text-align: right">
                 Nivel
             </label>
+            <a href="#" class="btn btn-xs btn-success" id="btnActual" style="margin-left: 40px">
+                <i class="fa fa-sync"></i> Actualizar
+            </a>
             <g:select name="nivel" from="${tutor.Nivel.list([sort: 'numero'])}"
                       class="form-control input-sm required" optionValue="descripcion" optionKey="id"
                       />
@@ -336,6 +339,10 @@
         $("#btnBorrar").click(function () {
             var id = $("#paralelo").val();
             deleteRow(id);
+        });
+
+        $("#btnActual").click(function () {
+            cargarParalelo($("#periodo option:selected").val(), $("#nivel option:selected").val());
         });
 
     cargarParalelo($("#periodo option:selected").val(), $("#nivel option:selected").val());

@@ -9,7 +9,11 @@
               optionKey="id" value="params.parl"
     />
 </div>
-
+<div class="col-md-1">
+    <a href="#" class="btn btn-xs btn-success" id="btnActual" style="margin-left: 40px">
+        <i class="fa fa-sync"></i> Actualizar
+    </a>
+</div>
 %{--<div class="col-md-1">--}%
     %{--<div class="btn-group">--}%
         %{--<a href="#" id="btnVerProfesor" class="btn btn-info">--}%
@@ -29,5 +33,8 @@
         }
     });
 
+    $("#btnActual").click(function () {
+        cargaTabla($("#curso option:selected").val());
+    });
 
 </script>
