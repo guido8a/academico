@@ -44,8 +44,8 @@
     <tr>
         <th style="width: 20%">Carrera</th>
         <th style="width: 30%">Asignatura</th>
-        <th style="width: 8%">Creditos</th>
-        <th style="width: 6%">Creditos</th>
+        <th style="width: 8%">Nivel</th>
+        <th style="width: 6%">Paralelo</th>
         <th style="width: 8%">Creditos</th>
         <th style="width: 10%">Factor prep.</th>
         <th style="width: 10%">Horas</th>
