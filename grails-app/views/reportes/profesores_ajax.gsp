@@ -14,7 +14,15 @@
             <label>
                 Docente
             </label>
-            <g:select name="profesor" from="${tutor.Profesor.list().sort{it.apellido}}" class="form-control" optionKey="id" optionValue="${{it.apellido + " " + it.nombre}}" noSelection="[null: 'TODOS']" />
+            <g:select name="profesor" from="${tutor.Profesor.list().sort{it.apellido}}" class="form-control"
+                      optionKey="id" optionValue="${{it.apellido + " " + it.nombre}}" noSelection="[null: 'TODOS']" />
+        </div>
+
+        <div class="col-md-7">
+            <label>
+                Archivos separados
+            </label>
+            <input type="checkbox" id="separados">
         </div>
 
     </div>

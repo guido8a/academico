@@ -168,13 +168,14 @@
                         },
                         guardar  : {
                             id        : "btnSave",
-                            label     : "<i class='fa fa-print'></i> Imprimir",
+                            label     : "<i class='fa fa-print'></i> Reporte",
                             className : "btn-success",
                             callback  : function () {
                                 var profesor = $("#profesor option:selected").val();
                                 var prdo = $("#periodo option:selected").val();
+                                var arch = $("#separados").is(":checked")
                                 location.href="${createLink(controller: 'reportes', action: 'reportePofesoresExcel')}?profesor=" +
-                                    profesor + "&prdo=" + prdo
+                                    profesor + "&prdo=" + prdo + "&arch=" + arch
                             } //callback
                         } //guardar
                     } //buttons
