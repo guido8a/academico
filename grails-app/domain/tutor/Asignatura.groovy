@@ -12,6 +12,7 @@ class Asignatura {
     double horasPractica
     double factorPreparacion
     double horasGestion
+    String conjunta
 
     /**
      * Define el mapeo entre los campos del dominio y las columnas de la base de datos
@@ -34,6 +35,7 @@ class Asignatura {
             horasPractica column: 'asighrpr'
             factorPreparacion column: 'asigfcpr'
             horasGestion column: 'asighrgs'
+            conjunta column: 'asigconj'
         }
     }
 
@@ -51,6 +53,7 @@ class Asignatura {
         horasPractica(nullable: true, attributes: [mensaje: 'Horas prácticas de la asignatura'])
         factorPreparacion(nullable: true, attributes: [mensaje: 'Factor de créditos de la asignatura'])
         horasGestion(nullable: true, attributes: [mensaje: 'Horas de gestión y supervisión de la asignatura'])
+        conjunta(nullable: true, attributes: [mensaje: 'Asignatura que se dicta en conjunto para SI y TI'])
     }
 
     /**

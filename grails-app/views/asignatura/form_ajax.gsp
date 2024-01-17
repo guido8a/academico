@@ -93,7 +93,7 @@
             </div>
 
             <div class="row" style="margin-top: 15px">
-                <label for="factorPreparacion" class="col-md-3 control-label" style="text-align: right">
+                <label for="factorPreparacion" class="col-md-2 control-label" style="text-align: right">
                     Factor de Preparación
                 </label>
 
@@ -103,7 +103,7 @@
                                  value="${asignatura?.factorPreparacion}" />
                 </div>
 
-                <label for="horasGestion" class="col-md-5 control-label" style="text-align: right">
+                <label for="horasGestion" class="col-md-2 control-label" style="text-align: right">
                     Horas de gestión
                 </label>
 
@@ -111,6 +111,15 @@
                     <g:textField name="horasGestion" maxlength="4" class="form-control input-sm required"
                                  style="border:solid 1px #ccc; width: 40px"
                                  value="${asignatura?.horasGestion}"/>
+                </div>
+
+                <label for="conjunta" class="col-md-3 control-label" style="text-align: right">
+                    Asignatura conjunta
+                </label>
+
+                <div class="col-md-1">
+                    <g:select name="conjunta" from="${['S': 'Si', 'N': 'No']}" required="" optionKey="key" optionValue="value"
+                              class="form-control input-sm required" value="${asignatura?.conjunta?:'N'}" style="width: 50px"/>
                 </div>
             </div>
         </div>

@@ -14,13 +14,7 @@
         <i class="fa fa-sync"></i> Actualizar
     </a>
 </div>
-%{--<div class="col-md-1">--}%
-    %{--<div class="btn-group">--}%
-        %{--<a href="#" id="btnVerProfesor" class="btn btn-info">--}%
-            %{--<i class="fa fa-user"></i> Profesor--}%
-        %{--</a>--}%
-    %{--</div>--}%
-%{--</div>--}%
+
 
 <script type="text/javascript">
 

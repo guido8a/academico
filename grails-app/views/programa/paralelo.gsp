@@ -20,12 +20,8 @@
         text-align: center !important;
         background-color: #91caef;
     }
-    .otro {
-        text-align: center !important;
-        background-color: #d7bec8;
-    }
     .libre {
-    //background-color: #dadada;
+        text-align: center !important;
         color: #606060;
     }
     .horas {
@@ -100,192 +96,7 @@
 
 
 <script type="text/javascript">
-    var id = null;
-
-    function submitForm() {
-        var $form = $("#frmAsignatura");
-        var $btn = $("#dlgCreateEdit").find("#btnSave");
-        $.ajax({
-            type: "POST",
-            url: $form.attr("action"),
-            data: $form.serialize(),
-            success: function (msg) {
-                if (msg === 'ok') {
-                    log("Asignatura guardada correctamente", "success");
-                    setTimeout(function () {
-                        location.reload(true);
-                    }, 1000);
-                } else {
-                    log("Error al guardar la hora", "error")
-                }
-            }
-        });
-    }
-
-    function deleteRow(itemId) {
-        bootbox.dialog({
-            title: "Alerta",
-            message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p>" +
-            "¿Está seguro que desea eliminar el paralelo seleccionado? Esta acción no se puede deshacer.</p>",
-            closeButton: false,
-            buttons: {
-                cancelar: {
-                    label: "Cancelar",
-                    className: "btn-primary",
-                    callback: function () {
-                    }
-                },
-                eliminar: {
-                    label: "<i class='fa fa-trash'></i> Eliminar",
-                    className: "btn-danger",
-                    callback: function () {
-                        $.ajax({
-                            type: "POST",
-                            url: '${createLink(controller: 'programa', action:'delete_ajax')}',
-                            data: {
-                                id: itemId
-                            },
-                            success: function (msg) {
-                                if (msg === 'ok') {
-                                    setTimeout(function () {
-                                        location.reload();
-                                    }, 300);
-                                } else {
-                                    log("Error al borrar la hora", "error")
-                                }
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    }
-
-    function borraHora(itemId) {
-        bootbox.dialog({
-            title: "Alerta",
-            message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p>" +
-            "¿Está seguro que desea eliminar la hora seleccionada? Esta acción no se puede deshacer.</p>",
-            closeButton: false,
-            buttons: {
-                cancelar: {
-                    label: "Cancelar",
-                    className: "btn-primary",
-                    callback: function () {
-                    }
-                },
-                eliminar: {
-                    label: "<i class='fa fa-trash'></i> Eliminar",
-                    className: "btn-danger",
-                    callback: function () {
-                        $.ajax({
-                            type: "POST",
-                            url: '${createLink(controller: 'programa', action:'borra_ajax')}',
-                            data: {
-                                id: itemId
-                            },
-                            success: function (msg) {
-                                if (msg === 'ok') {
-                                    setTimeout(function () {
-                                        // location.reload();
-                                        cargaTabla($("#paralelo option:selected").val(), $("#asignatura option:selected").val());
-                                    }, 300);
-                                } else {
-                                    log("Error al borrar la hora", "error")
-                                }
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    }
-
-    function creaHora(dia, hora) {
-        var parl = $("#paralelo").val();
-        var asig = $("#asignatura").val();
-
-        console.log('crea hora con dia:', dia, 'hora', hora)
-        $.ajax({
-            type: "POST",
-            url: "${createLink(controller: 'programa', action:'creaHora')}",
-            data: {},
-            success: function (msg) {
-                var b = bootbox.dialog({
-                    title: "Crear la Hora de clases",
-                    closeButton: false,
-                    message: msg,
-                    buttons: {
-                        cancelar: {
-                            label: "Cancelar",
-                            className: "btn-default",
-                            callback: function () {
-                            }
-                        },
-                        crear: {
-                            label: "<i class='fa fa-trash'></i> Asignar hora",
-                            className: "btn-info",
-                            callback: function () {
-                                $.ajax({
-                                    type: "POST",
-                                    url: '${createLink(controller: 'programa', action:'crea_ajax')}',
-                                    data: {
-                                        asig: asig,
-                                        parl: parl,
-                                        dia: dia,
-                                        hora: hora
-                                    },
-                                    success: function (msg) {
-                                        console.log('retiorna:', msg);
-                                        if (msg === 'ok') {
-                                            setTimeout(function () {
-                                                // location.reload();
-                                                cargaTabla($("#paralelo option:selected").val(), $("#asignatura option:selected").val());
-                                            }, 300);
-                                            log("Horario creado exitosamente", "success")
-                                        } else {
-                                            log("Error al borrar la hora", "error")
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }
-
-                }); //dialog
-                setTimeout(function () {
-                    b.find(".form-control").first().focus()
-                }, 500);
-            } //success
-        });
-        //location.reload()//ajax
-    } //cre
-
-
-    function createEditRow(id) {
-        var title = id ? "Editar" : "Crear";
-        var asig = $("#asignatura").val();
-
-        $.ajax({
-            type: "POST",
-            url: "${createLink(controller: 'programa', action:'creaParalelo')}",
-            data: {id: id,
-            asig: asig},
-            success: function (msg) {
-                var b = bootbox.dialog({
-                    title: title + " Paralelo",
-                    closeButton: false,
-                    message: msg,
-                    class: "modal-lg"
-                }); //dialog
-                setTimeout(function () {
-                    b.find(".form-control").first().focus()
-                }, 500);
-            } //success
-        });
-        //location.reload()//ajax
-    }
-
+    //    var id = null;
 
     function cargaTabla(parl) {
         // var asig = $("#asignatura option:selected").val();
@@ -303,50 +114,16 @@
     }// /createEdit
 
 
+    $(document).ready(function () {
+        //console.log( "ready!" );
+        var asig = $("#asignatura").val();
+        var parl = $("#paralelo").val();
+        $("#paralelo").change()
+    });
 
-        $( document ).ready(function() {
-            //console.log( "ready!" );
-            var asig = $("#asignatura").val();
-            var parl = $("#paralelo").val();
-            $("#paralelo").change()
-        });
+    cargaParalelo($("#periodo option:selected").val(), $("#nivel option:selected").val());
 
-        $("#btnParalelo").click(function () {
-            createEditRow();
-            return false;
-        });
-
-
-        $("#btnProgramar").click(function () {
-            paralelo();
-            return false;
-        });
-
-
-        $("#btnCrear").click(function () {
-            createEditRow();
-            return false;
-        });
-
-        $("#btnEditar").click(function () {
-            var id = $("#paralelo").val();
-            // console.log("id", id)
-            createEditRow(id);
-            return false;
-        });
-
-        $(".btn-edit").click(function () {
-            var id = $(this).data("id");
-            createEditRow(id);
-        });
-        $("#btnBorrar").click(function () {
-            var id = $("#paralelo").val();
-            deleteRow(id);
-        });
-
-    cargaParalelo( $("#periodo option:selected").val(), $("#nivel option:selected").val() );
-
-    function cargaParalelo(periodo, nivel){
+    function cargaParalelo(periodo, nivel) {
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'cursos_ajax')}",
