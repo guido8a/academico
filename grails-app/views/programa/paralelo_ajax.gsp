@@ -43,25 +43,29 @@
             },
             success: function (msg1) {
                 $("#divAsignatura").html(msg1);
+//                $("#asignatura").change()
             } //success
         });
     }
 
     $("#paralelo").change(function () {
         var paralelo = $(this).val();
+        console.log('Paral:', paralelo)
         if(paralelo) {
             cargarAsignatura(paralelo)
+//            cargaTabla($("#paralelo option:selected").val(), $("#asignatura option:selected").val());
         }
     });
 
 
-    %{--$("#asignatura").change(function () {--}%
-    %{--    var asignatura = $(this).val();--}%
-    %{--    var paralelo = $("#paralelo option:selected").val();--}%
-    %{--    if(asignatura) {--}%
-    %{--        cargaTabla(paralelo, asignatura);--}%
-    %{--    }--}%
-    %{--});--}%
+//    $("#asignatura").change(function () {
+//        var asignatura = $(this).val();
+//        var paralelo = $("#paralelo option:selected").val();
+//        console.log('Asig.', asignatura)
+//        if(asignatura) {
+//            cargaTabla(paralelo, asignatura);
+//        }
+//    });
 
     %{--$("#btnVerProfesor").click(function () {--}%
     %{--    var asignatura = $("#asignatura option:selected").val();--}%

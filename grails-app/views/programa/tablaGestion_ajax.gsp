@@ -3,8 +3,9 @@
         <thead>
         <tr>
             <th style="width: 10%">Período</th>
-            <th style="width: 30%">Asignatura</th>
-            <th style="width: 29%">Profesor</th>
+            <th style="width: 24%">Asignatura</th>
+            <th style="width: 20%">Observaciones</th>
+            <th style="width: 20%">Profesor</th>
             <th style="width: 8%">Horas</th>
             <th style="width: 8%">Total</th>
             <th style="width: 10%">Acciones</th>
@@ -20,13 +21,14 @@
             <g:set var="total" value="${0}" />
 
             <g:each in="${gestiones}" status="i" var="gestion">
-                <tr data-id="${gestion.id}" class="${gestion?.periodo?.id == params.id.toInteger() ? 'usado' : 'otro' }">
+                <tr data-id="${gestion.id}">
                     <td style="width: 10%">${gestion?.periodo?.descripcion} ${gestion?.periodo?.id}</td>
-                    <td style="width: 30%; text-align: left">${gestion?.asignatura?.nombre}</td>
-                    <td style="width: 29%; text-align: left">${gestion?.profesor?.apellido + " " + gestion?.profesor?.nombre}</td>
+                    <td style="width: 24%; text-align: left">${gestion?.asignatura?.nombre}</td>
+                    <td style="width: 20%; text-align: left">${gestion?.observaciones}</td>
+                    <td style="width: 20%; text-align: left">${gestion?.profesor?.apellido + " " + gestion?.profesor?.nombre}</td>
                     <td style="width: 8%">${gestion?.hora}</td>
                     <td style="width: 8%">${gestion?.horas}</td>
-                    <td style="width: 10%;">
+                    <td style="width: 10%">
                         <a href="#" class="btn btn-success btn-xs btnEditarGestion" title="Editar" data-id="${gestion.id}"
                            data-prof="${gestion?.profesor?.id}" data-asig="${gestion?.asignatura?.id}" data-hora="${gestion?.hora}">
                             <i class="fa fa-edit"></i>

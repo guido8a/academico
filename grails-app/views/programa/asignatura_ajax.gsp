@@ -23,7 +23,9 @@
 
     $("#asignatura").change(function () {
         var asignatura = $(this).val();
+        var asig = $("#asignatura").val();
         var paralelo = $("#paralelo option:selected").val();
+        console.log('asig:', asignatura, asig)
         if(asignatura) {
             cargaTabla(paralelo, asignatura);
         }

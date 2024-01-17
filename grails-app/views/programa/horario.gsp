@@ -20,12 +20,16 @@
         text-align: center !important;
         background-color: #91caef;
     }
+    .conjunta {
+        text-align: center !important;
+        color: #404040;
+        background-image: repeating-linear-gradient(#618acf, #c1faf8, #618acf)
+    }
     .otro {
         text-align: center !important;
         background-color: #d7bec8;
     }
     .libre {
-    //background-color: #dadada;
         color: #606060;
     }
     .horas {
@@ -287,7 +291,7 @@
     function cargaTabla(id, asig) {
         // var asig = $("#asignatura option:selected").val();
         var data = {asig: asig, parl: id};
-
+        console.log('data:', data)
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'tabla_ajax')}",
@@ -358,6 +362,10 @@
             },
             success: function (msg) {
                 $("#divParalelo").html(msg);
+                setTimeout(function () {
+                    cargaTabla($("#paralelo option:selected").val(), $("#asignatura option:selected").val());
+                }, 500);
+
             } //success
         });
     }

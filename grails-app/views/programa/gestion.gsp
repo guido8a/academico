@@ -130,246 +130,6 @@
 <script type="text/javascript">
     var id = null;
 
-    function submitForm() {
-        var $form = $("#frmAsignatura");
-        var $btn = $("#dlgCreateEdit").find("#btnSave");
-        $.ajax({
-            type: "POST",
-            url: $form.attr("action"),
-            data: $form.serialize(),
-            success: function (msg) {
-                if (msg === 'ok') {
-                    log("Asignatura guardada correctamente", "success");
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                } else {
-                    log("Error al guardar la hora", "error")
-                }
-            }
-        });
-    }
-
-    function deleteRow(itemId) {
-        bootbox.dialog({
-            title: "Alerta",
-            message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p>" +
-                "¿Está seguro que desea eliminar el paralelo seleccionado? Esta acción no se puede deshacer.</p>",
-            closeButton: false,
-            buttons: {
-                cancelar: {
-                    label: "Cancelar",
-                    className: "btn-primary",
-                    callback: function () {
-                    }
-                },
-                eliminar: {
-                    label: "<i class='fa fa-trash'></i> Eliminar",
-                    className: "btn-danger",
-                    callback: function () {
-                        $.ajax({
-                            type: "POST",
-                            url: '${createLink(controller: 'programa', action:'delete_ajax')}',
-                            data: {
-                                id: itemId
-                            },
-                            success: function (msg) {
-                                if (msg === 'ok') {
-                                    setTimeout(function () {
-                                        location.reload();
-                                    }, 300);
-                                } else {
-                                    log("Error al borrar la hora", "error")
-                                }
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    }
-
-
-    function borraHora(itemId) {
-        bootbox.dialog({
-            title: "Alerta",
-            message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p>" +
-                "¿Está seguro que desea eliminar la hora seleccionada? Esta acción no se puede deshacer.</p>",
-            closeButton: false,
-            buttons: {
-                cancelar: {
-                    label: "Cancelar",
-                    className: "btn-primary",
-                    callback: function () {
-                    }
-                },
-                eliminar: {
-                    label: "<i class='fa fa-trash'></i> Eliminar",
-                    className: "btn-danger",
-                    callback: function () {
-                        $.ajax({
-                            type: "POST",
-                            url: '${createLink(controller: 'programa', action:'borra_ajax')}',
-                            data: {
-                                id: itemId
-                            },
-                            success: function (msg) {
-                                if (msg === 'ok') {
-                                    setTimeout(function () {
-                                        location.reload();
-                                    }, 300);
-                                } else {
-                                    log("Error al borrar la hora", "error")
-                                }
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    }
-
-    function creaHora(dia, hora) {
-        var parl = $("#paralelo").val();
-        var asig = $("#asignatura").val();
-
-        console.log('crea hora con dia:', dia, 'hora', hora)
-        $.ajax({
-            type: "POST",
-            url: "${createLink(controller: 'programa', action:'creaHora')}",
-            data: {},
-            success: function (msg) {
-                var b = bootbox.dialog({
-                    title: "Crear la Hora de clases",
-                    closeButton: false,
-                    message: msg,
-                    buttons: {
-                        cancelar: {
-                            label: "Cancelar",
-                            className: "btn-default",
-                            callback: function () {
-                            }
-                        },
-                        crear: {
-                            label: "<i class='fa fa-trash'></i> Asignar hora",
-                            className: "btn-info",
-                            callback: function () {
-                                $.ajax({
-                                    type: "POST",
-                                    url: '${createLink(controller: 'programa', action:'crea_ajax')}',
-                                    data: {
-                                        asig: asig,
-                                        parl: parl,
-                                        dia: dia,
-                                        hora: hora
-                                    },
-                                    success: function (msg) {
-                                        console.log('retiorna:', msg);
-                                        if (msg === 'ok') {
-                                            setTimeout(function () {
-                                                location.reload();
-                                            }, 300);
-                                            log("Horario creado exitosamente", "success")
-                                        } else {
-                                            log("Error al borrar la hora", "error")
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }
-
-                }); //dialog
-                setTimeout(function () {
-                    b.find(".form-control").first().focus()
-                }, 500);
-            } //success
-        });
-        //location.reload()//ajax
-    } //cre
-
-
-    function createEditRow(id) {
-        var title = id ? "Editar" : "Crear";
-        var asig = $("#asignatura").val();
-
-        $.ajax({
-            type: "POST",
-            url: "${createLink(controller: 'programa', action:'creaParalelo')}",
-            data: {id: id,
-                asig: asig},
-            success: function (msg) {
-                var b = bootbox.dialog({
-                    title: title + " Paralelo",
-                    closeButton: false,
-                    message: msg,
-                    class: "modal-lg"
-                }); //dialog
-                setTimeout(function () {
-                    b.find(".form-control").first().focus()
-                }, 500);
-            } //success
-        });
-        //location.reload()//ajax
-    }
-
-
-    %{--function cargaTabla(id) {--}%
-        %{--var asig = $("#asignatura option:selected").val();--}%
-        %{--var data = {asig: asig, parl: id};--}%
-
-        %{--$.ajax({--}%
-            %{--type: "POST",--}%
-            %{--url: "${createLink(controller: 'programa', action:'tabla_ajax')}",--}%
-            %{--data: data,--}%
-            %{--success: function (msg) {--}%
-                %{--$("#divTabla").html(msg);--}%
-            %{--} //success--}%
-        %{--});--}%
-        %{--//location.reload()//ajax--}%
-    %{--}// /createEdit--}%
-
-    %{--// $(function () {--}%
-
-    %{--$( document ).ready(function() {--}%
-        %{--//console.log( "ready!" );--}%
-        %{--var asig = $("#asignatura").val();--}%
-        %{--var parl = $("#paralelo").val();--}%
-        %{--$("#paralelo").change()--}%
-    %{--});--}%
-
-    $("#btnParalelo").click(function () {
-        createEditRow();
-        return false;
-    });
-
-
-    $("#btnProgramar").click(function () {
-        paralelo();
-        return false;
-    });
-
-
-    $("#btnCrear").click(function () {
-        createEditRow();
-        return false;
-    });
-
-    $("#btnEditar").click(function () {
-        var id = $("#paralelo").val();
-        // console.log("id", id)
-        createEditRow(id);
-        return false;
-    });
-
-    $(".btn-edit").click(function () {
-        var id = $(this).data("id");
-        createEditRow(id);
-    });
-    $("#btnBorrar").click(function () {
-        var id = $("#paralelo").val();
-        deleteRow(id);
-    });
 
     cargarTablaGestion();
 
@@ -430,13 +190,16 @@
                         log(parts[1],  "success");
                         cargarTablaGestion();
                     }else{
-                        bootbox.alert( '<div style="text-align: center">' + '<i class="fa fa-exclamation-triangle fa-2x text-danger"></i>'  + '<strong style="font-size: 14px">' +  parts[1] +  '</strong>' + '</div>')
+                        bootbox.alert( '<div style="text-align: center">' +
+                            '<i class="fa fa-exclamation-triangle fa-2x text-danger"></i>'  +
+                            '<strong style="font-size: 14px">' +  parts[1] +  '</strong>' + '</div>')
                     }
                 } //success
             });
         }else{
             d.modal("hide");
-            bootbox.alert( '<div style="text-align: center">' + '<i class="fa fa-exclamation-triangle fa-2x text-info"></i>'  + '<strong style="font-size: 14px">' +  'Ingrese el número de horas' +  '</strong>' + '</div>')
+            bootbox.alert( '<div style="text-align: center">' + '<i class="fa fa-exclamation-triangle fa-2x text-info"></i>'  +
+                '<strong style="font-size: 14px">' +  'Ingrese el número de horas' +  '</strong>' + '</div>')
         }
     }
 
@@ -461,7 +224,8 @@
     function borrarGestion(itemId) {
         bootbox.dialog({
             title   : "Alerta",
-            message : '<div style="text-align: center">' + '<i class="fa fa-trash fa-2x text-danger"></i>'  + '<strong style="font-size: 14px">' +  'Está seguro que desea borrar este registro?' +  '</strong>' + '</div>',
+            message : '<div style="text-align: center">' + '<i class="fa fa-trash fa-2x text-danger"></i>'  +
+            '<strong style="font-size: 14px">' +  'Está seguro que desea borrar este registro?' +  '</strong>' + '</div>',
             buttons : {
                 cancelar : {
                     label     : "Cancelar",
