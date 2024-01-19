@@ -18,12 +18,17 @@
     }
     .usado {
         text-align: center !important;
-        background-color: #91caef;
-    }
-    .conjunta {
-        text-align: center !important;
-        color: #404040;
+        /*background-color: #91caef;*/
         background-image: repeating-linear-gradient(#618acf, #c1faf8, #618acf)
+   }
+   .conjunta {
+       text-align: center !important;
+       color: #404040;
+       /*background-image: repeating-linear-gradient(#618acf, #c1faf8, #618acf)*/
+        /*background-image: repeating-linear-gradient(#a18aff, #f1faf8, #a18aff)*/
+        /*border-radius: 20px;*/
+        border-top-left-radius: 20px;
+        border-bottom-right-radius: 20px;
     }
     .otro {
         text-align: center !important;
