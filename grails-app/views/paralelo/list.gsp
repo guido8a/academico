@@ -28,11 +28,32 @@
         <label for="periodo" class="col-md-1 control-label text-info" style="text-align: right">
             Período
         </label>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <g:select name="periodo" from="${tutor.Periodo.list([sort: 'descripcion'])}"
                       class="form-control input-sm" optionValue="descripcion" optionKey="id"
             />
         </div>
+        <label for="carrera" class="col-md-1 control-label text-info" style="text-align: right">
+            Carrera
+        </label>
+        <div class="col-md-4">
+            <g:select name="carrera" from="${tutor.Carrera.list([sort: 'nombre'])}"
+                      class="form-control input-sm" optionValue="nombre" optionKey="id"
+            />
+        </div>
+        <label for="nivel" class="col-md-1 control-label text-info" style="text-align: right">
+            Nivel
+        </label>
+        <div class="col-md-2">
+            <g:select name="nivel" from="${tutor.Nivel.list([sort: 'numero'])}"
+                      class="form-control input-sm" optionValue="descripcion" optionKey="id"
+            />
+        </div>
+%{--        <div class="col-md-1">--}%
+%{--            <a href="#" class="btn btn-success btnBuscar">--}%
+%{--                <i class="fa fa-search"></i>--}%
+%{--            </a>--}%
+%{--        </div>--}%
     </div>
 </div>
 
@@ -59,14 +80,20 @@
 <script type="text/javascript">
     var id = null;
 
-    cargarTablaParalelos( $("#periodo option:selected").val());
+    // $(".btnBuscar").click(function () {
+    //     cargarTablaParalelos( $("#periodo option:selected").val(), $("#carrera option:selected").val(), $("#nivel option:selected").val());
+    // });
 
-    function cargarTablaParalelos(periodo){
+    cargarTablaParalelos( $("#periodo option:selected").val(), $("#carrera option:selected").val(), $("#nivel option:selected").val());
+
+    function cargarTablaParalelos(periodo, carrera, nivel){
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'paralelo', action:'tablaParalelos_ajax')}",
             data: {
-                periodo: periodo
+                periodo: periodo,
+                carrera: carrera,
+                nivel: nivel
             },
             success: function (msg) {
                 $("#divParalelos").html(msg);
@@ -75,10 +102,26 @@
     }
 
     $("#periodo").change(function () {
-       var periodo = $(this).val();
-        cargarTablaParalelos(periodo)
+        var periodo = $(this).val();
+        var carrera = $("#carrera option:selected").val();
+        var nivel = $("#nivel option:selected").val();
+        cargarTablaParalelos(periodo, carrera, nivel)
     });
 
+    $("#carrera").change(function () {
+        var carrera = $(this).val();
+        var periodo = $("#periodo option:selected").val();
+        var nivel = $("#nivel option:selected").val();
+        cargarTablaParalelos(periodo, carrera, nivel)
+    });
+
+
+    $("#nivel").change(function () {
+        var nivel = $(this).val();
+        var carrera = $("#carrera option:selected").val();
+        var periodo = $("#periodo option:selected").val();
+        cargarTablaParalelos(periodo, carrera, nivel)
+    });
 
     function createEditRowParalelo(id) {
         var title = id ? "Editar" : "Crear";

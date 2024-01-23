@@ -10,7 +10,9 @@ class ParaleloController {
 
     def tablaParalelos_ajax(){
         def periodo = Periodo.get(params.periodo)
-        def paralelos = Paralelo.findAllByPeriodo(periodo)
+        def carrera = Carrera.get(params.carrera)
+        def nivel = Nivel.get(params.nivel)
+        def paralelos = Paralelo.findAllByPeriodoAndCarreraAndNivel(periodo, carrera, nivel)
         return[paralelos: paralelos]
     }
 

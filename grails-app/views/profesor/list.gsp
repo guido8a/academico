@@ -25,14 +25,21 @@
 
 <div class="btn-toolbar toolbar" style="margin-top: 10px">
     <div class="col-md-12">
-        <label for="tipoProfesor" class="col-md-1 control-label text-info" style="text-align: right">
-            Tipo de Profesor
+        <label for="nombre" class="col-md-1 control-label text-info" style="text-align: right">
+            Nombre
         </label>
         <div class="col-md-3">
-            <g:select name="tipoProfesor" from="${tutor.TipoProfesor.list([sort: 'descripcion'])}"
-                      class="form-control input-sm" optionValue="descripcion" optionKey="id"
-            />
+           <g:textField name="nombre" class="form-control" />
         </div>
+        <label for="apellido" class="col-md-1 control-label text-info" style="text-align: right">
+            Apellido
+        </label>
+        <div class="col-md-3">
+            <g:textField name="apellido" class="form-control" />
+        </div>
+        <a href="#" class="btn btn-success btnBuscar">
+            <i class="fa fa-search"></i> Buscar
+        </a>
     </div>
 </div>
 
@@ -59,14 +66,19 @@
 <script type="text/javascript">
     var id = null;
 
-    cargarTablaProfesores( $("#tipoProfesor option:selected").val());
+    $(".btnBuscar").click(function () {
+        cargarTablaProfesores($("#nombre").val(), $("#apellido").val());
+    });
 
-    function cargarTablaProfesores(tipoProfesor){
+    cargarTablaProfesores($("#nombre").val(), $("#apellido").val());
+
+    function cargarTablaProfesores(nombre, apellido){
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'profesor', action:'tablaProfesores_ajax')}",
             data: {
-                tipoProfesor: tipoProfesor
+                nombre: nombre,
+                apellido: apellido
             },
             success: function (msg) {
                 $("#divProfesores").html(msg);

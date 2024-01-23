@@ -20,8 +20,14 @@ class ProfesorController {
     }
 
     def tablaProfesores_ajax(){
-        def tipoProfesor = TipoProfesor.get(params.tipoProfesor)
-        def profesores = Profesor.findAllByTipoProfesor(tipoProfesor).sort{it.apellido}
+        def profesores
+
+        if(params.nombre || params.apellido){
+            profesores = Profesor.findAllByNombreIlikeAndApellidoIlike("%" + params.nombre + "%", "%" +  params.apellido + "%")
+        }else{
+           profesores = Profesor.list([sort: 'apellido'])
+        }
+
         return[profesores: profesores]
     }
 
