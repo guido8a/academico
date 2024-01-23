@@ -46,7 +46,7 @@
         </label>
         <div class="col-md-2">
             <g:select name="nivel" from="${tutor.Nivel.list([sort: 'numero'])}"
-                      class="form-control input-sm" optionValue="descripcion" optionKey="id"
+                      class="form-control input-sm" optionValue="descripcion" optionKey="id" noSelection="[null : 'Todos']"
             />
         </div>
 %{--        <div class="col-md-1">--}%
