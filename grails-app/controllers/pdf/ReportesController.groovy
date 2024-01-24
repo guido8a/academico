@@ -1912,8 +1912,14 @@ class ReportesController {
 
         def crso = Curso.findAllByParaleloInList(parl)
         def dicta = Dicta.findAllByCursoInList(crso)sort { a,b ->
+//            a.curso.paralelo.nivel.numero <=> b.curso.paralelo.nivel.numero   ?: a.curso.asignatura.nombre <=> b.curso.asignatura.nombre
             a.curso.paralelo.nivel.numero <=> b.curso.paralelo.nivel.numero   ?: a.curso.asignatura.nombre <=> b.curso.asignatura.nombre
         }
+
+//        usando sql para ordenar por nivel, paralelo y asignatura
+//        sql = "select dcta__id from dcta, crso, parl where parl.nvel__id = 1 and crso.parl__id = parl.parl__id and " +
+//                "dcta.crso__id = crso.crso__id order by nvel__id, parlnmro, as"
+//        def dicta = cn.rows()
 
         dicta.eachWithIndex { r, j ->
             def respLunes = retornaHoras("lun",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
