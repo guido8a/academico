@@ -1911,7 +1911,9 @@ class ReportesController {
         }
 
         def crso = Curso.findAllByParaleloInList(parl)
-        def dicta = Dicta.findAllByCursoInList(crso).sort{[it.curso.paralelo.nivel, it.curso.asignatura]}
+        def dicta = Dicta.findAllByCursoInList(crso)sort { a,b ->
+            a.curso.paralelo.nivel.numero <=> b.curso.paralelo.nivel.numero   ?: a.curso.asignatura.id <=> b.curso.asignatura.id
+        }
 
         dicta.eachWithIndex { r, j ->
             def respLunes = retornaHoras("lun",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
