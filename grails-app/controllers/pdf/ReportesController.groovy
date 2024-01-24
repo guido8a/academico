@@ -1912,7 +1912,7 @@ class ReportesController {
 
         def crso = Curso.findAllByParaleloInList(parl)
         def dicta = Dicta.findAllByCursoInList(crso)sort { a,b ->
-            a.curso.paralelo.nivel.numero <=> b.curso.paralelo.nivel.numero   ?: a.curso.asignatura.id <=> b.curso.asignatura.id
+            a.curso.paralelo.nivel.numero <=> b.curso.paralelo.nivel.numero   ?: a.curso.asignatura.nombre <=> b.curso.asignatura.nombre
         }
 
         dicta.eachWithIndex { r, j ->
