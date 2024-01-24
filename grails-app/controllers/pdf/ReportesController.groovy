@@ -1917,7 +1917,7 @@ class ReportesController {
 
 //        usando sql para ordenar por nivel, paralelo y asignatura
         sql = "select dcta__id, parl.nvel__id, parl.parl__id, crso.asig__id, asigcdgo, asignmbr, profnmbr, profapll " +
-                "from dcta, crso, parl, asig, prof where parl.nvel__id = 1 and crso.parl__id = parl.parl__id and " +
+                "from dcta, crso, parl, asig, prof where parl.nvel__id = ${nivel?.id} and crso.parl__id = parl.parl__id and " +
                 "dcta.crso__id = crso.crso__id and asig.asig__id = crso.asig__id and prof.prof__id = dcta.prof__id " +
                 "order by parl.nvel__id, parlnmro, asignmbr"
         def dicta = cn.rows(sql.toString())
@@ -1940,24 +1940,24 @@ class ReportesController {
             Cell cell2 = rowF1.createCell(0);
             cell2.setCellStyle(style3);
 //            cell2.setCellValue(r?.curso?.asignatura?.codigo?.toString());
-            cell2.setCellValue(r?.asigcdgo.toString());
+            cell2.setCellValue(r?.asigcdgo?.toString());
 
             Cell cell3 = rowF1.createCell(1);
             cell3.setCellStyle(style3);
 //            cell3.setCellValue(r?.curso?.asignatura?.nombre?.toString());
-            cell3.setCellValue(r?.asignmbr.toString());
+            cell3.setCellValue(r?.asignmbr?.toString());
 
             Cell cell4 = rowF1.createCell(2);
             cell4.setCellStyle(style3);
-            cell4.setCellValue(r?.profapll.toString() + " " + r?.profnmbr.toString())
+            cell4.setCellValue(r?.profapll?.toString() + " " + r?.profnmbr?.toString())
 
             Cell cell5 = rowF1.createCell(3);
             cell5.setCellStyle(style3);
-            cell5.setCellValue(r?.curso?.asignatura?.nivel?.numero?.toString())
+            cell5.setCellValue(Nivel.get(r?.nvel__id)?.numero?.toString())
 
             Cell cell6 = rowF1.createCell(4);
             cell6.setCellStyle(style3);
-            cell6.setCellValue(r?.curso?.paralelo?.numero?.toString())
+            cell6.setCellValue( Paralelo.get(r?.parl__id)?.numero?.toString())
 
             Cell cell10 = rowF1.createCell(5);
             cell10.setCellStyle(style3);
