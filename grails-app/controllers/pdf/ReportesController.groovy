@@ -1916,9 +1916,10 @@ class ReportesController {
 //        }
 
 //        usando sql para ordenar por nivel, paralelo y asignatura
-        sql = "select dcta__id, parl.nvel__id, parl.parl__id, crso.asig__id, asigcdgo, asignmbr " +
-                "from dcta, crso, parl, asig where parl.nvel__id = 1 and crso.parl__id = parl.parl__id and " +
-                "dcta.crso__id = crso.crso__id and asig.asig__id = crso.asig__id order by parl.nvel__id, parlnmro, asignmbr"
+        sql = "select dcta__id, parl.nvel__id, parl.parl__id, crso.asig__id, asigcdgo, asignmbr, profnmbr, profapll " +
+                "from dcta, crso, parl, asig, prof where parl.nvel__id = 1 and crso.parl__id = parl.parl__id and " +
+                "dcta.crso__id = crso.crso__id and asig.asig__id = crso.asig__id and prof.prof__id = dcta.prof__id " +
+                "order by parl.nvel__id, parlnmro, asignmbr"
         def dicta = cn.rows(sql.toString())
 
         dicta.eachWithIndex { r, j ->
@@ -1948,7 +1949,7 @@ class ReportesController {
 
             Cell cell4 = rowF1.createCell(2);
             cell4.setCellStyle(style3);
-            cell4.setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
+            cell4.setCellValue(r?.profapll.toString() + " " + r?.profnmbr.toString())
 
             Cell cell5 = rowF1.createCell(3);
             cell5.setCellStyle(style3);
