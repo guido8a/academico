@@ -1911,32 +1911,40 @@ class ReportesController {
         }
 
         def crso = Curso.findAllByParaleloInList(parl)
-        def dicta = Dicta.findAllByCursoInList(crso)sort { a,b ->
+//        def dicta = Dicta.findAllByCursoInList(crso)sort { a,b ->
 //            a.curso.paralelo.nivel.numero <=> b.curso.paralelo.nivel.numero   ?: a.curso.asignatura.nombre <=> b.curso.asignatura.nombre
-            a.curso.paralelo.nivel.numero <=> b.curso.paralelo.nivel.numero   ?: a.curso.asignatura.nombre <=> b.curso.asignatura.nombre
-        }
+//        }
 
 //        usando sql para ordenar por nivel, paralelo y asignatura
-//        sql = "select dcta__id from dcta, crso, parl where parl.nvel__id = 1 and crso.parl__id = parl.parl__id and " +
-//                "dcta.crso__id = crso.crso__id order by nvel__id, parlnmro, as"
-//        def dicta = cn.rows()
+        sql = "select dcta__id, parl.nvel__id, parl.parl__id, crso.asig__id, asigcdgo, asignmbr " +
+                "from dcta, crso, parl, asig where parl.nvel__id = 1 and crso.parl__id = parl.parl__id and " +
+                "dcta.crso__id = crso.crso__id and asig.asig__id = crso.asig__id order by parl.nvel__id, parlnmro, asignmbr"
+        def dicta = cn.rows(sql.toString())
 
         dicta.eachWithIndex { r, j ->
-            def respLunes = retornaHoras("lun",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-            def respMartes = retornaHoras("mar",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-            def respMiercoles = retornaHoras("mie",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-            def respJueves = retornaHoras("jue",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-            def respViernes = retornaHoras("vie",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+//            def respLunes = retornaHoras("lun",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+//            def respMartes = retornaHoras("mar",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+//            def respMiercoles = retornaHoras("mie",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+//            def respJueves = retornaHoras("jue",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+//            def respViernes = retornaHoras("vie",  r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+
+            def respLunes = retornaHoras("lun",  r?.nvel__id, r?.parl__id, r?.asig__id)
+            def respMartes = retornaHoras("mar",  r?.nvel__id, r?.parl__id, r?.asig__id)
+            def respMiercoles = retornaHoras("mie",  r?.nvel__id, r?.parl__id, r?.asig__id)
+            def respJueves = retornaHoras("jue",  r?.nvel__id, r?.parl__id, r?.asig__id)
+            def respViernes = retornaHoras("vie",  r?.nvel__id, r?.parl__id, r?.asig__id)
 
             Row rowF1 = sheet.createRow(fila)
 
             Cell cell2 = rowF1.createCell(0);
             cell2.setCellStyle(style3);
-            cell2.setCellValue(r?.curso?.asignatura?.codigo?.toString());
+//            cell2.setCellValue(r?.curso?.asignatura?.codigo?.toString());
+            cell2.setCellValue(r?.asigcdgo.toString());
 
             Cell cell3 = rowF1.createCell(1);
             cell3.setCellStyle(style3);
-            cell3.setCellValue(r?.curso?.asignatura?.nombre?.toString());
+//            cell3.setCellValue(r?.curso?.asignatura?.nombre?.toString());
+            cell3.setCellValue(r?.asignmbr.toString());
 
             Cell cell4 = rowF1.createCell(2);
             cell4.setCellStyle(style3);
