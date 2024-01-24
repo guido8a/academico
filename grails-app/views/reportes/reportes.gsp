@@ -120,6 +120,10 @@
                         <i class="fa fa-file-excel fa-4x text-success"></i>
                         <br/> Período
                     </a>
+                    <a href="#" id="btnProfesoresHorarioExcel" class="btn btn-info btn-ajax example_c item" texto="prof">
+                        <i class="fa fa-users fa-4x text-success"></i>
+                        <br/> Profesores
+                    </a>
                 </p>
 
             </div>
@@ -144,12 +148,47 @@
     <p>Horario</p>
 </div>
 
-
+<div id="prof" style="display:none">
+    <h3>Reporte Excel del horario por profesor</h3><br>
+    <p>Horario</p>
+</div>
 
 <script type="text/javascript">
 
-    $("#btnProfesoresExcel").click(function () {
 
+    $("#btnProfesoresHorarioExcel").click(function () {
+        $.ajax({
+            type    : "POST",
+            url: "${createLink(action:'profesoresHorario_ajax')}",
+            data    : {},
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgImpProfesores",
+                    title   : "Reporte",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-print'></i> Reporte",
+                            className : "btn-success",
+                            callback  : function () {
+                                var periodo = $("#periodo option:selected").val();
+                                location.href="${createLink(controller: 'reportes', action: 'reporteProfesoresHorarioExcel')}?periodo=" + periodo
+                            } //callback
+                        } //guardar
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    });
+
+    $("#btnProfesoresExcel").click(function () {
         $.ajax({
             type    : "POST",
             url: "${createLink(action:'profesores_ajax')}",
@@ -173,7 +212,7 @@
                             callback  : function () {
                                 var profesor = $("#profesor option:selected").val();
                                 var prdo = $("#periodo option:selected").val();
-                                var arch = $("#separados").is(":checked")
+                                var arch = $("#separados").is(":checked");
                                 location.href="${createLink(controller: 'reportes', action: 'reportePofesoresExcel')}?profesor=" +
                                     profesor + "&prdo=" + prdo + "&arch=" + arch
                             } //callback
