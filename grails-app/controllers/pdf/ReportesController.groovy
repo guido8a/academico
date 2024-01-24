@@ -1880,7 +1880,7 @@ class ReportesController {
         Row row = sheet.createRow(0)
         row.createCell(0).setCellValue("")
         Row row2 = sheet.createRow(1)
-        row2.createCell(1).setCellValue("LISTA DE DOCENTES")
+        row2.createCell(1).setCellValue("PROGRAMACIÓN ACADÉMICA POR NIVEL Y ASIGNATURA")
         row2.setRowStyle(style)
         Row row4 = sheet.createRow(3)
         row4.createCell(0).setCellValue("Fecha:")
