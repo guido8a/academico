@@ -179,7 +179,8 @@
                             className : "btn-success",
                             callback  : function () {
                                 var periodo = $("#periodo option:selected").val();
-                                location.href="${createLink(controller: 'reportes', action: 'reporteProfesoresHorarioExcel')}?periodo=" + periodo
+                                var nivel = $("#nivel option:selected").val();
+                                location.href="${createLink(controller: 'reportes', action: 'reporteProfesoresHorarioExcel')}?periodo=" + periodo + "&nivel=" + nivel
                             } //callback
                         } //guardar
                     } //buttons
