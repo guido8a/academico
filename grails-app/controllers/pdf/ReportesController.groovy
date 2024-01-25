@@ -1917,9 +1917,18 @@ class ReportesController {
 
 //        usando sql para ordenar por nivel, paralelo y asignatura
         sql = "select dcta__id, parl.nvel__id, parl.parl__id, crso.asig__id, asigcdgo, asignmbr, profnmbr, profapll " +
-                "from dcta, crso, parl, asig, prof where parl.nvel__id = ${nivel?.id} and crso.parl__id = parl.parl__id and " +
+                "from dcta, crso, parl, asig, prof where parl.nvel__id = ${nivel?.id} and prdo__id = ${params.periodo} and " +
+                "crso.parl__id = parl.parl__id and " +
                 "dcta.crso__id = crso.crso__id and asig.asig__id = crso.asig__id and prof.prof__id = dcta.prof__id " +
                 "order by parl.nvel__id, parlnmro, asignmbr"
+        println "sql: $sql"
+
+        //todos los niveles
+//        sql = "select dcta__id, parl.nvel__id, parl.parl__id, crso.asig__id, asigcdgo, asignmbr, profnmbr, profapll " +
+//                "from dcta, crso, parl, asig, prof where prdo__id = ${params.periodo} and " +
+//                "crso.parl__id = parl.parl__id and " +
+//                "dcta.crso__id = crso.crso__id and asig.asig__id = crso.asig__id and prof.prof__id = dcta.prof__id " +
+//                "order by parl.nvel__id, parlnmro, asignmbr"
         def dicta = cn.rows(sql.toString())
 
         dicta.eachWithIndex { r, j ->
