@@ -634,52 +634,36 @@ class ReportesController {
 
 
         if (params.profesor != 'null') {
-            reporteExcel(params.prdo, params.profesor, false, 4)
-            def output = response.getOutputStream()
-            def header = "attachment; filename=" + "profesor_${prof?.apellido + " " + prof?.nombre}.xlsx";
-            response.setContentType("application/octet-stream")
-            response.setHeader("Content-Disposition", header);
-            wb.write(output)
-            println "Salida"
-            return
+            def wb = reporteExcel(params.prdo, params.profesor, true, 4)
+            def file = new File("/tmp/profesor_${prof?.apellido + "_" + prof?.nombre}.xlsx")
+            FileOutputStream outputStream = new FileOutputStream(file)
+            wb.write(outputStream)
         } else {
             def profesores = Profesor.list([sort: 'apellido'])
-            profesores.each { p ->
+            if(params.arch == 'true') {
+                profesores.each { p ->
 //                fila = reporteExcel(sheet, params.prdo, p?.id, true, style, style2, style3, style4, fila)
-                if (params.arch == 'true') {
-                    def wb = reporteExcel(params.prdo, p?.id, true, 4)
-                    def file = new File("/tmp/profesor_${p?.apellido + "_" + p?.nombre}.xlsx")
-                    FileOutputStream outputStream = new FileOutputStream(file)
-                    wb.write(outputStream)
+                    if (params.arch == 'true') {
+                        def wb = reporteExcel(params.prdo, p?.id, true, 4)
+                        def file = new File("/tmp/profesor_${p?.apellido + "_" + p?.nombre}.xlsx")
+                        FileOutputStream outputStream = new FileOutputStream(file)
+                        wb.write(outputStream)
+                    }
                 }
             }
 
+            /* para un solo archivo, se debe leer los archivos individuales y consolidar en uno solo linea por linea. */
             if (params.arch == 'false') {
                 println "Genera el archivo de todos los profesores --> ${params.arch}"
                 def file = new File("/tmp/prog_acad_${params.prdo}.xlsx")
                 FileOutputStream outputStream = new FileOutputStream(file)
                 wb.write(outputStream)
             }
-
-
-            flash.message = "Se han generado los archivos excel con los reportes de todos los profesores."
-            flash.tipo = "info"
-            flash.icon = "icon-warning"
-            redirect(controller: "reportes", action: "reportes")
         }
-
-//        println "--> ${profesor?.apellido + "_" + profesor?.nombre}"
-//        if(generaArch) {
-//            def file = new File("/tmp/profesor_${profesor?.apellido + "_" + profesor?.nombre}.xlsx")
-//            FileOutputStream outputStream = new FileOutputStream(file)
-//            wb.write(outputStream)
-//        } else {
-//            def output = response.getOutputStream()
-//            def header = "attachment; filename=" + "profesor_${profesor?.apellido + " " + profesor?.nombre}.xlsx";
-//            response.setContentType("application/octet-stream")
-//            response.setHeader("Content-Disposition", header);
-//            wb.write(output)
-//        }
+        flash.message = "Se han generado los archivos excel con los reportes de todos los profesores."
+        flash.tipo = "info"
+        flash.icon = "icon-warning"
+        redirect(controller: "reportes", action: "reportes")
 
     }
 
