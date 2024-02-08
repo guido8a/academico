@@ -2422,14 +2422,11 @@ class ReportesController {
         def p_padre = periodo.tipo == 'I' ? periodo.padre : 0
         def p_hijo = periodo.tipo == 'N' ? Periodo.findByPadre(periodo) : 0
 
-//        def profesor = Profesor.get(prof)
         def dicta
         def gestion = []
         def gestionN = []
         def crso
-        def suma = 0
 
-//        def p = Profesor.get(prof)
         XSSFWorkbook wb = new XSSFWorkbook()
         XSSFCellStyle style = wb.createCellStyle();
         XSSFFont font = wb.createFont();
@@ -2476,7 +2473,6 @@ class ReportesController {
         sheet.setColumnWidth(17, 10 * 256);
         sheet.setColumnWidth(18, 10 * 256);
         sheet.setColumnWidth(19, 10 * 256);
-
 //fin
         Row row = sheet.createRow(0)
         row.createCell(0).setCellValue("")
@@ -2492,15 +2488,12 @@ class ReportesController {
 
         def fila = 4
 
-//        def fila = nmro   //4
-
-
         def parl = Paralelo.findAllByPeriodo(periodo)
         crso = Curso.findAllByParaleloInList(parl)
-
         def profesores = Profesor.list([sort: 'apellido'])
 
         profesores.each { profesor->
+            def suma = 0
             dicta = Dicta.findAllByProfesorAndCursoInList(profesor, crso)
             gestionN = Gestion.findAllByProfesorAndPeriodo(profesor, periodo.padre)
             gestion = Gestion.findAllByProfesorAndPeriodo(profesor, periodo)
@@ -2812,6 +2805,8 @@ class ReportesController {
             rowF1t.createCell(19).setCellValue(suma)
             rowF1t.setRowStyle(style)
 
+            fila++
+
             Row rowFilaVacia = sheet.createRow(fila)
             rowFilaVacia.createCell(0).setCellValue("")
             rowFilaVacia.setRowStyle(style)
@@ -2820,7 +2815,7 @@ class ReportesController {
             if ((suma > 40) && (periodo.tipo == 'N')) {
                 Row rowS = sheet.createRow(fila)
                 rowS.createCell(1).setCellValue("El valor de ${Math.round((suma - 40) * 10) / 10} horas, que sobrepasa a las " +
-                        "40 horas semanales, se compensará en el periodo \"${p_hijo?.descripcion}\" como " +
+                        "40 horas semanales, se compensará en el período \"${p_hijo?.descripcion}\" como " +
                         "${Math.round((suma - 40) * (periodo.semanas / p_hijo.semanas) * 10) / 10} horas de trabajo")
                 rowS.setRowStyle(style)
                 fila++
@@ -2829,12 +2824,12 @@ class ReportesController {
             if (periodo.tipo == 'I') {
                 def hh = cn.rows(sql.toString())[0].comphora
                 Row rowS = sheet.createRow(fila)
-                rowS.createCell(1).setCellValue("Compensación del periodo \"${p_padre?.descripcion}\" ${hh} horas de trabajo")
-                rowS.createCell(16).setCellValue("Compensación periodo ${p_padre?.descripcion}")
+                rowS.createCell(1).setCellValue("Compensación del período \"${p_padre?.descripcion}\" ${hh} horas de trabajo")
+                rowS.createCell(16).setCellValue("Compensación período ${p_padre?.descripcion}")
                 rowS.createCell(19).setCellValue(hh)
                 rowS.setRowStyle(style)
                 Row rowS1 = sheet.createRow(fila + 1)
-                rowS1.createCell(17).setCellValue("Total del periodo")
+                rowS1.createCell(17).setCellValue("Total del período")
                 rowS1.createCell(19).setCellValue(suma + hh)
                 rowS1.setRowStyle(style)
                 fila++
