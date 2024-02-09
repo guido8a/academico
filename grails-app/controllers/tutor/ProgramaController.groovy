@@ -494,9 +494,10 @@ class ProgramaController {
     def tablaGestionar_ajax(){
         def cn = dbConnectionService.getConnection()
         def sql = "select prdodscr, asignmbr, profapll, profnmbr, gstnhora," +
-                " gstnobsr from gstn, prdo, asig, prof where gstn.prdo__id  in (2,1) and" +
+                " gstnobsr from gstn, prdo, asig, prof where gstn.prdo__id = 2 and" +
                 " prdo.prdo__id = gstn.prdo__id and asig.asig__id = gstn.asig__id and" +
-                " prof.prof__id = gstn.prof__id order by profapll, asignmbr"
+                " prof.prof__id = gstn.prof__id and asig.asig__id = 48 order by profapll, asignmbr"
+        println "sql: $sql"
         def resp = cn.rows(sql.toString())
 
 
