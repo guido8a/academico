@@ -1,4 +1,4 @@
-<g:select name="gestion" from="${resp}" optionKey="${id}" optionValue="${nombre}" class="form-control" />
+<g:select name="gestion" from="${resp}" optionKey="id" optionValue="nombre" class="form-control" />
 
 <script type="text/javascript">
 
