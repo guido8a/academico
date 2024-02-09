@@ -32,13 +32,12 @@
 <table class="table table-condensed table-bordered table-striped table-hover">
     <thead>
     <tr>
-        <th style="width: 15%">Período</th>
-        <th style="width: 30%">Carrera</th>
-        <th style="width: 15%">Nivel</th>
-        <th style="width: 10%">Paralelo</th>
-        <th style="width: 10%">Número de estudiantes</th>
-        <th style="width: 10%">Cupo</th>
-        <th style="width: 15%">Acciones</th>
+        <th style="width: 10%">Período</th>
+        <th style="width: 32%">Gestión</th>
+        <th style="width: 15%">Apellido</th>
+        <th style="width: 15%">Nombre</th>
+        <th style="width: 8%">Horas</th>
+        <th style="width: 20%">Observaciones</th>
     </tr>
     </thead>
 </table>
