@@ -21,7 +21,7 @@
         <label class="col-md-1 control-label text-info" style="text-align: right">
             Gestión
         </label>
-        <div class="col-md-4" id="divComboGestion">
+        <div class="col-md-6" id="divComboGestion">
 
         </div>
 

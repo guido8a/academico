@@ -2,13 +2,14 @@
     <table class="table-bordered table-striped table-condensed table-hover" style="width: 100%">
         <tbody>
         <g:if test="${resp.size() > 0}">
+            <g:set var="total" value="${0}"/>
             <g:each in="${resp}" var="registro">
                 <tr>
                     <td style="width: 10%">${registro?.prdodscr}</td>
                     <td style="width: 32%">${registro?.asignmbr}</td>
                     <td style="width: 15%">${registro?.profapll}</td>
                     <td style="width: 15%">${registro?.profnmbr}</td>
-                    <td style="width: 8%">${registro?.gstnhora}</td>
+                    <td style="width: 8%; text-align: center">${registro?.gstnhora}</td>
                     <td style="width: 20%">${registro?.gstnobsr}</td>
 %{--                    <td style="width: 15%; text-align: center">--}%
 %{--                        <a href="#" data-id="${paralelo?.id}" class="btn btn-success btn-xs btn-edit btn-ajax" title="Editar">--}%
@@ -18,8 +19,14 @@
 %{--                            <i class="fa fa-trash"></i>--}%
 %{--                        </a>--}%
 %{--                    </td>--}%
+                    <g:set var="total" value="${total += registro?.gstnhora}"/>
                 </tr>
             </g:each>
+                <tr style="font-weight: bold">
+                    <td colspan="4" style="text-align: right">TOTAL</td>
+                    <td style="text-align: center">${total}</td>
+                    <td></td>
+                </tr>
         </g:if>
         <g:else>
             <tr>
