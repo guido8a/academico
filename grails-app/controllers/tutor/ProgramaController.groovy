@@ -7,6 +7,7 @@ import java.time.Period
 class ProgramaController {
 
     def dataSource
+    def dbConnectionService
 
     def getConnection(){
         Sql sql = new Sql(dataSource)
@@ -475,6 +476,36 @@ class ProgramaController {
            dicta = []
         }
         return[dicta: dicta]
+    }
+
+    def gestionar() {
+
+    }
+
+    def comboGestionar_ajax(){
+        def cn = dbConnectionService.getConnection()
+        def periodo = Periodo.get(params.periodo)
+        def sql = "select distinct asig.asig__id, asignmbr from gstn, asig where gstn.prdo__id = ${periodo?.id} and asig.asig__id = gstn.asig__id order by asignmbr"
+        def resp = cn.rows(sql.toString())
+        def arreglo = []
+        resp.each {
+            arreglo.add(["id:" + it.asig__id, "nombre:" + it.asignmbr])
+        }
+
+        println(" " + arreglo)
+
+        return [resp: arreglo.toList()]
+    }
+
+    def tablaGestionar_ajax(){
+        def cn = dbConnectionService.getConnection()
+        def sql = "select prdodscr, asignmbr, profapll, profnmbr, gstnhora," +
+                " gstnobsr from gstn, prdo, asig, prof where gstn.prdo__id  in (2,1) and" +
+                " prdo.prdo__id = gstn.prdo__id and asig.asig__id = gstn.asig__id and" +
+                " prof.prof__id = gstn.prof__id order by profapll, asignmbr"
+        def resp = cn.rows(sql.toString())
+
+
     }
 
 
