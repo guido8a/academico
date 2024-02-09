@@ -487,17 +487,8 @@ class ProgramaController {
         def periodo = Periodo.get(params.periodo)
         def sql = "select distinct asig.asig__id id, asignmbr nombre from gstn, asig " +
                 "where gstn.prdo__id = ${periodo?.id} and asig.asig__id = gstn.asig__id order by asignmbr"
-        def resp = cn.rows(sql.toString())
-//        def arreglo = []
-//        resp.each {
-//            arreglo.add(["id:" + it.asig__id, "nombre:" + it.asignmbr])
-//        }
-
         def arreglo = cn.rows(sql.toString())
-
-        println(" " + arreglo)
-
-        return [resp: arreglo.toList()]
+        return [resp: arreglo]
     }
 
     def tablaGestionar_ajax(){
