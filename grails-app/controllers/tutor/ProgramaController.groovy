@@ -499,7 +499,32 @@ class ProgramaController {
                 " gstnobsr from gstn, prdo, asig, prof where gstn.prdo__id = ${periodo?.id} and" +
                 " prdo.prdo__id = gstn.prdo__id and asig.asig__id = gstn.asig__id and" +
                 " prof.prof__id = gstn.prof__id and asig.asig__id = ${asignatura?.id} order by profapll, asignmbr"
-        println "sql: $sql"
+        def resp = cn.rows(sql.toString())
+        return [resp: resp]
+    }
+
+    def asignaturas (){
+
+    }
+
+    def comboAsignatura_ajax() {
+        def cn = dbConnectionService.getConnection()
+        def periodo = Periodo.get(params.periodo)
+        def sql = "select distinct asig.asig__id id, asignmbr nombre from crso, parl, asig " +
+                "where prdo__id = ${periodo?.id} and parl.parl__id = crso.parl__id and asig.asig__id = crso.asig__id order by asignmbr"
+        def arreglo = cn.rows(sql.toString())
+        return [resp: arreglo]
+    }
+
+    def tablaAsignaturas_ajax () {
+        def periodo = Periodo.get(params.periodo)
+        def asignatura = Asignatura.get(params.asignatura)
+        def cn = dbConnectionService.getConnection()
+        def sql = "select prdodscr, asignmbr, profapll, profnmbr, asigcred, asigfcpr from" +
+                " parl, crso, prdo, asig, prof, dcta where " +
+                " prdo.prdo__id = ${periodo?.id} and parl.prdo__id = prdo.prdo__id and crso.parl__id = parl.parl__id and " +
+                " asig.asig__id = crso.asig__id and dcta.crso__id = crso.crso__id and prof.prof__id = dcta.prof__id and asig.asig__id = ${asignatura?.id} order by profapll, asignmbr"
+        println("sql " + sql)
         def resp = cn.rows(sql.toString())
         return [resp: resp]
     }
