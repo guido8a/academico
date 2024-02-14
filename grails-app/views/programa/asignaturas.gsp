@@ -33,11 +33,12 @@
     <thead>
     <tr>
         <th style="width: 10%">Período</th>
-        <th style="width: 44%">Asignatura</th>
+        <th style="width: 36%">Asignatura</th>
         <th style="width: 15%">Apellido</th>
         <th style="width: 15%">Nombre</th>
         <th style="width: 8%">Horas</th>
         <th style="width: 8%">Factor</th>
+        <th style="width: 8%">Total</th>
     </tr>
     </thead>
 </table>

@@ -6,18 +6,19 @@
             <g:each in="${resp}" var="registro">
                 <tr>
                     <td style="width: 10%">${registro?.prdodscr}</td>
-                    <td style="width: 44%">${registro?.asignmbr}</td>
+                    <td style="width: 36%">${registro?.asignmbr}</td>
                     <td style="width: 15%">${registro?.profapll}</td>
                     <td style="width: 15%">${registro?.profnmbr}</td>
                     <td style="width: 8%; text-align: center">${registro?.asigcred}</td>
                     <td style="width: 8%">${registro?.asigfcpr}</td>
+                    <td style="width: 8%">${registro?.total}</td>
                     <g:set var="total" value="${total += registro?.asigcred}"/>
                 </tr>
             </g:each>
             <tr style="font-weight: bold">
                 <td colspan="4" style="text-align: right">TOTAL</td>
                 <td style="text-align: center">${total}</td>
-                <td></td>
+                <td colspan="2"></td>
             </tr>
         </g:if>
         <g:else>
