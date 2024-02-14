@@ -11,7 +11,7 @@
                     <td style="width: 15%">${registro?.profnmbr}</td>
                     <td style="width: 8%; text-align: center">${registro?.asigcred}</td>
                     <td style="width: 8%">${registro?.asigfcpr}</td>
-                    <td style="width: 8%">${registro?.total}</td>
+                    <td style="width: 8%"><g:formatNumber number="${registro?.total}" format="##,##" minFractionDigits="1" maxFractionDigits="1" /></td>
                     <g:set var="total" value="${total += registro?.asigcred}"/>
                 </tr>
             </g:each>
