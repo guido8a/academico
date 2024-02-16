@@ -7,16 +7,6 @@
 
 <body>
 
-%{--<!-- botones -->--}%
-%{--<div class="btn-toolbar toolbar">--}%
-%{--    <div class="btn-group">--}%
-%{--        <g:link controller="inicio" action="index" class="btn btn-primary">--}%
-%{--            <i class="fa fa-arrow-left"></i> Regresar--}%
-%{--        </g:link>--}%
-%{--    </div>--}%
-%{--</div>--}%
-
-
 <div class="btn-toolbar toolbar" style="margin-top: 10px">
     <div class="col-md-12">
         <label for="periodo" class="col-md-1 control-label text-info" style="text-align: right">
@@ -43,10 +33,11 @@
     <thead>
     <tr>
         <th style="width: 20%">Carrera</th>
-        <th style="width: 30%">Asignatura</th>
+        <th style="width: 5%">Código</th>
+        <th style="width: 25%">Asignatura</th>
         <th style="width: 8%">Nivel</th>
         <th style="width: 6%">Paralelo</th>
-        <th style="width: 8%">Creditos</th>
+        <th style="width: 8%">Créditos</th>
         <th style="width: 10%">Factor prep.</th>
         <th style="width: 10%">Horas</th>
         <th style="width: 10%">Total horas</th>

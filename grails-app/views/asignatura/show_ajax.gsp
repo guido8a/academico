@@ -65,7 +65,7 @@
     <g:if test="${asignatura?.creditos}">
         <div class="row">
             <div class="col-md-4 show-label">
-                Creditos
+                Créditos
             </div>
             <div class="col-md-6">
                 <span style="background-color: #ddd">${asignatura?.creditos}</span>
