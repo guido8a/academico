@@ -9,6 +9,7 @@ class Profesor {
     String extension
     String sexo
     int horas
+    String activo = 'S'
 
     static mapping = {
         table 'prof'
@@ -25,6 +26,7 @@ class Profesor {
             extension column: 'profextn'
             sexo column: 'profsexo'
             horas column: 'profhora'
+            activo column: 'profactv'
         }
     }
 
@@ -35,5 +37,6 @@ class Profesor {
         extension(maxSize: 255, blank: true, nullable: true, attributes: [title: 'extension'])
         sexo(inList: ["M", "F"], blank: false, nullable: false, maxSize: 15, attributes: [title: 'sexo'])
         horas(blank: false, nullable: false, attributes: [title: 'horas'])
+        activo(blank: false, nullable: false, attributes: [title: 'activo'])
     }
 }
