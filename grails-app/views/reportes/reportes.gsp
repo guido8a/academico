@@ -214,8 +214,9 @@
                                 var profesor = $("#profesor option:selected").val();
                                 var prdo = $("#periodo option:selected").val();
                                 var arch = $("#separados").is(":checked");
+                                var cabecera = $("#cabecera").is(":checked");
                                 location.href="${createLink(controller: 'reportes', action: 'reportePofesoresExcel')}?profesor=" +
-                                    profesor + "&prdo=" + prdo + "&arch=" + arch
+                                    profesor + "&prdo=" + prdo + "&arch=" + arch + "&cabecera=" + cabecera
                             } //callback
                         } //guardar
                     } //buttons

@@ -651,8 +651,7 @@ class ReportesController {
                     }
                 }
             }else{
-                println("-- entro" )
-                reporteExcelTodos(params.prdo)
+                reporteExcelTodos(params.prdo, params.cabecera)
                 return true
             }
 
@@ -2414,7 +2413,7 @@ class ReportesController {
 
     }
 
-    def reporteExcelTodos (prdo) {
+    def reporteExcelTodos (prdo, cabecera) {
 
         def cn = dbConnectionService.getConnection()
         def sql = ""
@@ -2492,12 +2491,8 @@ class ReportesController {
         crso = Curso.findAllByParaleloInList(parl)
         def profesores = Profesor.list([sort: 'apellido'])
 
-        profesores.each { profesor->
-            def suma = 0
-            dicta = Dicta.findAllByProfesorAndCursoInList(profesor, crso)
-            gestionN = Gestion.findAllByProfesorAndPeriodo(profesor, periodo.padre)
-            gestion = Gestion.findAllByProfesorAndPeriodo(profesor, periodo)
 
+        if(cabecera == 'false'){
             Row rowC1 = sheet.createRow(fila)
             rowC1.createCell(0).setCellValue("Carrera")
             rowC1.createCell(1).setCellValue("NRC")
@@ -2521,6 +2516,40 @@ class ReportesController {
             rowC1.createCell(19).setCellValue("Total horas")
             rowC1.setRowStyle(style)
             fila++
+        }
+
+        profesores.each { profesor->
+            def suma = 0
+            dicta = Dicta.findAllByProfesorAndCursoInList(profesor, crso)
+            gestionN = Gestion.findAllByProfesorAndPeriodo(profesor, periodo.padre)
+            gestion = Gestion.findAllByProfesorAndPeriodo(profesor, periodo)
+
+            if(cabecera == 'true'){
+                Row rowC1 = sheet.createRow(fila)
+                rowC1.createCell(0).setCellValue("Carrera")
+                rowC1.createCell(1).setCellValue("NRC")
+                rowC1.createCell(2).setCellValue("Código Banner")
+                rowC1.createCell(3).setCellValue("Nombre Asignatura o Actividad")
+                rowC1.createCell(4).setCellValue("Docente")
+                rowC1.createCell(5).setCellValue("Nivel")
+                rowC1.createCell(6).setCellValue("Paralelo")
+                rowC1.createCell(7).setCellValue("Teoría")
+                rowC1.createCell(8).setCellValue("Práctica")
+                rowC1.createCell(9).setCellValue("Horas Semana")
+                rowC1.createCell(10).setCellValue("Lunes ")
+                rowC1.createCell(11).setCellValue("Martes")
+                rowC1.createCell(12).setCellValue("Miércoles")
+                rowC1.createCell(13).setCellValue("Jueves")
+                rowC1.createCell(14).setCellValue("Viernes")
+                rowC1.createCell(15).setCellValue("Créditos")
+                rowC1.createCell(16).setCellValue("Factor Preparación")
+                rowC1.createCell(17).setCellValue("Horas Preparación")
+                rowC1.createCell(18).setCellValue("Horas gestión")
+                rowC1.createCell(19).setCellValue("Total horas")
+                rowC1.setRowStyle(style)
+                fila++
+            }
+
 
             dicta.eachWithIndex { r, j ->
                 def respLunes = retornaHoras("lun", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
@@ -2813,12 +2842,14 @@ class ReportesController {
 
 
             if ((suma > 40) && (periodo.tipo == 'N')) {
-                Row rowS = sheet.createRow(fila)
-                rowS.createCell(1).setCellValue("El valor de ${Math.round((suma - 40) * 10) / 10} horas, que sobrepasa a las " +
-                        "40 horas semanales, se compensará en el período \"${p_hijo?.descripcion}\" como " +
-                        "${Math.round((suma - 40) * (periodo.semanas / p_hijo.semanas) * 10) / 10} horas de trabajo")
-                rowS.setRowStyle(style)
-                fila++
+                if(cabecera == 'true'){
+                    Row rowS = sheet.createRow(fila)
+                    rowS.createCell(1).setCellValue("El valor de ${Math.round((suma - 40) * 10) / 10} horas, que sobrepasa a las " +
+                            "40 horas semanales, se compensará en el período \"${p_hijo?.descripcion}\" como " +
+                            "${Math.round((suma - 40) * (periodo.semanas / p_hijo.semanas) * 10) / 10} horas de trabajo")
+                    rowS.setRowStyle(style)
+                    fila++
+                }
             }
 
             if (periodo.tipo == 'I') {
