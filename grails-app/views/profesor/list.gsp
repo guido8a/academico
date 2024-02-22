@@ -86,10 +86,10 @@
         });
     }
 
-    $("#tipoProfesor").change(function () {
-        var tipoProfesor = $(this).val();
-        cargarTablaProfesores(tipoProfesor)
-    });
+    // $("#tipoProfesor").change(function () {
+    //     var tipoProfesor = $(this).val();
+    //     cargarTablaProfesores(tipoProfesor)
+    // });
 
     function createEditRowProfesor(id) {
         var title = id ? "Editar" : "Crear";
@@ -138,7 +138,7 @@
                     var parts = msg.split("_");
                     if(parts[0] === 'ok'){
                         log(parts[1], "success");
-                        cargarTablaProfesores( $("#tipoProfesor option:selected").val());
+                        cargarTablaProfesores($("#nombre").val(), $("#apellido").val());
                     }else{
                         bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
                         return false;
@@ -179,7 +179,7 @@
                                 var parts = msg.split("_");
                                 if (parts[0] === 'ok') {
                                     log(parts[1], "success");
-                                    cargarTablaProfesores( $("#tipoProfesor option:selected").val());
+                                    cargarTablaProfesores($("#nombre").val(), $("#apellido").val());
                                 } else {
                                     bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
                                 }

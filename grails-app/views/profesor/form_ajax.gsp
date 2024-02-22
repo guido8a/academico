@@ -52,7 +52,6 @@
                 </div>
             </div>
         </div>
-
         <div class="form-group keeptogether ${hasErrors(bean: profesor, field: 'extension', 'error')}">
             <div class="row">
                 <label for="extension" class="col-md-2 control-label">
@@ -62,16 +61,12 @@
                     <g:textField name="extension" class="form-control"
                                  value="${profesor?.extension}"/>
                 </div>
-
-
                 <label for="sexo" class="col-md-2 control-label">
                     Sexo
                 </label>
-
                 <div class="col-md-3">
                     <g:select name="sexo" from="${['F' : 'Femenino', 'M' : 'Masculino']}" optionKey="key" optionValue="value" class="form-control" value="${profesor?.sexo}"/>
                 </div>
-
             </div>
         </div>
 
@@ -82,6 +77,12 @@
                 </label>
                 <div class="col-md-3">
                     <g:textField name="horas" class="form-control required" value="${profesor?.horas ?: ''}"/>
+                </div>
+                <label for="activo" class="col-md-2 control-label">
+                    Estado
+                </label>
+                <div class="col-md-3">
+                    <g:select name="activo" from="${['S' : 'Activo', 'N' : 'Inactivo']}" optionKey="key" optionValue="value" class="form-control" value="${profesor?.activo}"/>
                 </div>
             </div>
         </div>
