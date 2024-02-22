@@ -2828,18 +2828,19 @@ class ReportesController {
                 suma += r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble()
             }
 
-
+            if(suma > 0){
             Row rowF1t = sheet.createRow(fila)
             rowF1t.createCell(18).setCellValue("Total")
             rowF1t.createCell(19).setCellValue(suma)
             rowF1t.setRowStyle(style)
-
             fila++
+            }
 
-            Row rowFilaVacia = sheet.createRow(fila)
-            rowFilaVacia.createCell(0).setCellValue("")
-            rowFilaVacia.setRowStyle(style)
-
+            if(cabecera == 'true') {
+                Row rowFilaVacia = sheet.createRow(fila)
+                rowFilaVacia.createCell(0).setCellValue("")
+                rowFilaVacia.setRowStyle(style)
+            }
 
             if ((suma > 40) && (periodo.tipo == 'N')) {
                 if(cabecera == 'true'){
