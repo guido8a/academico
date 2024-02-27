@@ -53,7 +53,7 @@ class ProgramaController {
         def respN, respI
         def existe = false
         def prdo = Periodo.get(params.prdo)
-        println("rsmn_ajax " + params)
+//        println("rsmn_ajax " + params)
         def hijo = prdo.padre? Periodo.get(prdo.id) : Periodo.findByPadre(prdo)
         def pdre = hijo.padre.id
 

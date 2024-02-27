@@ -2875,4 +2875,154 @@ class ReportesController {
         response.setHeader("Content-Disposition", header);
         wb.write(output)
     }
+
+
+
+    def reporteCargaHorariaExcel() {
+
+        def prdo = Periodo.get(params.prdo)
+        def hijo = prdo.padre? Periodo.get(prdo.id) : Periodo.findByPadre(prdo)
+        def pdre = hijo.padre.id
+
+        def cn = dbConnectionService.getConnection()
+        def sql = "select * from rep_resumen(${pdre})"
+        def respN = cn.rows(sql.toString())
+
+        def sql2 = "select * from rep_resumen(${hijo.id})"
+        def respI = cn.rows(sql2.toString())
+
+        def fila = 4
+
+        XSSFWorkbook wb = new XSSFWorkbook()
+        XSSFCellStyle style = wb.createCellStyle();
+        XSSFFont font = wb.createFont();
+        font.setBold(true);
+        style.setFont(font);
+
+        XSSFCellStyle style2 = wb.createCellStyle();
+        XSSFFont font2 = wb.createFont();
+//        font2.setBold(true);
+        style2.setFont(font2);
+        style2.setAlignment(HorizontalAlignment.LEFT);
+
+        XSSFCellStyle style3 = wb.createCellStyle();
+        XSSFFont font3 = wb.createFont();
+        style3.setWrapText(true);
+        style3.setFont(font3);
+        style3.setAlignment(HorizontalAlignment.LEFT);
+
+        XSSFCellStyle style4 = wb.createCellStyle();
+        XSSFFont font4 = wb.createFont();
+        style4.setWrapText(true);
+        style4.setFont(font4);
+        style4.setAlignment(HorizontalAlignment.RIGHT);
+
+        Sheet sheet = wb.createSheet("Carga Horaria")
+        sheet.setColumnWidth(0, 60 * 256);
+        sheet.setColumnWidth(1, 30 * 256);
+        sheet.setColumnWidth(2, 30 * 256);
+        sheet.setColumnWidth(3, 30 * 256);
+        sheet.setColumnWidth(4, 30 * 256);
+        sheet.setColumnWidth(5, 30 * 256);
+        sheet.setColumnWidth(6, 30 * 256);
+        sheet.setColumnWidth(7, 30 * 256);
+
+        Row row = sheet.createRow(0)
+        row.createCell(0).setCellValue("")
+        Row row2 = sheet.createRow(1)
+
+        row2.createCell(0).setCellValue("Carga Horaria")
+        row2.createCell(1).setCellValue("Período: ${prdo.descripcion}")
+
+        row2.setRowStyle(style)
+        Row row4 = sheet.createRow(3)
+        row4.createCell(0).setCellValue("Fecha:")
+        row4.createCell(1).setCellValue(new Date().format("dd-MM-yyyy"))
+        fila++
+
+        Row rowC1 = sheet.createRow(fila)
+        rowC1.createCell(0).setCellValue("Docente")
+        rowC1.createCell(1).setCellValue("Clase")
+        rowC1.createCell(2).setCellValue("Prep.")
+        rowC1.createCell(3).setCellValue("Gestión")
+        rowC1.createCell(4).setCellValue("Total")
+        rowC1.createCell(5).setCellValue("Comp.")
+        rowC1.setRowStyle(style)
+        fila++
+
+        respN.eachWithIndex { r, j ->
+            Row rowF1 = sheet.createRow(fila)
+
+            Cell cell0 = rowF1.createCell(0);
+            cell0.setCellStyle(style2);
+            cell0.setCellValue(r?.profnmbr?.toString());
+            Cell cell1 = rowF1.createCell(1);
+            cell1.setCellStyle(style2);
+            cell1.setCellValue(r?.comphrcl?.toString());
+            Cell cell2 = rowF1.createCell(2);
+            cell2.setCellStyle(style2);
+            cell2.setCellValue(r?.comphrpp?.toString());
+            Cell cell3 = rowF1.createCell(3);
+            cell3.setCellStyle(style2);
+            cell3.setCellValue(r?.comphrgs?.toString());
+            Cell cell4 = rowF1.createCell(4);
+            cell4.setCellStyle(style2);
+            cell4.setCellValue(r?.comptotl?.toString());
+            Cell cell5 = rowF1.createCell(5);
+            cell5.setCellStyle(style2);
+            cell5.setCellValue(r?.comphora?.toString());
+
+            fila++
+        }
+
+        Row rowP21 = sheet.createRow(fila)
+        rowP21.createCell(0).setCellValue("")
+        fila++
+
+        Row rowP2 = sheet.createRow(fila)
+        rowP2.createCell(0).setCellValue("Carga Horaria")
+        rowP2.createCell(1).setCellValue("Período: ${prdo.descripcion} - Intersemestral")
+        rowP2.setRowStyle(style)
+
+        fila++
+
+        Row rowCP1 = sheet.createRow(fila)
+        rowCP1.createCell(0).setCellValue("Docente")
+        rowCP1.createCell(1).setCellValue("Prep.")
+        rowCP1.createCell(2).setCellValue("Gestión")
+        rowCP1.createCell(3).setCellValue("Comp.")
+        rowCP1.createCell(4).setCellValue("Total")
+        rowCP1.setRowStyle(style)
+        fila++
+
+        respI.eachWithIndex { r, j ->
+            Row rowFP1 = sheet.createRow(fila)
+
+            Cell cellP0 = rowFP1.createCell(0);
+            cellP0.setCellStyle(style2);
+            cellP0.setCellValue(r?.profnmbr?.toString());
+            Cell cellP2 = rowFP1.createCell(1);
+            cellP2.setCellStyle(style2);
+            cellP2.setCellValue(r?.comphrpp?.toString());
+            Cell cellP3 = rowFP1.createCell(2);
+            cellP3.setCellStyle(style2);
+            cellP3.setCellValue(r?.comphrgs?.toString());
+            Cell cellP4 = rowFP1.createCell(3);
+            cellP4.setCellStyle(style2);
+            cellP4.setCellValue(r?.comphora?.toString());
+            Cell cellP5 = rowFP1.createCell(4);
+            cellP5.setCellStyle(style2);
+            cellP5.setCellValue(r?.comptotl?.toString());
+
+            fila++
+        }
+
+        def output = response.getOutputStream()
+        def header = "attachment; filename=" + "cargaHoraria.xlsx";
+        response.setContentType("application/octet-stream")
+        response.setHeader("Content-Disposition", header);
+        wb.write(output)
+
+    }
+
 }

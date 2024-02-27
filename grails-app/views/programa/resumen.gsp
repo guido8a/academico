@@ -69,6 +69,11 @@
                   class="form-control input-sm required" optionValue="descripcion" optionKey="id"
         />
     </div>
+    <div class="btn-group">
+        <a href="#" class="btn btn-info btnImprimir">
+            <i class="fa fa-print"></i> Imprimir
+        </a>
+    </div>
 </div>
 
 <div id="divTabla">
@@ -76,6 +81,11 @@
 </div>
 
 <script type="text/javascript">
+
+    $(".btnImprimir").click(function () {
+        var periodo = $("#periodo option:selected").val();
+        location.href="${createLink(controller: 'reportes', action: 'reporteCargaHorariaExcel')}?prdo=" + periodo;
+    });
 
     function cargaTabla(prdo) {
         var data = {prdo: prdo};
