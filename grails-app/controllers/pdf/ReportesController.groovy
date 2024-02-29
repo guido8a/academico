@@ -3107,7 +3107,9 @@ class ReportesController {
         rowC1.createCell(11).setCellValue("Miércoles")
         rowC1.createCell(12).setCellValue("Jueves")
         rowC1.createCell(13).setCellValue("Viernes")
-        rowC1.createCell(14).setCellValue("Número Inscritos")
+        rowC1.createCell(14).setCellValue("Sábado")
+        rowC1.createCell(15).setCellValue("Domingo")
+        rowC1.createCell(16).setCellValue("Número Inscritos")
         rowC1.setRowStyle(style)
         fila++
 
@@ -3127,12 +3129,14 @@ class ReportesController {
             def respMiercoles = retornaHoras("mie", r?.nvel__id, r?.parl__id, r?.asig__id)
             def respJueves = retornaHoras("jue", r?.nvel__id, r?.parl__id, r?.asig__id)
             def respViernes = retornaHoras("vie", r?.nvel__id, r?.parl__id, r?.asig__id)
+            def respSabado = retornaHoras("sab", r?.nvel__id, r?.parl__id, r?.asig__id)
+            def respDomingo = retornaHoras("dom", r?.nvel__id, r?.parl__id, r?.asig__id)
 
             Row rowF1 = sheet.createRow(fila)
 
             Cell cell2 = rowF1.createCell(0);
             cell2.setCellStyle(style3);
-            cell2.setCellValue(r?.asigcdgo?.toString());
+            cell2.setCellValue(Asignatura.get(r?.asig__id)?.carrera?.codigo?.toString());
 
             Cell cell3 = rowF1.createCell(1);
             cell3.setCellStyle(style3);
@@ -3188,7 +3192,15 @@ class ReportesController {
 
             Cell cell16 = rowF1.createCell(14);
             cell16.setCellStyle(style3);
-            cell16.setCellValue("")
+            cell16.setCellValue(respSabado);
+
+            Cell cell17 = rowF1.createCell(15);
+            cell17.setCellStyle(style3);
+            cell17.setCellValue(respDomingo);
+
+            Cell cell18 = rowF1.createCell(16);
+            cell18.setCellStyle(style3);
+            cell18.setCellValue("")
 
             fila++
         }
