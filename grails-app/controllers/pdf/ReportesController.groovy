@@ -3025,4 +3025,164 @@ class ReportesController {
 
     }
 
+    def reporteHorarioGeneralExcel(){
+
+        println("reportegeneral " + params)
+        def fila = 4
+
+        XSSFWorkbook wb = new XSSFWorkbook()
+        XSSFCellStyle style = wb.createCellStyle();
+        XSSFFont font = wb.createFont();
+        font.setBold(true);
+        style.setFont(font);
+
+        XSSFCellStyle style2 = wb.createCellStyle();
+        XSSFFont font2 = wb.createFont();
+        font2.setBold(true);
+        style2.setFont(font2);
+        style2.setAlignment(HorizontalAlignment.CENTER);
+
+        XSSFCellStyle style3 = wb.createCellStyle();
+        XSSFFont font3 = wb.createFont();
+        style3.setWrapText(true);
+        style3.setFont(font3);
+        style3.setAlignment(HorizontalAlignment.LEFT);
+
+        XSSFCellStyle style4 = wb.createCellStyle();
+        XSSFFont font4 = wb.createFont();
+        style4.setWrapText(true);
+        style4.setFont(font4);
+        style4.setAlignment(HorizontalAlignment.RIGHT);
+
+        Sheet sheet = wb.createSheet("Horarios")
+        sheet.setColumnWidth(0, 10 * 256);
+        sheet.setColumnWidth(1, 10 * 256);
+        sheet.setColumnWidth(2, 40 * 256);
+        sheet.setColumnWidth(3, 40 * 256);
+        sheet.setColumnWidth(4, 8 * 256);
+        sheet.setColumnWidth(5, 8 * 256);
+        sheet.setColumnWidth(6, 8 * 256);
+        sheet.setColumnWidth(7, 8 * 256);
+        sheet.setColumnWidth(8, 8 * 256);
+        sheet.setColumnWidth(9, 15 * 256);
+        sheet.setColumnWidth(10, 15 * 256);
+        sheet.setColumnWidth(11, 15 * 256);
+        sheet.setColumnWidth(12, 15 * 256);
+        sheet.setColumnWidth(13, 15 * 256);
+        sheet.setColumnWidth(14, 20 * 256);
+
+        Row row = sheet.createRow(0)
+        row.createCell(0).setCellValue("")
+        Row row2 = sheet.createRow(1)
+        row2.createCell(1).setCellValue("HORARIOS")
+        row2.setRowStyle(style)
+        Row row4 = sheet.createRow(3)
+        row4.createCell(0).setCellValue("Fecha:")
+        row4.createCell(1).setCellValue(new Date().format("dd-MM-yyyy"))
+        fila++
+
+        Row rowC1 = sheet.createRow(fila)
+        rowC1.createCell(0).setCellValue("Carrera")
+        rowC1.createCell(1).setCellValue("NRC")
+        rowC1.createCell(2).setCellValue("Asignatura")
+        rowC1.createCell(3).setCellValue("Docente")
+        rowC1.createCell(4).setCellValue("Nivel")
+        rowC1.createCell(5).setCellValue("Paralelo")
+        rowC1.createCell(6).setCellValue("Teoría")
+        rowC1.createCell(7).setCellValue("Práctica")
+        rowC1.createCell(8).setCellValue("Aula")
+        rowC1.createCell(9).setCellValue("Lunes ")
+        rowC1.createCell(10).setCellValue("Martes")
+        rowC1.createCell(11).setCellValue("Miércoles")
+        rowC1.createCell(12).setCellValue("Jueves")
+        rowC1.createCell(13).setCellValue("Viernes")
+        rowC1.createCell(14).setCellValue("Número Inscritos")
+        rowC1.setRowStyle(style)
+        fila++
+
+         def dicta = Dicta.list().sort{a,b  ->
+            a.curso.paralelo.nivel.numero <=> b.curso.paralelo.nivel.numero ?: a.curso.paralelo.numero <=> b.curso.paralelo.numero
+        }
+
+        dicta.eachWithIndex { r, j ->
+
+            def respLunes = retornaHoras("lun", r?.curso?.paralelo?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+            def respMartes = retornaHoras("mar", r?.curso?.paralelo?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+            def respMiercoles = retornaHoras("mie", r?.curso?.paralelo?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+            def respJueves = retornaHoras("jue", r?.curso?.paralelo?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+            def respViernes = retornaHoras("vie", r?.curso?.paralelo?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+
+            Row rowF1 = sheet.createRow(fila)
+
+            Cell cell2 = rowF1.createCell(0);
+            cell2.setCellStyle(style3);
+            cell2.setCellValue(r?.curso?.paralelo?.carrera?.codigo?.toString());
+
+            Cell cell3 = rowF1.createCell(1);
+            cell3.setCellStyle(style3);
+            cell3.setCellValue("");
+
+            Cell cell4 = rowF1.createCell(2);
+            cell4.setCellStyle(style3);
+            cell4.setCellValue(r?.curso?.asignatura?.nombre?.toString())
+
+            Cell cell5 = rowF1.createCell(3);
+            cell5.setCellStyle(style3);
+            cell5.setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
+
+            Cell cell6 = rowF1.createCell(4);
+            cell6.setCellStyle(style3);
+            cell6.setCellValue(r?.curso?.paralelo?.nivel?.numero?.toString())
+
+            Cell cell7 = rowF1.createCell(5);
+            cell7.setCellStyle(style3);
+            cell7.setCellValue(r?.curso?.paralelo?.numero?.toString())
+
+            Cell cell8 = rowF1.createCell(6);
+            cell8.setCellStyle(style3);
+            cell8.setCellValue("")
+
+            Cell cell9 = rowF1.createCell(7);
+            cell9.setCellStyle(style3);
+            cell9.setCellValue("")
+
+            Cell cell10 = rowF1.createCell(8);
+            cell10.setCellStyle(style3);
+            cell10.setCellValue("")
+
+            Cell cell11 = rowF1.createCell(9);
+            cell11.setCellStyle(style3);
+            cell11.setCellValue(respLunes);
+
+            Cell cell12 = rowF1.createCell(10);
+            cell12.setCellStyle(style3);
+            cell12.setCellValue(respMartes);
+
+            Cell cell13 = rowF1.createCell(11);
+            cell13.setCellStyle(style3);
+            cell13.setCellValue(respMiercoles);
+
+            Cell cell14 = rowF1.createCell(12);
+            cell14.setCellStyle(style3);
+            cell14.setCellValue(respJueves);
+
+            Cell cell15 = rowF1.createCell(13);
+            cell15.setCellStyle(style3);
+            cell15.setCellValue(respViernes);
+
+            Cell cell16 = rowF1.createCell(14);
+            cell16.setCellStyle(style3);
+            cell16.setCellValue("")
+
+            fila++
+        }
+
+        def output = response.getOutputStream()
+        def header = "attachment; filename=" + "todosHorario.xlsx";
+        response.setContentType("application/octet-stream")
+        response.setHeader("Content-Disposition", header);
+        wb.write(output)
+
+    }
+
 }

@@ -124,6 +124,10 @@
                         <i class="fa fa-users fa-4x text-success"></i>
                         <br/> Profesores
                     </a>
+                    <a href="#" id="btnHorarioGeneralExcel" class="btn btn-info example_c item" texto="horario">
+                        <i class="fa fa-book fa-4x text-success"></i>
+                        <br/> Horarios
+                    </a>
                 </p>
 
             </div>
@@ -152,6 +156,12 @@
     <h3>Reporte Excel del horario por profesor</h3><br>
     <p>Horario</p>
 </div>
+
+<div id="horario" style="display:none">
+    <h3>Reporte Excel del horario total</h3><br>
+    <p>Horario</p>
+</div>
+
 
 <script type="text/javascript">
 
@@ -266,6 +276,12 @@
     $("#btnPeriodoExcel").click(function () {
         location.href="${createLink(controller: 'reportes', action: 'reportePeriodoExcel')}"
     });
+
+
+    $("#btnHorarioGeneralExcel").click(function () {
+        location.href="${createLink(controller: 'reportes', action: 'reporteHorarioGeneralExcel')}"
+    });
+
 
     function prepare() {
         $(".fa-ul li span").each(function () {
