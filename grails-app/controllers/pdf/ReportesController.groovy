@@ -3030,6 +3030,14 @@ class ReportesController {
         println("reportegeneral " + params)
         def fila = 4
 
+        def periodo = Periodo.get(params.periodo)
+
+        def sql = "select dcta__id, parl.nvel__id, parl.parl__id, crso.asig__id, asigcdgo, asignmbr, profnmbr, profapll " +
+                "from dcta, crso, parl, asig, prof where prdo__id = ${params.periodo} and " +
+                "crso.parl__id = parl.parl__id and " +
+                "dcta.crso__id = crso.crso__id and asig.asig__id = crso.asig__id and prof.prof__id = dcta.prof__id " +
+                "order by parl.nvel__id, parlnmro, asignmbr"
+
         XSSFWorkbook wb = new XSSFWorkbook()
         XSSFCellStyle style = wb.createCellStyle();
         XSSFFont font = wb.createFont();
@@ -3073,9 +3081,12 @@ class ReportesController {
 
         Row row = sheet.createRow(0)
         row.createCell(0).setCellValue("")
+
         Row row2 = sheet.createRow(1)
-        row2.createCell(1).setCellValue("HORARIOS")
+        row2.createCell(0).setCellValue("HORARIOS")
         row2.setRowStyle(style)
+        row2.createCell(1).setCellValue("Período: ${periodo.descripcion}")
+
         Row row4 = sheet.createRow(3)
         row4.createCell(0).setCellValue("Fecha:")
         row4.createCell(1).setCellValue(new Date().format("dd-MM-yyyy"))
@@ -3100,23 +3111,28 @@ class ReportesController {
         rowC1.setRowStyle(style)
         fila++
 
-         def dicta = Dicta.list().sort{a,b  ->
-            a.curso.paralelo.nivel.numero <=> b.curso.paralelo.nivel.numero ?: a.curso.paralelo.numero <=> b.curso.paralelo.numero
-        }
+//         def dicta = Dicta.list().sort{a,b  ->
+//            a.curso.paralelo.nivel.numero <=> b.curso.paralelo.nivel.numero ?: a.curso.paralelo.numero <=> b.curso.paralelo.numero
+//        }
+
+        def cn = dbConnectionService.getConnection()
+        def dicta = cn.rows(sql.toString())
+
+//        println("sql " + sql)
 
         dicta.eachWithIndex { r, j ->
 
-            def respLunes = retornaHoras("lun", r?.curso?.paralelo?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-            def respMartes = retornaHoras("mar", r?.curso?.paralelo?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-            def respMiercoles = retornaHoras("mie", r?.curso?.paralelo?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-            def respJueves = retornaHoras("jue", r?.curso?.paralelo?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-            def respViernes = retornaHoras("vie", r?.curso?.paralelo?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+            def respLunes = retornaHoras("lun", r?.nvel__id, r?.parl__id, r?.asig__id)
+            def respMartes = retornaHoras("mar", r?.nvel__id, r?.parl__id, r?.asig__id)
+            def respMiercoles = retornaHoras("mie", r?.nvel__id, r?.parl__id, r?.asig__id)
+            def respJueves = retornaHoras("jue", r?.nvel__id, r?.parl__id, r?.asig__id)
+            def respViernes = retornaHoras("vie", r?.nvel__id, r?.parl__id, r?.asig__id)
 
             Row rowF1 = sheet.createRow(fila)
 
             Cell cell2 = rowF1.createCell(0);
             cell2.setCellStyle(style3);
-            cell2.setCellValue(r?.curso?.paralelo?.carrera?.codigo?.toString());
+            cell2.setCellValue(r?.asigcdgo?.toString());
 
             Cell cell3 = rowF1.createCell(1);
             cell3.setCellStyle(style3);
@@ -3124,27 +3140,27 @@ class ReportesController {
 
             Cell cell4 = rowF1.createCell(2);
             cell4.setCellStyle(style3);
-            cell4.setCellValue(r?.curso?.asignatura?.nombre?.toString())
+            cell4.setCellValue(r?.asignmbr?.toString())
 
             Cell cell5 = rowF1.createCell(3);
             cell5.setCellStyle(style3);
-            cell5.setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
+            cell5.setCellValue(r?.profapll?.toString() + " " + r?.profnmbr?.toString())
 
             Cell cell6 = rowF1.createCell(4);
             cell6.setCellStyle(style3);
-            cell6.setCellValue(r?.curso?.paralelo?.nivel?.numero?.toString())
+            cell6.setCellValue(Nivel?.get(r?.nvel__id)?.numero?.toString())
 
             Cell cell7 = rowF1.createCell(5);
             cell7.setCellStyle(style3);
-            cell7.setCellValue(r?.curso?.paralelo?.numero?.toString())
+            cell7.setCellValue(Paralelo?.get(r?.parl__id)?.numero?.toString())
 
             Cell cell8 = rowF1.createCell(6);
             cell8.setCellStyle(style3);
-            cell8.setCellValue("")
+            cell8.setCellValue(Asignatura.get(r?.asig__id)?.horasTeoria?.toString())
 
             Cell cell9 = rowF1.createCell(7);
             cell9.setCellStyle(style3);
-            cell9.setCellValue("")
+            cell9.setCellValue(Asignatura.get(r?.asig__id)?.horasPractica?.toString())
 
             Cell cell10 = rowF1.createCell(8);
             cell10.setCellStyle(style3);
@@ -3182,6 +3198,10 @@ class ReportesController {
         response.setContentType("application/octet-stream")
         response.setHeader("Content-Disposition", header);
         wb.write(output)
+
+    }
+
+    def periodo_ajax(){
 
     }
 

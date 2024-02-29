@@ -279,9 +279,37 @@
 
 
     $("#btnHorarioGeneralExcel").click(function () {
-        location.href="${createLink(controller: 'reportes', action: 'reporteHorarioGeneralExcel')}"
+        $.ajax({
+            type    : "POST",
+            url: "${createLink(controller: 'reportes', action:'periodo_ajax')}",
+            data    : {},
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgHorarioProfesores",
+                    title   : "Reporte",
+                    class : "modal-sm",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-print'></i> Reporte",
+                            className : "btn-success",
+                            callback  : function () {
+                                var periodo = $("#periodo option:selected").val();
+                                location.href="${createLink(controller: 'reportes', action: 'reporteHorarioGeneralExcel')}?periodo=" + periodo;
+                            } //callback
+                        } //guardar
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
     });
-
 
     function prepare() {
         $(".fa-ul li span").each(function () {
