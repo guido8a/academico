@@ -2518,355 +2518,362 @@ class ReportesController {
             fila++
         }
 
-        profesores.each { profesor->
+        profesores.each { profesor ->
+
             def suma = 0
             dicta = Dicta.findAllByProfesorAndCursoInList(profesor, crso)
             gestionN = Gestion.findAllByProfesorAndPeriodo(profesor, periodo.padre)
             gestion = Gestion.findAllByProfesorAndPeriodo(profesor, periodo)
 
-            if(cabecera == 'true'){
-                Row rowC1 = sheet.createRow(fila)
-                rowC1.createCell(0).setCellValue("Carrera")
-                rowC1.createCell(1).setCellValue("NRC")
-                rowC1.createCell(2).setCellValue("Código Banner")
-                rowC1.createCell(3).setCellValue("Nombre Asignatura o Actividad")
-                rowC1.createCell(4).setCellValue("Docente")
-                rowC1.createCell(5).setCellValue("Nivel")
-                rowC1.createCell(6).setCellValue("Paralelo")
-                rowC1.createCell(7).setCellValue("Teoría")
-                rowC1.createCell(8).setCellValue("Práctica")
-                rowC1.createCell(9).setCellValue("Horas Semana")
-                rowC1.createCell(10).setCellValue("Lunes ")
-                rowC1.createCell(11).setCellValue("Martes")
-                rowC1.createCell(12).setCellValue("Miércoles")
-                rowC1.createCell(13).setCellValue("Jueves")
-                rowC1.createCell(14).setCellValue("Viernes")
-                rowC1.createCell(15).setCellValue("Créditos")
-                rowC1.createCell(16).setCellValue("Factor Preparación")
-                rowC1.createCell(17).setCellValue("Horas Preparación")
-                rowC1.createCell(18).setCellValue("Horas gestión")
-                rowC1.createCell(19).setCellValue("Total horas")
-                rowC1.setRowStyle(style)
-                fila++
-            }
-
-
-            dicta.eachWithIndex { r, j ->
-                def respLunes = retornaHoras("lun", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-                def respMartes = retornaHoras("mar", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-                def respMiercoles = retornaHoras("mie", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-                def respJueves = retornaHoras("jue", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-                def respViernes = retornaHoras("vie", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
-
-                def horasAcad = 0
-
-                if (periodo.tipo == 'N') {
-                    horasAcad = r?.curso?.asignatura?.creditos?.toInteger() +
-                            (r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble())
-                } else {
-                    horasAcad = r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble()
-                }
-
-                Row rowF1 = sheet.createRow(fila)
-
-                Cell cell0 = rowF1.createCell(0);
-                cell0.setCellStyle(style3);
-                cell0.setCellValue(r?.curso?.asignatura?.carrera?.codigo?.toString());
-
-                Cell cell1 = rowF1.createCell(1);
-                cell1.setCellStyle(style3);
-                cell1.setCellValue(r?.curso?.nrc?.toString());
-
-                Cell cell2 = rowF1.createCell(2);
-                cell2.setCellStyle(style3);
-                cell2.setCellValue(r?.curso?.asignatura?.codigo?.toString());
-
-                Cell cell3 = rowF1.createCell(3);
-                cell3.setCellStyle(style3);
-                cell3.setCellValue(r?.curso?.asignatura?.nombre?.toString());
-
-                Cell cell4 = rowF1.createCell(4);
-                cell4.setCellStyle(style3);
-                cell4.setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
-
-                Cell cell5 = rowF1.createCell(5);
-                cell5.setCellStyle(style3);
-                cell5.setCellValue(r?.curso?.asignatura?.nivel?.numero?.toString())
-
-                Cell cell6 = rowF1.createCell(6);
-                cell6.setCellStyle(style3);
-                cell6.setCellValue(r?.curso?.paralelo?.numero?.toString())
-
-                Cell cell7 = rowF1.createCell(7);
-                cell7.setCellStyle(style4);
-                cell7.setCellValue(r?.curso?.asignatura?.horasTeoria?.toInteger())
-
-                Cell cell8 = rowF1.createCell(8);
-                cell8.setCellStyle(style4);
-                cell8.setCellValue(r?.curso?.asignatura?.horasPractica?.toInteger())
-
-                Cell cell9 = rowF1.createCell(9);
-                cell9.setCellStyle(style4);
-                cell9.setCellValue((r?.curso?.asignatura?.horasPractica?.toInteger() ?: 0) + (r?.curso?.asignatura?.horasTeoria?.toInteger() ?: 0))
-
-                Cell cell10 = rowF1.createCell(10);
-                cell10.setCellStyle(style3);
-                cell10.setCellValue(respLunes);
-
-                Cell cell11 = rowF1.createCell(11);
-                cell11.setCellStyle(style3);
-                cell11.setCellValue(respMartes);
-
-                Cell cell12 = rowF1.createCell(12);
-                cell12.setCellStyle(style3);
-                cell12.setCellValue(respMiercoles);
-
-                Cell cell13 = rowF1.createCell(13);
-                cell13.setCellStyle(style3);
-                cell13.setCellValue(respJueves);
-
-                Cell cell14 = rowF1.createCell(14);
-                cell14.setCellStyle(style3);
-                cell14.setCellValue(respViernes);
-
-                Cell cell15 = rowF1.createCell(15);
-                cell15.setCellStyle(style4);
-                cell15.setCellValue(r?.curso?.asignatura?.creditos?.toDouble());
-
-                Cell cell16 = rowF1.createCell(16);
-                cell16.setCellStyle(style4);
-                cell16.setCellValue(r?.curso?.asignatura?.factorPreparacion?.toDouble());
-
-                Cell cell17 = rowF1.createCell(17);
-                cell17.setCellStyle(style4);
-                cell17.setCellValue(r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble());
-
-                Cell cell18 = rowF1.createCell(18);
-                cell18.setCellStyle(style4);
-                cell18.setCellValue(r?.curso?.asignatura?.horasGestion?.toDouble());
-
-                Cell cell19 = rowF1.createCell(19);
-                cell19.setCellStyle(style4);
-                cell19.setCellValue(horasAcad);
-
-                suma += horasAcad
-                fila++
-            }
-
-            gestion.eachWithIndex { r, j ->
-                Row rowF1 = sheet.createRow(fila)
-
-                Cell cell0 = rowF1.createCell(0);
-                cell0.setCellStyle(style3);
-                cell0.setCellValue(r?.asignatura?.carrera?.codigo?.toString());
-
-                Cell cell1 = rowF1.createCell(1);
-                cell1.setCellStyle(style3);
-                cell1.setCellValue("");
-
-                Cell cell2 = rowF1.createCell(2);
-                cell2.setCellStyle(style3);
-                cell2.setCellValue(r?.asignatura?.codigo?.toString());
-
-                Cell cell3 = rowF1.createCell(3);
-                cell3.setCellStyle(style3);
-                cell3.setCellValue(r?.asignatura?.nombre?.toString());
-
-                Cell cell4 = rowF1.createCell(4);
-                cell4.setCellStyle(style3);
-                cell4.setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
-
-                Cell cell5 = rowF1.createCell(5);
-                cell5.setCellStyle(style3);
-                cell5.setCellValue(r?.asignatura?.nivel?.numero?.toString())
-
-                Cell cell6 = rowF1.createCell(6);
-                cell6.setCellStyle(style3);
-                cell6.setCellValue("")
-
-                Cell cell7 = rowF1.createCell(7);
-                cell7.setCellStyle(style4);
-                cell7.setCellValue("")
-
-                Cell cell8 = rowF1.createCell(8);
-                cell8.setCellStyle(style4);
-                cell8.setCellValue("")
-
-                Cell cell9 = rowF1.createCell(9);
-                cell9.setCellStyle(style4);
-                cell9.setCellValue((r?.asignatura?.horasGestion?.toDouble() ?: 0))
-
-                Cell cell10 = rowF1.createCell(10);
-                cell10.setCellStyle(style3);
-                cell10.setCellValue("");
-
-                Cell cell11 = rowF1.createCell(11);
-                cell11.setCellStyle(style3);
-                cell11.setCellValue("");
-
-                Cell cell12 = rowF1.createCell(12);
-                cell12.setCellStyle(style3);
-                cell12.setCellValue("");
-
-                Cell cell13 = rowF1.createCell(13);
-                cell13.setCellStyle(style3);
-                cell13.setCellValue("");
-
-                Cell cell14 = rowF1.createCell(14);
-                cell14.setCellStyle(style3);
-                cell14.setCellValue("");
-
-                Cell cell15 = rowF1.createCell(15);
-                cell15.setCellStyle(style4);
-                cell15.setCellValue(r?.hora?.toDouble() ?: '');
-
-                Cell cell16 = rowF1.createCell(16);
-                cell16.setCellStyle(style4);
-                cell16.setCellValue(r?.asignatura?.factorPreparacion?.toDouble() ?: '');
-
-                Cell cell17 = rowF1.createCell(17);
-                cell17.setCellStyle(style4);
-                cell17.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: '');
-
-                Cell cell18 = rowF1.createCell(18);
-                cell18.setCellStyle(style4);
-                cell18.setCellValue(r?.horas?.toDouble());
-
-                Cell cell19 = rowF1.createCell(19);
-                cell19.setCellStyle(style4);
-                cell19.setCellValue(r?.horas?.toDouble());
-
-                fila++
-                suma += r?.horas?.toDouble()
-            }
-
-
-            gestionN.eachWithIndex { r, j ->
-                Row rowF1 = sheet.createRow(fila)
-
-                Cell cell0 = rowF1.createCell(0);
-                cell0.setCellStyle(style3);
-                cell0.setCellValue(r?.asignatura?.carrera?.codigo?.toString());
-
-                Cell cell1 = rowF1.createCell(1);
-                cell1.setCellStyle(style3);
-                cell1.setCellValue("");
-
-                Cell cell2 = rowF1.createCell(2);
-                cell2.setCellStyle(style3);
-                cell2.setCellValue(r?.asignatura?.codigo?.toString());
-
-                Cell cell3 = rowF1.createCell(3);
-                cell3.setCellStyle(style3);
-                cell3.setCellValue(r?.asignatura?.nombre?.toString());
-
-                Cell cell4 = rowF1.createCell(4);
-                cell4.setCellStyle(style3);
-                cell4.setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
-
-                Cell cell5 = rowF1.createCell(5);
-                cell5.setCellStyle(style3);
-                cell5.setCellValue(r?.asignatura?.nivel?.numero?.toString())
-
-                Cell cell6 = rowF1.createCell(6);
-                cell6.setCellStyle(style3);
-                cell6.setCellValue("")
-
-                Cell cell7 = rowF1.createCell(7);
-                cell7.setCellStyle(style4);
-                cell7.setCellValue("")
-
-                Cell cell8 = rowF1.createCell(8);
-                cell8.setCellStyle(style4);
-                cell8.setCellValue("")
-
-                Cell cell9 = rowF1.createCell(9);
-                cell9.setCellStyle(style4);
-                cell9.setCellValue((r?.asignatura?.horasGestion?.toDouble() ?: 0))
-
-                Cell cell10 = rowF1.createCell(10);
-                cell10.setCellStyle(style3);
-                cell10.setCellValue("");
-
-                Cell cell11 = rowF1.createCell(11);
-                cell11.setCellStyle(style3);
-                cell11.setCellValue("");
-
-                Cell cell12 = rowF1.createCell(12);
-                cell12.setCellStyle(style3);
-                cell12.setCellValue("");
-
-                Cell cell13 = rowF1.createCell(13);
-                cell13.setCellStyle(style3);
-                cell13.setCellValue("");
-
-                Cell cell14 = rowF1.createCell(14);
-                cell14.setCellStyle(style3);
-                cell14.setCellValue("");
-
-                Cell cell15 = rowF1.createCell(15);
-                cell15.setCellStyle(style4);
-                cell15.setCellValue(r?.hora?.toDouble() ?: '');
-
-                Cell cell16 = rowF1.createCell(16);
-                cell16.setCellStyle(style4);
-                cell16.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
-
-                Cell cell17 = rowF1.createCell(17);
-                cell17.setCellStyle(style4);
-                cell17.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
-
-                Cell cell18 = rowF1.createCell(18);
-                cell18.setCellStyle(style4);
-                cell18.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
-
-                Cell cell19 = rowF1.createCell(19);
-                cell19.setCellStyle(style4);
-                cell19.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
-
-                fila++
-                suma += r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble()
-            }
-
-            if(cabecera == 'true'){
-            Row rowF1t = sheet.createRow(fila)
-            rowF1t.createCell(18).setCellValue("Total")
-            rowF1t.createCell(19).setCellValue(suma)
-            rowF1t.setRowStyle(style)
-            fila++
-            }
-
-            if(cabecera == 'true') {
-                Row rowFilaVacia = sheet.createRow(fila)
-                rowFilaVacia.createCell(0).setCellValue("")
-                rowFilaVacia.setRowStyle(style)
-            }
-
-            if ((suma > 40) && (periodo.tipo == 'N')) {
-                if(cabecera == 'true'){
-                    Row rowS = sheet.createRow(fila)
-                    rowS.createCell(1).setCellValue("El valor de ${Math.round((suma - 40) * 10) / 10} horas, que sobrepasa a las " +
-                            "40 horas semanales, se compensará en el período \"${p_hijo?.descripcion}\" como " +
-                            "${Math.round((suma - 40) * (periodo.semanas / p_hijo.semanas) * 10) / 10} horas de trabajo")
-                    rowS.setRowStyle(style)
+            if (dicta.size() > 0) {
+
+                if (cabecera == 'true') {
+                    Row rowC1 = sheet.createRow(fila)
+                    rowC1.createCell(0).setCellValue("Carrera")
+                    rowC1.createCell(1).setCellValue("NRC")
+                    rowC1.createCell(2).setCellValue("Código Banner")
+                    rowC1.createCell(3).setCellValue("Nombre Asignatura o Actividad")
+                    rowC1.createCell(4).setCellValue("Docente")
+                    rowC1.createCell(5).setCellValue("Nivel")
+                    rowC1.createCell(6).setCellValue("Paralelo")
+                    rowC1.createCell(7).setCellValue("Teoría")
+                    rowC1.createCell(8).setCellValue("Práctica")
+                    rowC1.createCell(9).setCellValue("Horas Semana")
+                    rowC1.createCell(10).setCellValue("Lunes ")
+                    rowC1.createCell(11).setCellValue("Martes")
+                    rowC1.createCell(12).setCellValue("Miércoles")
+                    rowC1.createCell(13).setCellValue("Jueves")
+                    rowC1.createCell(14).setCellValue("Viernes")
+                    rowC1.createCell(15).setCellValue("Créditos")
+                    rowC1.createCell(16).setCellValue("Factor Preparación")
+                    rowC1.createCell(17).setCellValue("Horas Preparación")
+                    rowC1.createCell(18).setCellValue("Horas gestión")
+                    rowC1.createCell(19).setCellValue("Total horas")
+                    rowC1.setRowStyle(style)
                     fila++
                 }
-            }
 
-            if (periodo.tipo == 'I') {
-                def hh = cn.rows(sql.toString())[0].comphora
-                Row rowS = sheet.createRow(fila)
-                rowS.createCell(1).setCellValue("Compensación del período \"${p_padre?.descripcion}\" ${hh} horas de trabajo")
-                rowS.createCell(16).setCellValue("Compensación período ${p_padre?.descripcion}")
-                rowS.createCell(19).setCellValue(hh)
-                rowS.setRowStyle(style)
-                Row rowS1 = sheet.createRow(fila + 1)
-                rowS1.createCell(17).setCellValue("Total del período")
-                rowS1.createCell(19).setCellValue(suma + hh)
-                rowS1.setRowStyle(style)
+
+                dicta.eachWithIndex { r, j ->
+
+                    def respLunes = retornaHoras("lun", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+                    def respMartes = retornaHoras("mar", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+                    def respMiercoles = retornaHoras("mie", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+                    def respJueves = retornaHoras("jue", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+                    def respViernes = retornaHoras("vie", r?.curso?.asignatura?.nivel?.id, r?.curso?.paralelo?.id, r?.curso?.asignatura?.id)
+
+                    def horasAcad = 0
+
+                    if (periodo.tipo == 'N') {
+                        horasAcad = r?.curso?.asignatura?.creditos?.toInteger() +
+                                (r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble())
+                    } else {
+                        horasAcad = r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble()
+                    }
+
+                    Row rowF1 = sheet.createRow(fila)
+
+                    Cell cell0 = rowF1.createCell(0);
+                    cell0.setCellStyle(style3);
+                    cell0.setCellValue(r?.curso?.asignatura?.carrera?.codigo?.toString());
+
+                    Cell cell1 = rowF1.createCell(1);
+                    cell1.setCellStyle(style3);
+                    cell1.setCellValue(r?.curso?.nrc?.toString());
+
+                    Cell cell2 = rowF1.createCell(2);
+                    cell2.setCellStyle(style3);
+                    cell2.setCellValue(r?.curso?.asignatura?.codigo?.toString());
+
+                    Cell cell3 = rowF1.createCell(3);
+                    cell3.setCellStyle(style3);
+                    cell3.setCellValue(r?.curso?.asignatura?.nombre?.toString());
+
+                    Cell cell4 = rowF1.createCell(4);
+                    cell4.setCellStyle(style3);
+                    cell4.setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
+
+                    Cell cell5 = rowF1.createCell(5);
+                    cell5.setCellStyle(style3);
+                    cell5.setCellValue(r?.curso?.asignatura?.nivel?.numero?.toString())
+
+                    Cell cell6 = rowF1.createCell(6);
+                    cell6.setCellStyle(style3);
+                    cell6.setCellValue(r?.curso?.paralelo?.numero?.toString())
+
+                    Cell cell7 = rowF1.createCell(7);
+                    cell7.setCellStyle(style4);
+                    cell7.setCellValue(r?.curso?.asignatura?.horasTeoria?.toInteger())
+
+                    Cell cell8 = rowF1.createCell(8);
+                    cell8.setCellStyle(style4);
+                    cell8.setCellValue(r?.curso?.asignatura?.horasPractica?.toInteger())
+
+                    Cell cell9 = rowF1.createCell(9);
+                    cell9.setCellStyle(style4);
+                    cell9.setCellValue((r?.curso?.asignatura?.horasPractica?.toInteger() ?: 0) + (r?.curso?.asignatura?.horasTeoria?.toInteger() ?: 0))
+
+                    Cell cell10 = rowF1.createCell(10);
+                    cell10.setCellStyle(style3);
+                    cell10.setCellValue(respLunes);
+
+                    Cell cell11 = rowF1.createCell(11);
+                    cell11.setCellStyle(style3);
+                    cell11.setCellValue(respMartes);
+
+                    Cell cell12 = rowF1.createCell(12);
+                    cell12.setCellStyle(style3);
+                    cell12.setCellValue(respMiercoles);
+
+                    Cell cell13 = rowF1.createCell(13);
+                    cell13.setCellStyle(style3);
+                    cell13.setCellValue(respJueves);
+
+                    Cell cell14 = rowF1.createCell(14);
+                    cell14.setCellStyle(style3);
+                    cell14.setCellValue(respViernes);
+
+                    Cell cell15 = rowF1.createCell(15);
+                    cell15.setCellStyle(style4);
+                    cell15.setCellValue(r?.curso?.asignatura?.creditos?.toDouble());
+
+                    Cell cell16 = rowF1.createCell(16);
+                    cell16.setCellStyle(style4);
+                    cell16.setCellValue(r?.curso?.asignatura?.factorPreparacion?.toDouble());
+
+                    Cell cell17 = rowF1.createCell(17);
+                    cell17.setCellStyle(style4);
+                    cell17.setCellValue(r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble());
+
+                    Cell cell18 = rowF1.createCell(18);
+                    cell18.setCellStyle(style4);
+                    cell18.setCellValue(r?.curso?.asignatura?.horasGestion?.toDouble());
+
+                    Cell cell19 = rowF1.createCell(19);
+                    cell19.setCellStyle(style4);
+                    cell19.setCellValue(horasAcad);
+
+                    suma += horasAcad
+                    fila++
+
+                }
+
+                gestion.eachWithIndex { r, j ->
+                    Row rowF1 = sheet.createRow(fila)
+
+                    Cell cell0 = rowF1.createCell(0);
+                    cell0.setCellStyle(style3);
+                    cell0.setCellValue(r?.asignatura?.carrera?.codigo?.toString());
+
+                    Cell cell1 = rowF1.createCell(1);
+                    cell1.setCellStyle(style3);
+                    cell1.setCellValue("");
+
+                    Cell cell2 = rowF1.createCell(2);
+                    cell2.setCellStyle(style3);
+                    cell2.setCellValue(r?.asignatura?.codigo?.toString());
+
+                    Cell cell3 = rowF1.createCell(3);
+                    cell3.setCellStyle(style3);
+                    cell3.setCellValue(r?.asignatura?.nombre?.toString());
+
+                    Cell cell4 = rowF1.createCell(4);
+                    cell4.setCellStyle(style3);
+                    cell4.setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
+
+                    Cell cell5 = rowF1.createCell(5);
+                    cell5.setCellStyle(style3);
+                    cell5.setCellValue(r?.asignatura?.nivel?.numero?.toString())
+
+                    Cell cell6 = rowF1.createCell(6);
+                    cell6.setCellStyle(style3);
+                    cell6.setCellValue("")
+
+                    Cell cell7 = rowF1.createCell(7);
+                    cell7.setCellStyle(style4);
+                    cell7.setCellValue("")
+
+                    Cell cell8 = rowF1.createCell(8);
+                    cell8.setCellStyle(style4);
+                    cell8.setCellValue("")
+
+                    Cell cell9 = rowF1.createCell(9);
+                    cell9.setCellStyle(style4);
+                    cell9.setCellValue((r?.asignatura?.horasGestion?.toDouble() ?: 0))
+
+                    Cell cell10 = rowF1.createCell(10);
+                    cell10.setCellStyle(style3);
+                    cell10.setCellValue("");
+
+                    Cell cell11 = rowF1.createCell(11);
+                    cell11.setCellStyle(style3);
+                    cell11.setCellValue("");
+
+                    Cell cell12 = rowF1.createCell(12);
+                    cell12.setCellStyle(style3);
+                    cell12.setCellValue("");
+
+                    Cell cell13 = rowF1.createCell(13);
+                    cell13.setCellStyle(style3);
+                    cell13.setCellValue("");
+
+                    Cell cell14 = rowF1.createCell(14);
+                    cell14.setCellStyle(style3);
+                    cell14.setCellValue("");
+
+                    Cell cell15 = rowF1.createCell(15);
+                    cell15.setCellStyle(style4);
+                    cell15.setCellValue(r?.hora?.toDouble() ?: '');
+
+                    Cell cell16 = rowF1.createCell(16);
+                    cell16.setCellStyle(style4);
+                    cell16.setCellValue(r?.asignatura?.factorPreparacion?.toDouble() ?: '');
+
+                    Cell cell17 = rowF1.createCell(17);
+                    cell17.setCellStyle(style4);
+                    cell17.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: '');
+
+                    Cell cell18 = rowF1.createCell(18);
+                    cell18.setCellStyle(style4);
+                    cell18.setCellValue(r?.horas?.toDouble());
+
+                    Cell cell19 = rowF1.createCell(19);
+                    cell19.setCellStyle(style4);
+                    cell19.setCellValue(r?.horas?.toDouble());
+
+                    fila++
+                    suma += r?.horas?.toDouble()
+                }
+
+
+                gestionN.eachWithIndex { r, j ->
+                    Row rowF1 = sheet.createRow(fila)
+
+                    Cell cell0 = rowF1.createCell(0);
+                    cell0.setCellStyle(style3);
+                    cell0.setCellValue(r?.asignatura?.carrera?.codigo?.toString());
+
+                    Cell cell1 = rowF1.createCell(1);
+                    cell1.setCellStyle(style3);
+                    cell1.setCellValue("");
+
+                    Cell cell2 = rowF1.createCell(2);
+                    cell2.setCellStyle(style3);
+                    cell2.setCellValue(r?.asignatura?.codigo?.toString());
+
+                    Cell cell3 = rowF1.createCell(3);
+                    cell3.setCellStyle(style3);
+                    cell3.setCellValue(r?.asignatura?.nombre?.toString());
+
+                    Cell cell4 = rowF1.createCell(4);
+                    cell4.setCellStyle(style3);
+                    cell4.setCellValue(r?.profesor?.apellido?.toString() + " " + r?.profesor?.nombre?.toString())
+
+                    Cell cell5 = rowF1.createCell(5);
+                    cell5.setCellStyle(style3);
+                    cell5.setCellValue(r?.asignatura?.nivel?.numero?.toString())
+
+                    Cell cell6 = rowF1.createCell(6);
+                    cell6.setCellStyle(style3);
+                    cell6.setCellValue("")
+
+                    Cell cell7 = rowF1.createCell(7);
+                    cell7.setCellStyle(style4);
+                    cell7.setCellValue("")
+
+                    Cell cell8 = rowF1.createCell(8);
+                    cell8.setCellStyle(style4);
+                    cell8.setCellValue("")
+
+                    Cell cell9 = rowF1.createCell(9);
+                    cell9.setCellStyle(style4);
+                    cell9.setCellValue((r?.asignatura?.horasGestion?.toDouble() ?: 0))
+
+                    Cell cell10 = rowF1.createCell(10);
+                    cell10.setCellStyle(style3);
+                    cell10.setCellValue("");
+
+                    Cell cell11 = rowF1.createCell(11);
+                    cell11.setCellStyle(style3);
+                    cell11.setCellValue("");
+
+                    Cell cell12 = rowF1.createCell(12);
+                    cell12.setCellStyle(style3);
+                    cell12.setCellValue("");
+
+                    Cell cell13 = rowF1.createCell(13);
+                    cell13.setCellStyle(style3);
+                    cell13.setCellValue("");
+
+                    Cell cell14 = rowF1.createCell(14);
+                    cell14.setCellStyle(style3);
+                    cell14.setCellValue("");
+
+                    Cell cell15 = rowF1.createCell(15);
+                    cell15.setCellStyle(style4);
+                    cell15.setCellValue(r?.hora?.toDouble() ?: '');
+
+                    Cell cell16 = rowF1.createCell(16);
+                    cell16.setCellStyle(style4);
+                    cell16.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
+
+                    Cell cell17 = rowF1.createCell(17);
+                    cell17.setCellStyle(style4);
+                    cell17.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
+
+                    Cell cell18 = rowF1.createCell(18);
+                    cell18.setCellStyle(style4);
+                    cell18.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
+
+                    Cell cell19 = rowF1.createCell(19);
+                    cell19.setCellStyle(style4);
+                    cell19.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
+
+                    fila++
+                    suma += r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble()
+                }
+
+                if (cabecera == 'true') {
+                    Row rowF1t = sheet.createRow(fila)
+                    rowF1t.createCell(18).setCellValue("Total")
+                    rowF1t.createCell(19).setCellValue(suma)
+                    rowF1t.setRowStyle(style)
+                    fila++
+                }
+
+                if (cabecera == 'true') {
+                    Row rowFilaVacia = sheet.createRow(fila)
+                    rowFilaVacia.createCell(0).setCellValue("")
+                    rowFilaVacia.setRowStyle(style)
+                }
+
+                if ((suma > 40) && (periodo.tipo == 'N')) {
+                    if (cabecera == 'true') {
+                        Row rowS = sheet.createRow(fila)
+                        rowS.createCell(1).setCellValue("El valor de ${Math.round((suma - 40) * 10) / 10} horas, que sobrepasa a las " +
+                                "40 horas semanales, se compensará en el período \"${p_hijo?.descripcion}\" como " +
+                                "${Math.round((suma - 40) * (periodo.semanas / p_hijo.semanas) * 10) / 10} horas de trabajo")
+                        rowS.setRowStyle(style)
+                        fila++
+                    }
+                }
+
+                if (periodo.tipo == 'I') {
+                    def hh = cn.rows(sql.toString())[0].comphora
+                    Row rowS = sheet.createRow(fila)
+                    rowS.createCell(1).setCellValue("Compensación del período \"${p_padre?.descripcion}\" ${hh} horas de trabajo")
+                    rowS.createCell(16).setCellValue("Compensación período ${p_padre?.descripcion}")
+                    rowS.createCell(19).setCellValue(hh)
+                    rowS.setRowStyle(style)
+                    Row rowS1 = sheet.createRow(fila + 1)
+                    rowS1.createCell(17).setCellValue("Total del período")
+                    rowS1.createCell(19).setCellValue(suma + hh)
+                    rowS1.setRowStyle(style)
+                    fila++
+                }
                 fila++
+
             }
-            fila++
         }
 
         def output = response.getOutputStream()
