@@ -21,10 +21,21 @@
         <label class="col-md-1 control-label text-info" style="text-align: right">
             Asignaturas
         </label>
-        <div class="col-md-6" id="divComboAsignaturas">
+        <div class="col-md-4" id="divComboAsignaturas">
 
         </div>
 
+        <div class="col-md-2">
+            <g:textField name="buscar" class="form-control" />
+        </div>
+        <div class="btn-group">
+            <a href="#" class="btn btn-success btnBuscar">
+                <i class="fa fa-search"></i> Buscar
+            </a>
+            <a href="#" class="btn btn-info btnLimpiar">
+                <i class="fa fa-eraser"></i> Limpiar
+            </a>
+        </div>
     </div>
 </div>
 
@@ -50,14 +61,15 @@
 
 <script type="text/javascript">
 
-    cargarAsignatura($("#periodo option:selected").val());
+    cargarAsignatura($("#periodo option:selected").val(), $("#buscar").val());
 
-    function cargarAsignatura(periodo){
+    function cargarAsignatura(periodo, texto){
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'comboAsignatura_ajax')}",
             data: {
-                periodo: periodo
+                periodo: periodo,
+                texto: texto
             },
             success: function (msg) {
                 $("#divComboAsignaturas").html(msg);
@@ -65,9 +77,18 @@
         });
     }
 
+    $(".btnBuscar").click(function () {
+        cargarAsignatura($("#periodo option:selected").val(), $("#buscar").val());
+    });
+
+    $(".btnLimpiar").click(function () {
+        $("#buscar").val('');
+        cargarAsignatura($("#periodo option:selected").val(), '');
+    });
+
     $("#periodo").change(function () {
         var periodo = $(this).val();
-        cargarAsignatura(periodo);
+        cargarAsignatura(periodo, $("#buscar").val());
     });
 
 
