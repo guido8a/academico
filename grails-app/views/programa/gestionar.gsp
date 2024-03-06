@@ -21,8 +21,20 @@
         <label class="col-md-1 control-label text-info" style="text-align: right">
             Gestión
         </label>
-        <div class="col-md-6" id="divComboGestion">
+        <div class="col-md-4" id="divComboGestion">
 
+        </div>
+
+        <div class="col-md-2">
+            <g:textField name="buscar" class="form-control" />
+        </div>
+        <div class="btn-group">
+            <a href="#" class="btn btn-success btnBuscar">
+                <i class="fa fa-search"></i> Buscar
+            </a>
+            <a href="#" class="btn btn-info btnLimpiar">
+                <i class="fa fa-eraser"></i> Limpiar
+            </a>
         </div>
 
     </div>
@@ -49,14 +61,15 @@
 
 <script type="text/javascript">
 
-    cargarGestion($("#periodo option:selected").val());
+    cargarGestion($("#periodo option:selected").val(),  $("#buscar").val());
 
-    function cargarGestion(periodo){
+    function cargarGestion(periodo, texto){
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'comboGestionar_ajax')}",
             data: {
-                periodo: periodo
+                periodo: periodo,
+                texto: texto
             },
             success: function (msg) {
                 $("#divComboGestion").html(msg);
@@ -66,114 +79,17 @@
 
     $("#periodo").change(function () {
         var periodo = $(this).val();
-        cargarGestion(periodo);
+        cargarGestion(periodo,  $("#buscar").val());
     });
 
+    $(".btnBuscar").click(function () {
+        cargarGestion($("#periodo option:selected").val(), $("#buscar").val());
+    });
 
-    %{--function createEditRowParalelo(id) {--}%
-    %{--    var title = id ? "Editar" : "Crear";--}%
-    %{--    var data = id ? {id: id} : {};--}%
-    %{--    $.ajax({--}%
-    %{--        type    : "POST",--}%
-    %{--        url: "${createLink(controller: 'paralelo', action:'form_ajax')}",--}%
-    %{--        data    : data,--}%
-    %{--        success : function (msg) {--}%
-    %{--            var b = bootbox.dialog({--}%
-    %{--                id      : "dlgCreateEdit",--}%
-    %{--                title   : title + " Paralelo",--}%
-    %{--                message : msg,--}%
-    %{--                buttons : {--}%
-    %{--                    cancelar : {--}%
-    %{--                        label     : "Cancelar",--}%
-    %{--                        className : "btn-primary",--}%
-    %{--                        callback  : function () {--}%
-    %{--                        }--}%
-    %{--                    },--}%
-    %{--                    guardar  : {--}%
-    %{--                        id        : "btnSave",--}%
-    %{--                        label     : "<i class='fa fa-save'></i> Guardar",--}%
-    %{--                        className : "btn-success",--}%
-    %{--                        callback  : function () {--}%
-    %{--                            return submitFormParalelo();--}%
-    %{--                        } //callback--}%
-    %{--                    } //guardar--}%
-    %{--                } //buttons--}%
-    %{--            }); //dialog--}%
-    %{--        } //success--}%
-    %{--    }); //ajax--}%
-    %{--} //createEdit--}%
-
-    // function submitFormParalelo() {
-    //     var $form = $("#frmParalelo");
-    //     if ($form.valid()) {
-    //         var data = $form.serialize();
-    //         var dialog = cargarLoader("Guardando...");
-    //         $.ajax({
-    //             type    : "POST",
-    //             url     : $form.attr("action"),
-    //             data    : data,
-    //             success : function (msg) {
-    //                 dialog.modal('hide');
-    //                 var parts = msg.split("_");
-    //                 if(parts[0] === 'ok'){
-    //                     log(parts[1], "success");
-    //                     cargarTablaParalelos( $("#periodo option:selected").val());
-    //                 }else{
-    //                     bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');
-    //                     return false;
-    //                 }
-    //             }
-    //         });
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
-    %{--function deleteRow(itemId) {--}%
-    %{--    bootbox.dialog({--}%
-    %{--        title: "Alerta",--}%
-    %{--        message: "<i class='fa fa-trash fa-3x pull-left text-danger text-shadow'></i><p style='font-size: 14px; font-weight: bold'>" +--}%
-    %{--            "¿Está seguro que desea eliminar el paralelo ? Esta acción no se puede deshacer.</p>",--}%
-    %{--        closeButton: false,--}%
-    %{--        buttons: {--}%
-    %{--            cancelar: {--}%
-    %{--                label: "Cancelar",--}%
-    %{--                className: "btn-primary",--}%
-    %{--                callback: function () {--}%
-    %{--                }--}%
-    %{--            },--}%
-    %{--            eliminar: {--}%
-    %{--                label: "<i class='fa fa-trash'></i> Eliminar",--}%
-    %{--                className: "btn-danger",--}%
-    %{--                callback: function () {--}%
-    %{--                    var db= cargarLoader("Borrando...");--}%
-    %{--                    $.ajax({--}%
-    %{--                        type: "POST",--}%
-    %{--                        url: '${createLink(controller: 'paralelo', action:'delete_ajax')}',--}%
-    %{--                        data: {--}%
-    %{--                            id: itemId--}%
-    %{--                        },--}%
-    %{--                        success: function (msg) {--}%
-    %{--                            db.modal("hide");--}%
-    %{--                            var parts = msg.split("_");--}%
-    %{--                            if (parts[0] === 'ok') {--}%
-    %{--                                log(parts[1], "success");--}%
-    %{--                                cargarTablaParalelos( $("#periodo option:selected").val());--}%
-    %{--                            } else {--}%
-    %{--                                bootbox.alert('<i class="fa fa-exclamation-triangle text-danger fa-3x"></i> ' + '<strong style="font-size: 14px">' + parts[1] + '</strong>');--}%
-    %{--                            }--}%
-    %{--                        }--}%
-    %{--                    });--}%
-    %{--                }--}%
-    %{--            }--}%
-    %{--        }--}%
-    %{--    });--}%
-    %{--}--}%
-
-//    $(".btnCrear").click(function () {
-//        createEditRowParalelo();
-//        return false;
-//    });
+    $(".btnLimpiar").click(function () {
+        $("#buscar").val('');
+        cargarGestion($("#periodo option:selected").val(), '');
+    });
 
 </script>
 
