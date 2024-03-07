@@ -485,8 +485,16 @@ class ProgramaController {
     def comboGestionar_ajax(){
         def cn = dbConnectionService.getConnection()
         def periodo = Periodo.get(params.periodo)
-        def sql = "select distinct asig.asig__id id, asignmbr nombre from gstn, asig " +
-                "where gstn.prdo__id = ${periodo?.id} and asig.asig__id = gstn.asig__id order by asignmbr"
+        def sql = ''
+
+        if(params.texto == ''){
+            sql = "select distinct asig.asig__id id, asignmbr nombre from gstn, asig " +
+                    "where gstn.prdo__id = ${periodo?.id} and asig.asig__id = gstn.asig__id order by asignmbr"
+        }else{
+            sql = "select distinct asig.asig__id id, asignmbr nombre from gstn, asig " +
+                    "where gstn.prdo__id = ${periodo?.id} and asig.asig__id = gstn.asig__id and asig.asignmbr ilike '%${params.texto}%' order by asignmbr"
+        }
+
         def arreglo = cn.rows(sql.toString())
         return [resp: arreglo]
     }
