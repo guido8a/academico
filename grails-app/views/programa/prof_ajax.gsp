@@ -12,29 +12,58 @@
         </thead>
         <tbody>
         <g:each in="${horario}" var="h">
+            <g:set var="clorLun" value=""/>
+            <g:set var="clorMar" value=""/>
+            <g:set var="clorMie" value=""/>
+            <g:set var="clorJue" value=""/>
+            <g:set var="clorVie" value=""/>
+            <g:set var="clorSab" value=""/>
+            <g:set var="clorDom" value=""/>
+            <g:if test="${h?.lun?.size() > 10}">
+               <g:set var="clorLun" value="#${h?.lun.split('#')[1]}"/>
+            </g:if>
+            <g:if test="${h?.mar?.size() > 10}">
+               <g:set var="clorMar" value="#${h?.mar.split('#')[1]}"/>
+            </g:if>
+            <g:if test="${h?.mie?.size() > 10}">
+               <g:set var="clorMie" value="#${h?.mie.split('#')[1]}"/>
+            </g:if>
+            <g:if test="${h?.jue?.size() > 10}">
+               <g:set var="clorJue" value="#${h?.jue.split('#')[1]}"/>
+            </g:if>
+            <g:if test="${h?.vie?.size() > 10}">
+               <g:set var="clorVie" value="#${h?.vie.split('#')[1]}"/>
+            </g:if>
+            <g:if test="${h?.sab?.size() > 10}">
+               <g:set var="clorSab" value="#${h?.sab.split('#')[1]}"/>
+            </g:if>
+            <g:if test="${h?.dom?.size() > 10}">
+               <g:set var="clorDom" value="#${h?.dom.split('#')[1]}"/>
+            </g:if>
+
             <tr data-id="${h?.lun}" >
             <td width="9%">${h?.hora}</td>
 
-            <td width="10%" class="${h?.lun?.size() > 10 ? 'usado' : 'libre'}">
-                ${h?.lun?.size() > 20 ? h?.lun : 'Libre'}
+            <td width="10%" class="dia" style="background-color:${clorLun}">
+                ${h?.lun?.size() > 20 ? h?.lun.split('#')[0] : 'Libre'}
             </td>
-            <td width="10%" class="${h?.mar?.size() > 10 ? 'usado' : 'libre'}">
-                ${h?.mar?.size() > 20 ? h?.mar : 'Libre'}
+            <td width="10%" class="dia" style="background-color:${clorMar}">
+                ${h?.mar?.size() > 20 ? h?.mar.split('#')[0] : 'Libre'}
             </td>
-            <td width="10%" class="${h?.mie?.size() > 10 ? 'usado' : 'libre'}">
-                ${h?.mie?.size() > 20 ? h?.mie : 'Libre'}
+            <td width="10%" class="dia" style="background-color:${clorMie}">
+                ${h?.mie?.size() > 20 ? h?.mie.split('#')[0] : 'Libre'}
             </td>
-            <td width="10%" class="${h?.jue?.size() > 10 ? 'usado' : 'libre'}">
-                ${h?.jue?.size() > 20 ? h?.jue : 'Libre'}
+            <td width="10%" class="dia" style="background-color:${clorJue}">
+                ${h?.jue?.size() > 20 ? h?.jue.split('#')[0] : 'Libre'}
             </td>
-            <td width="10%" class="${h?.vie?.size() > 10 ? 'usado' : 'libre'}">
-                ${h?.vie?.size() > 20 ? h?.vie : 'Libre'}
+            <td width="10%" class="dia" style="background-color:${clorVie}">
+                ${h?.vie?.size() > 20 ? h?.vie.split('#')[0] : 'Libre'}
             </td>
-            <td width="10%" class="${h?.sab?.size() > 10 ? 'usado' : 'libre'}">
-                ${h?.sab?.size() > 20 ? h?.sab : 'Libre'}
+            <td width="10%" class="dia" style="background-color:${clorSab}">
+                ${h?.sab?.size() > 20 ? h?.sab.split('#')[0] : 'Libre'}
             </td>
-            <td width="10%" class="${h?.dom?.size() > 10 ? 'usado' : 'libre'}">
-                ${h?.dom?.size() > 20 ? h?.dom : 'Libre'}
+            <td width="10%" class="dia" style="background-color:${clorDom}">
+                ${h?.dom?.size() > 20 ? h?.dom.split('#')[0] : 'Libre'}
             </td>
 
 

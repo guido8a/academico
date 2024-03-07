@@ -20,6 +20,9 @@
         text-align: center !important;
         background-color: #91caef;
     }
+    .dia {
+        text-align: center !important;
+    }
     .libre {
         text-align: center !important;
         color: #606060;
