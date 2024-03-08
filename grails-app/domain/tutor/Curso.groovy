@@ -7,6 +7,7 @@ class Curso {
     String nrc
     Integer numEstudiantes
     Integer cupo
+    String aula
 
     static mapping = {
         table 'crso'
@@ -21,6 +22,7 @@ class Curso {
             nrc column: 'crso_nrc'
             numEstudiantes column: 'crsoestd'
             cupo column: 'crsocupo'
+            aula column: 'crsoaula'
         }
     }
     static constraints = {
@@ -29,6 +31,7 @@ class Curso {
         nrc(size: 1..7, blank: true, nullable: true, attributes: [title:'nrc'])
         numEstudiantes(blank: true, nullable: true, attributes: [title:'numEstudiantes'])
         cupo(blank: true, nullable: true, attributes: [title:'cupo'])
+        aula(blank: true, nullable: true, attributes: [title:'aula'])
     }
 
 }

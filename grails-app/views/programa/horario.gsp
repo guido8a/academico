@@ -294,30 +294,41 @@
 
 
     function cargaTabla(id, asig) {
-        // var asig = $("#asignatura option:selected").val();
         var data = {asig: asig, parl: id};
-        console.log('data:', data)
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'tabla_ajax')}",
             data: data,
             success: function (msg) {
                 $("#divTabla").html(msg);
+                activaBotonEditar(asig, id);
             } //success
         });
         //location.reload()//ajax
     }// /createEdit
 
+    function activaBotonEditar(asignatura, paralelo){
+        $.ajax({
+            type    : "POST",
+            url: "${createLink(action:'verificarProfesor_ajax')}",
+            async: false,
+            data    : {
+                asignatura: asignatura,
+                paralelo: paralelo
+            },
+            success : function (msg) {
+                if(msg === 'true'){
+                    $("#btnEditarCurso").removeClass("hide")
+                }else{
+                    $("#btnEditarCurso").addClass("hide")
+                }
+            } //success
+        }); //ajax
+    }
 
 
-        // $( document ).ready(function() {
-        //     //console.log( "ready!" );
-        //     var asig = $("#asignatura").val();
-        //     var parl = $("#paralelo").val();
-        //     $("#paralelo").change()
-        // });
 
-        $("#btnParalelo").click(function () {
+    $("#btnParalelo").click(function () {
             createEditRow();
             return false;
         });

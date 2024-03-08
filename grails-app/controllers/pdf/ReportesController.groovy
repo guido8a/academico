@@ -3147,7 +3147,7 @@ class ReportesController {
 
             Cell cell3 = rowF1.createCell(1);
             cell3.setCellStyle(style3);
-            cell3.setCellValue("");
+            cell3.setCellValue(Dicta.get(r?.dcta__id).curso?.nrc?.toString());
 
             Cell cell4 = rowF1.createCell(2);
             cell4.setCellStyle(style3);
@@ -3175,7 +3175,7 @@ class ReportesController {
 
             Cell cell10 = rowF1.createCell(8);
             cell10.setCellStyle(style3);
-            cell10.setCellValue("")
+            cell10.setCellValue(Dicta.get(r?.dcta__id).curso?.aula?.toString())
 
             Cell cell11 = rowF1.createCell(9);
             cell11.setCellStyle(style3);

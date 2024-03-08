@@ -196,11 +196,11 @@ class ProgramaController {
 
             def sql = "select * from horario(${asignatura.nivel.id}, ${params.parl}, ${params.asig})"
             def resp = cn.rows(sql.toString())
-            println "sql --> $sql"
-
-            println " Dicta: --> ${ dicta?.profesor?.nombre}"
-
-            println "horario: $resp"
+//            println "sql --> $sql"
+//
+//            println " Dicta: --> ${ dicta?.profesor?.nombre}"
+//
+//            println "horario: $resp"
 
             //return[asignatura: asignatura, horas: horas, dias: dias, horario: horario,
             return[asignatura: asignatura, horas: horas, dias: dias, horario: resp,
@@ -208,11 +208,7 @@ class ProgramaController {
         }else{
             return[existe: false]
         }
-
-
-
     }
-
 
     def crea_ajax() {
         println "crea_ajax: $params"
@@ -449,6 +445,27 @@ class ProgramaController {
         return [asignaturas: asignaturas]
     }
 
+    def verificarProfesor_ajax(){
+        println("params vp " + params)
+        def paralelo = Paralelo.get(params.paralelo)
+        if(paralelo){
+            def asignatura = Asignatura.get(params.asignatura)
+            if(asignatura){
+                def curso = Curso.findByParaleloAndAsignatura(paralelo, asignatura)
+                def dicta = Dicta.findByCurso(curso)
+                if(dicta?.profesor){
+                    render "true"
+                }else{
+                    render  "false"
+                }
+            }else{
+                render "false"
+            }
+        }else{
+            render "false"
+        }
+    }
+
     def tablaTotales_ajax(){
         return [total: params.total]
     }
@@ -458,8 +475,6 @@ class ProgramaController {
     }
 
     def tablaHoras_ajax(){
-        println("params " + params)
-
         def profesor = Profesor.get(params.profesor)
         def periodo = Periodo.get(params.periodo)
         def paralelos = Paralelo.findAllByPeriodo(periodo)
@@ -542,6 +557,26 @@ class ProgramaController {
                 " asig.asig__id = crso.asig__id and dcta.crso__id = crso.crso__id and prof.prof__id = dcta.prof__id and asig.asig__id = ${asignatura?.id} order by profapll, asignmbr"
         def resp = cn.rows(sql.toString())
         return [resp: resp]
+    }
+
+    def editarCurso_ajax(){
+        def paralelo = Paralelo.get(params.paralelo)
+        def asignatura = Asignatura.get(params.asignatura)
+        def curso = Curso.findByParaleloAndAsignatura(paralelo, asignatura)
+        return[curso: curso]
+    }
+
+    def saveCurso_ajax(){
+        def curso = Curso.get(params.id)
+
+        curso.properties = params
+
+        if(!curso.save(flush:true)){
+            render "no_Error al guardar el curso"
+            println("Error al guardar el curso " + curso.errors)
+        }else{
+            render "ok_Guardado correctamente"
+        }
     }
 
 
