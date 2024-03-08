@@ -1903,16 +1903,17 @@ class ReportesController {
         rowC1.createCell(7).setCellValue("Teoría")
         rowC1.createCell(8).setCellValue("Práctica")
         rowC1.createCell(9).setCellValue("Horas Semana")
-        rowC1.createCell(10).setCellValue("Lunes ")
-        rowC1.createCell(11).setCellValue("Martes")
-        rowC1.createCell(12).setCellValue("Miércoles")
-        rowC1.createCell(13).setCellValue("Jueves")
-        rowC1.createCell(14).setCellValue("Viernes")
-        rowC1.createCell(15).setCellValue("Créditos")
-        rowC1.createCell(16).setCellValue("Factor Preparación")
-        rowC1.createCell(17).setCellValue("Horas Preparación")
-        rowC1.createCell(18).setCellValue("Horas gestión")
-        rowC1.createCell(19).setCellValue("Total horas")
+        rowC1.createCell(10).setCellValue("Aula")
+        rowC1.createCell(11).setCellValue("Lunes ")
+        rowC1.createCell(12).setCellValue("Martes")
+        rowC1.createCell(13).setCellValue("Miércoles")
+        rowC1.createCell(14).setCellValue("Jueves")
+        rowC1.createCell(15).setCellValue("Viernes")
+        rowC1.createCell(16).setCellValue("Créditos")
+        rowC1.createCell(17).setCellValue("Factor Preparación")
+        rowC1.createCell(18).setCellValue("Horas Preparación")
+        rowC1.createCell(19).setCellValue("Horas gestión")
+        rowC1.createCell(20).setCellValue("Total horas")
         rowC1.setRowStyle(style)
         fila++
 
@@ -1991,43 +1992,47 @@ class ReportesController {
             cell9.setCellStyle(style4);
             cell9.setCellValue((r?.curso?.asignatura?.horasPractica?.toInteger() ?: 0) + (r?.curso?.asignatura?.horasTeoria?.toInteger() ?: 0))
 
-            Cell cell10 = rowF1.createCell(10);
+            Cell cell99 = rowF1.createCell(10);
+            cell99.setCellStyle(style4);
+            cell99.setCellValue(r?.curso?.aula?.toInteger())
+
+            Cell cell10 = rowF1.createCell(11);
             cell10.setCellStyle(style3);
             cell10.setCellValue(respLunes);
 
-            Cell cell11 = rowF1.createCell(11);
+            Cell cell11 = rowF1.createCell(12);
             cell11.setCellStyle(style3);
             cell11.setCellValue(respMartes);
 
-            Cell cell12 = rowF1.createCell(12);
+            Cell cell12 = rowF1.createCell(13);
             cell12.setCellStyle(style3);
             cell12.setCellValue(respMiercoles);
 
-            Cell cell13 = rowF1.createCell(13);
+            Cell cell13 = rowF1.createCell(14);
             cell13.setCellStyle(style3);
             cell13.setCellValue(respJueves);
 
-            Cell cell14 = rowF1.createCell(14);
+            Cell cell14 = rowF1.createCell(15);
             cell14.setCellStyle(style3);
             cell14.setCellValue(respViernes);
 
-            Cell cell15 = rowF1.createCell(15);
+            Cell cell15 = rowF1.createCell(16);
             cell15.setCellStyle(style4);
             cell15.setCellValue(r?.curso?.asignatura?.creditos?.toDouble());
 
-            Cell cell16 = rowF1.createCell(16);
+            Cell cell16 = rowF1.createCell(17);
             cell16.setCellStyle(style4);
             cell16.setCellValue(r?.curso?.asignatura?.factorPreparacion?.toDouble());
 
-            Cell cell17 = rowF1.createCell(17);
+            Cell cell17 = rowF1.createCell(18);
             cell17.setCellStyle(style4);
             cell17.setCellValue(r?.curso?.asignatura?.creditos?.toInteger() * r?.curso?.asignatura?.factorPreparacion?.toDouble());
 
-            Cell cell18 = rowF1.createCell(18);
+            Cell cell18 = rowF1.createCell(19);
             cell18.setCellStyle(style4);
             cell18.setCellValue(r?.curso?.asignatura?.horasGestion?.toDouble());
 
-            Cell cell19 = rowF1.createCell(19);
+            Cell cell19 = rowF1.createCell(20);
             cell19.setCellStyle(style4);
             cell19.setCellValue(horasAcad);
 
