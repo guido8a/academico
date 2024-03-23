@@ -134,11 +134,11 @@ environments:
     test:
         dataSource:
             dbCreate: update
-            url: jdbc:postgresql://192.168.100.9:5432/mdco
+            url: jdbc:postgresql://192.168.100.9:5432/tutor2
     production:
         dataSource:
             dbCreate: update
-            url: jdbc:postgresql://127.0.0.1:5432/mdco
+            url: jdbc:postgresql://127.0.0.1:5432/tutor2
             username: postgres
             password: 'steinsgate'
             properties:
