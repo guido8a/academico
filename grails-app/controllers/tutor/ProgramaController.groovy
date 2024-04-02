@@ -521,7 +521,7 @@ class ProgramaController {
         def sql = "select prdodscr, asignmbr, profapll, profnmbr, gstnhora," +
                 " gstnobsr from gstn, prdo, asig, prof where gstn.prdo__id = ${periodo?.id} and" +
                 " prdo.prdo__id = gstn.prdo__id and asig.asig__id = gstn.asig__id and" +
-                " prof.prof__id = gstn.prof__id and asig.asig__id = ${asignatura?.id} order by profapll, asignmbr"
+                " prof.prof__id = gstn.prof__id and asig.asig__id = ${asignatura?.id} and gstnhora <> 0 order by profapll, asignmbr"
         def resp = cn.rows(sql.toString())
         return [resp: resp]
     }
