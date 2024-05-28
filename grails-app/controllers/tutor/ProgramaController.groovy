@@ -18,9 +18,13 @@ class ProgramaController {
     def index() { }
 
     def horario() {
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
     def profesor() {
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
     def prof_ajax(){
@@ -45,6 +49,8 @@ class ProgramaController {
     }
 
     def resumen() {
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
     def rsmn_ajax(){

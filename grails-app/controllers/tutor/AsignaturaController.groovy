@@ -105,7 +105,7 @@ class AsignaturaController {
                 asignaturas = Asignatura.findAllByNombreIlike("%${params.criterio}%",[sort: "nombre"])
             }else{
                 if(params.carrera){
-                    asignaturas = Asignatura.findAllByCarreraAndNivel(carrera,nivel)
+                    asignaturas = Asignatura.findAllByCarreraAndNivel(carrera,nivel,[sort: "nombre"])
                 }else{
                     asignaturas = Asignatura.findAllByTipoActividad(TipoActividad.get(1), [sort: "nombre"])
                 }

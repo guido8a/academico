@@ -7,9 +7,10 @@
                 <tr data-id="${asignatura?.id}">
                     <td style="width: 7%">${asignatura?.codigo}</td>
                     <td style="width: 25%">${asignatura?.nombre} (${asignatura?.id})</td>
-                    <td style="width: 23%">${asignatura?.carrera?.nombre}</td>
+                    <td style="width: 18%">${asignatura?.carrera?.nombre}</td>
                     <td style="width: 10%">${asignatura?.nivel?.descripcion}</td>
                     <td style="width: 5%">${asignatura?.creditos}</td>
+                    <td style="width: 5%">${asignatura?.factorPreparacion}</td>
                     <td style="width: 5%">${asignatura?.horasTeoria}</td>
                     <td style="width: 5%">${asignatura?.horasPractica}</td>
                     <td style="width: 5%">${asignatura?.horasGestion}</td>

@@ -59,16 +59,30 @@
     <div class="col-md-6">
         <h3 class="titl">Resumen de cargas horarias</h3>
     </div>
+    %{--<div class="col-md-1">--}%
+        %{--<label for="periodo" class="col-md-1 control-label" style="text-align: right">--}%
+            %{--Período--}%
+        %{--</label>--}%
+    %{--</div>--}%
+    %{--<div class="col-md-2">--}%
+        %{--<g:select name="periodo" from="${tutor.Periodo.list([sort: 'descripcion'])}"--}%
+                  %{--class="form-control input-sm required" optionValue="descripcion" optionKey="id"--}%
+        %{--/>--}%
+    %{--</div>--}%
+
     <div class="col-md-1">
-        <label for="periodo" class="col-md-1 control-label" style="text-align: right">
+        <label for="periodo" class="control-label text-info"
+               style="text-align: right; font-size: large; margin-top: -7px">
             Período
         </label>
     </div>
     <div class="col-md-2">
         <g:select name="periodo" from="${tutor.Periodo.list([sort: 'descripcion'])}"
                   class="form-control input-sm required" optionValue="descripcion" optionKey="id"
+                  value="${activo}" style="color: #2060A0; font-weight: bold; background-color: #eed; border-color: #0a6aa1"
         />
     </div>
+
     <div class="btn-group">
         <a href="#" class="btn btn-info btnImprimir">
             <i class="fa fa-print"></i> Imprimir

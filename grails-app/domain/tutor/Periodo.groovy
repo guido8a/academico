@@ -6,6 +6,7 @@ class Periodo {
     Periodo padre
     String tipo
     int semanas
+    String activo
 
     static mapping = {
         table 'prdo'
@@ -19,6 +20,7 @@ class Periodo {
             descripcion column: 'prdodscr'
             tipo column: 'prdotipo'
             semanas column: 'prdosmna'
+            activo column: 'prdoactv'
         }
     }
 
@@ -27,6 +29,7 @@ class Periodo {
         descripcion(size: 1..31, blank: false, nullable: false, attributes: [title: 'descripción'])
         tipo(size: 1..1, blank: false, nullable: false, attributes: [title: 'tipo'])
         semanas(blank: false, nullable: false, attributes: [title: 'semanas de duración'])
+        activo(blank: true, nullable: true, attributes: [title: 'activo para programación'])
     }
 
     String toString() {

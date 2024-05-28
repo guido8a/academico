@@ -115,9 +115,10 @@
         <tr>
             <th style="width: 7%">Código</th>
             <th style="width: 25%">Asignatura</th>
-            <th style="width: 23%">Carrera</th>
+            <th style="width: 18%">Carrera</th>
             <th style="width: 10%">Nivel</th>
             <th style="width: 5%">Créd.</th>
+            <th style="width: 5%">Factor</th>
             <th style="width: 5%">Teór.</th>
             <th style="width: 5%">Práct.</th>
             <th style="width: 5%">Gest.</th>
