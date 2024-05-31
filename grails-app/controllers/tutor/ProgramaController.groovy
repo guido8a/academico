@@ -41,7 +41,7 @@ class ProgramaController {
                     "coalesce(mar, '')||coalesce(mie, '')||coalesce(jue, '')||coalesce(vie, '')||" +
                     "coalesce(sab, '')||coalesce(dom, '')) > 0"
             def existe = cn.rows(sql.toString())[0]?.cnta
-            println "3existe: $existe"
+            println "Existe: $existe"
             return[existe: existe, horas: horas, dias: dias, horario: resp]
         }else{
             return[existe: false]
@@ -54,14 +54,16 @@ class ProgramaController {
     }
 
     def rsmn_ajax(){
+        println "rsmn_ajax $params"
         def cn = getConnection()
         def sql
         def respN, respI
         def existe = false
         def prdo = Periodo.get(params.prdo)
-//        println("rsmn_ajax " + params)
         def hijo = prdo.padre? Periodo.get(prdo.id) : Periodo.findByPadre(prdo)
         def pdre = hijo.padre.id
+
+        println "rsmn pdre: $pdre, hijo: ${hijo.id}"
 
         if(prdo){
             sql = "select * from rep_resumen(${pdre})"
@@ -114,6 +116,8 @@ class ProgramaController {
 
 
     def gestion() {
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
     def creaParalelo(){

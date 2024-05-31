@@ -16,9 +16,13 @@
         background-color: #d7dff9;
         color: #0c3440;
     }
+    .otro {
+        /*text-align: center !important;*/
+        background-color: #f1caef;
+    }
     .usado {
         text-align: center !important;
-        background-color: #91caef;
+        background-color: #c0d2ef;
     }
     .dia {
         text-align: center !important;

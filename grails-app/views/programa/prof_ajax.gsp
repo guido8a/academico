@@ -44,100 +44,118 @@
             <tr data-id="${h?.lun}" >
             <td width="9%">${h?.hora}</td>
 
-            <td width="10%" class="dia" style="background-color:${clorLun}">
-                ${h?.lun?.size() > 20 ? h?.lun.split('#')[0] : 'Libre'}
-            </td>
-            <td width="10%" class="dia" style="background-color:${clorMar}">
-                ${h?.mar?.size() > 20 ? h?.mar.split('#')[0] : 'Libre'}
-            </td>
-            <td width="10%" class="dia" style="background-color:${clorMie}">
-                ${h?.mie?.size() > 20 ? h?.mie.split('#')[0] : 'Libre'}
-            </td>
-            <td width="10%" class="dia" style="background-color:${clorJue}">
-                ${h?.jue?.size() > 20 ? h?.jue.split('#')[0] : 'Libre'}
-            </td>
-            <td width="10%" class="dia" style="background-color:${clorVie}">
-                ${h?.vie?.size() > 20 ? h?.vie.split('#')[0] : 'Libre'}
-            </td>
-            <td width="10%" class="dia" style="background-color:${clorSab}">
-                ${h?.sab?.size() > 20 ? h?.sab.split('#')[0] : 'Libre'}
-            </td>
-            <td width="10%" class="dia" style="background-color:${clorDom}">
-                ${h?.dom?.size() > 20 ? h?.dom.split('#')[0] : 'Libre'}
-            </td>
+
+            %{--<td width="10%" class="dia" style="background-color:${clorLun}">--}%
+                %{--${h?.lun?.size() > 20 ? h?.lun.split('#')[0] : 'Libre'}--}%
+            %{--</td>--}%
+            %{--<td width="10%" class="dia" style="background-color:${clorMar}">--}%
+                %{--${h?.mar?.size() > 20 ? h?.mar.split('#')[0] : 'Libre'}--}%
+            %{--</td>--}%
+            %{--<td width="10%" class="dia" style="background-color:${clorMie}">--}%
+                %{--${h?.mie?.size() > 20 ? h?.mie.split('#')[0] : 'Libre'}--}%
+            %{--</td>--}%
+            %{--<td width="10%" class="dia" style="background-color:${clorJue}">--}%
+                %{--${h?.jue?.size() > 20 ? h?.jue.split('#')[0] : 'Libre'}--}%
+            %{--</td>--}%
+            %{--<td width="10%" class="dia" style="background-color:${clorVie}">--}%
+                %{--${h?.vie?.size() > 20 ? h?.vie.split('#')[0] : 'Libre'}--}%
+            %{--</td>--}%
+            %{--<td width="10%" class="dia" style="background-color:${clorSab}">--}%
+                %{--${h?.sab?.size() > 20 ? h?.sab.split('#')[0] : 'Libre'}--}%
+            %{--</td>--}%
+            %{--<td width="10%" class="dia" style="background-color:${clorDom}">--}%
+                %{--${h?.dom?.size() > 20 ? h?.dom.split('#')[0] : 'Libre'}--}%
+            %{--</td>--}%
 
 
-            %{--<g:if test="${h?.mar?.size() > 10}">--}%
-                %{--<td width="10%" data-id="${h?.mar}"  class="${h?.mar?.split(';').size() > 1 ? 'otro' : 'usado'}">--}%
+            <g:if test="${h?.lun?.size() > 10}">
+                <td width="10%" data-id="${h?.mar}"  class="${h?.lun?.split(';').size() > 1 ? 'otro' : 'usado'}">
+                    ${h?.lun.split('#').size() > 2 ? h?.lun.split('#')[0] + ' || ' + h?.lun.split(';')[1].split('#')[0] : h?.lun.split('#')[0]}
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.lun}" data-hora="${h?.lun}">
+                    Libre
+                </td>
+            </g:else>
+
+            <g:if test="${h?.mar?.size() > 10}">
+                <td width="10%" data-id="${h?.mar}"  class="${h?.mar?.split(';').size() > 1 ? 'otro' : 'usado'}">
                     %{--${h.mar}--}%
-                %{--</td>--}%
-            %{--</g:if>--}%
-            %{--<g:else>--}%
-                %{--<td width="10%" class="horas libre"--}%
-                    %{--data-dia="${h?.mar}" data-hora="${h?.mar}">--}%
-                    %{--Libre--}%
-                %{--</td>--}%
-            %{--</g:else>--}%
+                    ${h?.mar.split('#').size() > 2 ? h?.mar.split('#')[0] + ' || ' + h?.mar.split(';')[1].split('#')[0] : h?.mar.split('#')[0]}
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.mar}" data-hora="${h?.mar}">
+                    Libre
+                </td>
+            </g:else>
 
-            %{--<g:if test="${h?.mie?.size() > 10}">--}%
-                %{--<td width="10%" data-id="${h?.mie}"  class="${h?.mie?.split(';').size() > 1 ? 'otro' : 'usado'}">--}%
+            <g:if test="${h?.mie?.size() > 10}">
+                <td width="10%" data-id="${h?.mie}"  class="${h?.mie?.split(';').size() > 1 ? 'otro' : 'usado'}">
                     %{--${h.mie}--}%
-                %{--</td>--}%
-            %{--</g:if>--}%
-            %{--<g:else>--}%
-                %{--<td width="10%" class="horas libre"--}%
-                    %{--data-dia="${h?.mie}" data-hora="${h?.mie}">--}%
-                    %{--Libre--}%
-                %{--</td>--}%
-            %{--</g:else>--}%
+                    ${h?.mie.split('#').size() > 2 ? h?.mie.split('#')[0] + ' || ' + h?.mie.split(';')[1].split('#')[0] : h?.mie.split('#')[0]}
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.mie}" data-hora="${h?.mie}">
+                    Libre
+                </td>
+            </g:else>
 
-            %{--<g:if test="${h?.jue?.size() > 10}">--}%
-                %{--<td width="10%" data-id="${h?.jue}"  class="${h?.jue?.split(';').size() > 1 ? 'otro' : 'usado'}">--}%
+            <g:if test="${h?.jue?.size() > 10}">
+                <td width="10%" data-id="${h?.jue}"  class="${h?.jue?.split(';').size() > 1 ? 'otro' : 'usado'}">
                     %{--${h.jue}--}%
-                %{--</td>--}%
-            %{--</g:if>--}%
-            %{--<g:else>--}%
-                %{--<td width="10%" class="horas libre"--}%
-                    %{--data-dia="${h?.jue}" data-hora="${h?.jue}">--}%
-                    %{--Libre--}%
-                %{--</td>--}%
-            %{--</g:else>--}%
+                    ${h?.jue.split('#').size() > 2 ? h?.jue.split('#')[0] + ' || ' + h?.jue.split(';')[1].split('#')[0] : h?.jue.split('#')[0]}
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.jue}" data-hora="${h?.jue}">
+                    Libre
+                </td>
+            </g:else>
 
-            %{--<g:if test="${h?.vie?.size() > 10}">--}%
-                %{--<td width="10%" data-id="${h?.vie}"  class="${h?.vie?.split(';').size() > 1 ? 'otro' : 'usado'}">--}%
+            <g:if test="${h?.vie?.size() > 10}">
+                <td width="10%" data-id="${h?.vie}"  class="${h?.vie?.split(';').size() > 1 ? 'otro' : 'usado'}">
                     %{--${h.vie}--}%
-                %{--</td>--}%
-            %{--</g:if>--}%
-            %{--<g:else>--}%
-                %{--<td width="10%" class="horas libre"--}%
-                    %{--data-dia="${h?.vie}" data-hora="${h?.vie}">--}%
-                    %{--Libre--}%
-                %{--</td>--}%
-            %{--</g:else>--}%
+                    ${h?.vie.split('#').size() > 2 ? h?.vie.split('#')[0] + ' || ' + h?.vie.split(';')[1].split('#')[0] : h?.vie.split('#')[0]}
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.vie}" data-hora="${h?.vie}">
+                    Libre
+                </td>
+            </g:else>
 
-            %{--<g:if test="${h?.sab?.size() > 10}">--}%
-                %{--<td width="10%" data-id="${h?.sab}"  class="${h?.sab?.split(';').size() > 1 ? 'otro' : 'usado'}">--}%
+            <g:if test="${h?.sab?.size() > 10}">
+                <td width="10%" data-id="${h?.sab}"  class="${h?.sab?.split(';').size() > 1 ? 'otro' : 'usado'}">
                     %{--${h.sab}--}%
-                %{--</td>--}%
-            %{--</g:if>--}%
-            %{--<g:else>--}%
-                %{--<td width="10%" class="horas libre"--}%
-                    %{--data-dia="${h?.sab}" data-hora="${h?.sab}">--}%
-                    %{--Libre--}%
-                %{--</td>--}%
-            %{--</g:else>--}%
+                    ${h?.sab.split('#').size() > 2 ? h?.sab.split('#')[0] + ' || ' + h?.sab.split(';')[1].split('#')[0] : h?.sab.split('#')[0]}
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.sab}" data-hora="${h?.sab}">
+                    Libre
+                </td>
+            </g:else>
 
-            %{--<g:if test="${h?.dom?.size() > 10}">--}%
-                %{--<td width="10%" data-id="${h?.dom}"  class="${h?.dom?.split(';').size() > 1 ? 'otro' : 'usado'}">--}%
-                    %{--${h.dom}--}%
-                %{--</td>--}%
-            %{--</g:if>--}%
-            %{--<g:else>--}%
-                %{--<td width="10%" class="horas libre"--}%
-                    %{--data-dia="${h?.dom}" data-hora="${h?.dom}">--}%
-                    %{--Libre--}%
-                %{--</td>--}%
-            %{--</g:else>--}%
+            <g:if test="${h?.dom?.size() > 10}">
+                <td width="10%" data-id="${h?.dom}"  class="${h?.dom?.split(';').size() > 1 ? 'otro' : 'usado'}">
+                    ${h.dom}
+                </td>
+            </g:if>
+            <g:else>
+                <td width="10%" class="horas libre"
+                    data-dia="${h?.dom}" data-hora="${h?.dom}">
+                    Libre
+                </td>
+            </g:else>
 
         </g:each>
 
