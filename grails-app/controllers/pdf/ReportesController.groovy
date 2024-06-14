@@ -2103,23 +2103,27 @@ class ReportesController {
             cell14.setCellStyle(style3);
             cell14.setCellValue("");
 
-            Cell cell15 = rowF1.createCell(15);
+            Cell cell144 = rowF1.createCell(15);
+            cell144.setCellStyle(style3);
+            cell144.setCellValue("");
+
+            Cell cell15 = rowF1.createCell(16);
             cell15.setCellStyle(style4);
             cell15.setCellValue(r?.hora?.toDouble() ?: '');
 
-            Cell cell16 = rowF1.createCell(16);
+            Cell cell16 = rowF1.createCell(17);
             cell16.setCellStyle(style4);
             cell16.setCellValue(r?.asignatura?.factorPreparacion?.toDouble() ?: '');
 
-            Cell cell17 = rowF1.createCell(17);
+            Cell cell17 = rowF1.createCell(18);
             cell17.setCellStyle(style4);
             cell17.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: '');
 
-            Cell cell18 = rowF1.createCell(18);
+            Cell cell18 = rowF1.createCell(19);
             cell18.setCellStyle(style4);
             cell18.setCellValue(r?.horas?.toDouble());
 
-            Cell cell19 = rowF1.createCell(19);
+            Cell cell19 = rowF1.createCell(20);
             cell19.setCellStyle(style4);
             cell19.setCellValue(r?.horas?.toDouble());
 
@@ -2191,23 +2195,27 @@ class ReportesController {
             cell14.setCellStyle(style3);
             cell14.setCellValue("");
 
-            Cell cell15 = rowF1.createCell(15);
+            Cell cell144 = rowF1.createCell(15);
+            cell144.setCellStyle(style3);
+            cell144.setCellValue("");
+
+            Cell cell15 = rowF1.createCell(16);
             cell15.setCellStyle(style4);
             cell15.setCellValue(r?.hora?.toDouble() ?: '');
 
-            Cell cell16 = rowF1.createCell(16);
+            Cell cell16 = rowF1.createCell(17);
             cell16.setCellStyle(style4);
             cell16.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
 
-            Cell cell17 = rowF1.createCell(17);
+            Cell cell17 = rowF1.createCell(18);
             cell17.setCellStyle(style4);
             cell17.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
 
-            Cell cell18 = rowF1.createCell(18);
+            Cell cell18 = rowF1.createCell(19);
             cell18.setCellStyle(style4);
             cell18.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
 
-            Cell cell19 = rowF1.createCell(19);
+            Cell cell19 = rowF1.createCell(20);
             cell19.setCellStyle(style4);
             cell19.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
 
@@ -2217,8 +2225,8 @@ class ReportesController {
 
 
         Row rowF1t = sheet.createRow(fila)
-        rowF1t.createCell(18).setCellValue("Total")
-        rowF1t.createCell(19).setCellValue(suma)
+        rowF1t.createCell(19).setCellValue("Total")
+        rowF1t.createCell(20).setCellValue(suma)
         rowF1t.setRowStyle(style)
 
         fila++
@@ -2456,6 +2464,7 @@ class ReportesController {
         style4.setAlignment(HorizontalAlignment.RIGHT);
 
         Sheet sheet = wb.createSheet("Período ${periodo.descripcion}")
+        Sheet sheet2 = wb.createSheet("Carga Horaria ${periodo.descripcion}")
 
         sheet.setColumnWidth(0, 9 * 256);
         sheet.setColumnWidth(1, 8 * 256);
@@ -2546,16 +2555,17 @@ class ReportesController {
                     rowC1.createCell(7).setCellValue("Teoría")
                     rowC1.createCell(8).setCellValue("Práctica")
                     rowC1.createCell(9).setCellValue("Horas Semana")
-                    rowC1.createCell(10).setCellValue("Lunes ")
-                    rowC1.createCell(11).setCellValue("Martes")
-                    rowC1.createCell(12).setCellValue("Miércoles")
-                    rowC1.createCell(13).setCellValue("Jueves")
-                    rowC1.createCell(14).setCellValue("Viernes")
-                    rowC1.createCell(15).setCellValue("Créditos")
-                    rowC1.createCell(16).setCellValue("Factor Preparación")
-                    rowC1.createCell(17).setCellValue("Horas Preparación")
-                    rowC1.createCell(18).setCellValue("Horas gestión")
-                    rowC1.createCell(19).setCellValue("Total horas")
+                    rowC1.createCell(10).setCellValue("Aula")
+                    rowC1.createCell(11).setCellValue("Lunes ")
+                    rowC1.createCell(12).setCellValue("Martes")
+                    rowC1.createCell(13).setCellValue("Miércoles")
+                    rowC1.createCell(14).setCellValue("Jueves")
+                    rowC1.createCell(15).setCellValue("Viernes")
+                    rowC1.createCell(16).setCellValue("Créditos")
+                    rowC1.createCell(17).setCellValue("Factor Preparación")
+                    rowC1.createCell(18).setCellValue("Horas Preparación")
+                    rowC1.createCell(19).setCellValue("Horas gestión")
+                    rowC1.createCell(20).setCellValue("Total horas")
                     rowC1.setRowStyle(style)
                     fila++
                 }
@@ -2732,23 +2742,27 @@ class ReportesController {
                     cell14.setCellStyle(style3);
                     cell14.setCellValue("");
 
-                    Cell cell15 = rowF1.createCell(15);
+                    Cell cell144 = rowF1.createCell(15);
+                    cell144.setCellStyle(style3);
+                    cell144.setCellValue("");
+
+                    Cell cell15 = rowF1.createCell(16);
                     cell15.setCellStyle(style4);
                     cell15.setCellValue(r?.hora?.toDouble() ?: '');
 
-                    Cell cell16 = rowF1.createCell(16);
+                    Cell cell16 = rowF1.createCell(17);
                     cell16.setCellStyle(style4);
                     cell16.setCellValue(r?.asignatura?.factorPreparacion?.toDouble() ?: '');
 
-                    Cell cell17 = rowF1.createCell(17);
+                    Cell cell17 = rowF1.createCell(18);
                     cell17.setCellStyle(style4);
                     cell17.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: '');
 
-                    Cell cell18 = rowF1.createCell(18);
+                    Cell cell18 = rowF1.createCell(19);
                     cell18.setCellStyle(style4);
                     cell18.setCellValue(r?.horas?.toDouble());
 
-                    Cell cell19 = rowF1.createCell(19);
+                    Cell cell19 = rowF1.createCell(20);
                     cell19.setCellStyle(style4);
                     cell19.setCellValue(r?.horas?.toDouble());
 
@@ -2820,23 +2834,27 @@ class ReportesController {
                     cell14.setCellStyle(style3);
                     cell14.setCellValue("");
 
-                    Cell cell15 = rowF1.createCell(15);
+                    Cell cell144 = rowF1.createCell(15);
+                    cell144.setCellStyle(style3);
+                    cell144.setCellValue("");
+
+                    Cell cell15 = rowF1.createCell(16);
                     cell15.setCellStyle(style4);
                     cell15.setCellValue(r?.hora?.toDouble() ?: '');
 
-                    Cell cell16 = rowF1.createCell(16);
+                    Cell cell16 = rowF1.createCell(17);
                     cell16.setCellStyle(style4);
                     cell16.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
 
-                    Cell cell17 = rowF1.createCell(17);
+                    Cell cell17 = rowF1.createCell(18);
                     cell17.setCellStyle(style4);
                     cell17.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
 
-                    Cell cell18 = rowF1.createCell(18);
+                    Cell cell18 = rowF1.createCell(19);
                     cell18.setCellStyle(style4);
                     cell18.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
 
-                    Cell cell19 = rowF1.createCell(19);
+                    Cell cell19 = rowF1.createCell(20);
                     cell19.setCellStyle(style4);
                     cell19.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: r?.hora?.toDouble());
 
@@ -2846,8 +2864,8 @@ class ReportesController {
 
                 if (cabecera == 'true') {
                     Row rowF1t = sheet.createRow(fila)
-                    rowF1t.createCell(18).setCellValue("Total")
-                    rowF1t.createCell(19).setCellValue(suma)
+                    rowF1t.createCell(19).setCellValue("Total")
+                    rowF1t.createCell(20).setCellValue(suma)
                     rowF1t.setRowStyle(style)
                     fila++
                 }
@@ -2886,6 +2904,122 @@ class ReportesController {
 
             }
         }
+
+
+        //carga horaria
+
+        def prdoCH = Periodo.get(prdo)
+        def hijo = prdoCH.padre? Periodo.get(prdo.id) : Periodo.findByPadre(prdoCH)
+        def pdre = hijo.padre.id
+
+        def cnCH = dbConnectionService.getConnection()
+        def sqlCH = "select * from rep_resumen(${pdre})"
+        def respN = cnCH.rows(sqlCH.toString())
+
+        def sqlCH2 = "select * from rep_resumen(${hijo.id})"
+        def respI = cnCH.rows(sqlCH2.toString())
+
+        def filaCH = 4
+
+        sheet2.setColumnWidth(0, 60 * 256);
+        sheet2.setColumnWidth(1, 30 * 256);
+        sheet2.setColumnWidth(2, 30 * 256);
+        sheet2.setColumnWidth(3, 30 * 256);
+        sheet2.setColumnWidth(4, 30 * 256);
+        sheet2.setColumnWidth(5, 30 * 256);
+        sheet2.setColumnWidth(6, 30 * 256);
+        sheet2.setColumnWidth(7, 30 * 256);
+
+        Row rowCH = sheet2.createRow(0)
+        rowCH.createCell(0).setCellValue("")
+
+        Row rowCH2 = sheet2.createRow(1)
+        rowCH2.createCell(0).setCellValue("Carga Horaria")
+        rowCH2.createCell(1).setCellValue("Período: ${prdoCH.descripcion}")
+        rowCH2.setRowStyle(style)
+
+        Row rowCH4 = sheet2.createRow(3)
+        rowCH4.createCell(0).setCellValue("Fecha:")
+        rowCH4.createCell(1).setCellValue(new Date().format("dd-MM-yyyy"))
+        filaCH++
+
+        Row rowC1CH = sheet2.createRow(filaCH)
+        rowC1CH.createCell(0).setCellValue("Docente")
+        rowC1CH.createCell(1).setCellValue("Clase")
+        rowC1CH.createCell(2).setCellValue("Prep.")
+        rowC1CH.createCell(3).setCellValue("Gestión")
+        rowC1CH.createCell(4).setCellValue("Total")
+        rowC1CH.createCell(5).setCellValue("Comp.")
+        rowC1CH.setRowStyle(style)
+        filaCH++
+
+        respN.eachWithIndex { r, j ->
+            Row rowF1CH = sheet2.createRow(filaCH)
+
+            Cell cell0 = rowF1CH.createCell(0);
+            cell0.setCellStyle(style3);
+            cell0.setCellValue(r?.profnmbr?.toString());
+            Cell cell1 = rowF1CH.createCell(1);
+            cell1.setCellStyle(style3);
+            cell1.setCellValue(r?.comphrcl?.toString());
+            Cell cell2 = rowF1CH.createCell(2);
+            cell2.setCellStyle(style3);
+            cell2.setCellValue(r?.comphrpp?.toString());
+            Cell cell3 = rowF1CH.createCell(3);
+            cell3.setCellStyle(style3);
+            cell3.setCellValue(r?.comphrgs?.toString());
+            Cell cell4 = rowF1CH.createCell(4);
+            cell4.setCellStyle(style3);
+            cell4.setCellValue(r?.comptotl?.toString());
+            Cell cell5 = rowF1CH.createCell(5);
+            cell5.setCellStyle(style3);
+            cell5.setCellValue(r?.comphora?.toString());
+
+            filaCH++
+        }
+
+        Row rowP21 = sheet2.createRow(filaCH)
+        rowP21.createCell(0).setCellValue("")
+        filaCH++
+
+        Row rowP2 = sheet2.createRow(filaCH)
+        rowP2.createCell(0).setCellValue("Carga Horaria")
+        rowP2.createCell(1).setCellValue("Período: ${prdoCH.descripcion} - Intersemestral")
+        rowP2.setRowStyle(style)
+
+        filaCH++
+
+        Row rowCP1 = sheet2.createRow(filaCH)
+        rowCP1.createCell(0).setCellValue("Docente")
+        rowCP1.createCell(1).setCellValue("Prep.")
+        rowCP1.createCell(2).setCellValue("Gestión")
+        rowCP1.createCell(3).setCellValue("Comp.")
+        rowCP1.createCell(4).setCellValue("Total")
+        rowCP1.setRowStyle(style)
+        filaCH++
+
+        respI.eachWithIndex { r, j ->
+            Row rowFP1 = sheet2.createRow(filaCH)
+
+            Cell cellP0 = rowFP1.createCell(0);
+            cellP0.setCellStyle(style3);
+            cellP0.setCellValue(r?.profnmbr?.toString());
+            Cell cellP2 = rowFP1.createCell(1);
+            cellP2.setCellStyle(style3);
+            cellP2.setCellValue(r?.comphrpp?.toString());
+            Cell cellP3 = rowFP1.createCell(2);
+            cellP3.setCellStyle(style3);
+            cellP3.setCellValue(r?.comphrgs?.toString());
+            Cell cellP4 = rowFP1.createCell(3);
+            cellP4.setCellStyle(style3);
+            cellP4.setCellValue(r?.comphora?.toString());
+            Cell cellP5 = rowFP1.createCell(4);
+            cellP5.setCellStyle(style3);
+            cellP5.setCellValue(r?.comptotl?.toString());
+
+            filaCH++
+        }
+
 
         def output = response.getOutputStream()
         def header = "attachment; filename=" + "todosProfesores.xlsx";
