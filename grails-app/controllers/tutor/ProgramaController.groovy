@@ -561,7 +561,8 @@ class ProgramaController {
         def periodo = Periodo.get(params.periodo)
         def asignatura = Asignatura.get(params.asignatura)
         def cn = dbConnectionService.getConnection()
-        def sql = "select prdodscr, asignmbr, profapll, profnmbr, asigcred, asigfcpr, asigcred * (1 + asigfcpr) total from" +
+        def sql = "select prdodscr, asignmbr, profapll, profnmbr, asigcred, asigfcpr, asigcred * (1 + asigfcpr) total," +
+                "asig.nvel__id, parl.parlnmro from" +
                 " parl, crso, prdo, asig, prof, dcta where " +
                 " prdo.prdo__id = ${periodo?.id} and parl.prdo__id = prdo.prdo__id and crso.parl__id = parl.parl__id and " +
                 " asig.asig__id = crso.asig__id and dcta.crso__id = crso.crso__id and prof.prof__id = dcta.prof__id and asig.asig__id = ${asignatura?.id} order by profapll, asignmbr"

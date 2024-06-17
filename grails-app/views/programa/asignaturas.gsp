@@ -18,15 +18,11 @@
                       class="form-control input-sm" optionValue="descripcion" optionKey="id"
             />
         </div>
-        <label class="col-md-1 control-label text-info" style="text-align: right">
-            Asignaturas
-        </label>
-        <div class="col-md-4" id="divComboAsignaturas">
-
+        <div class="col-md-1">
+            Buscar Asignatura
         </div>
-
         <div class="col-md-2">
-            <g:textField name="buscar" class="form-control" />
+            <g:textField name="buscar" class="form-control" style="margin-left: -30px"/>
         </div>
         <div class="btn-group">
             <a href="#" class="btn btn-success btnBuscar">
@@ -36,6 +32,13 @@
                 <i class="fa fa-eraser"></i> Limpiar
             </a>
         </div>
+        <label class="col-md-1 control-label text-info" style="text-align: right">
+            Asignaturas dictadas
+        </label>
+        <div class="col-md-3" id="divComboAsignaturas">
+
+        </div>
+
     </div>
 </div>
 
@@ -44,7 +47,9 @@
     <thead>
     <tr>
         <th style="width: 10%">Período</th>
-        <th style="width: 36%">Asignatura</th>
+        <th style="width: 25%">Asignatura</th>
+        <th style="width: 6%">Nivel</th>
+        <th style="width: 5%">Par.</th>
         <th style="width: 15%">Apellido</th>
         <th style="width: 15%">Nombre</th>
         <th style="width: 8%">Horas</th>

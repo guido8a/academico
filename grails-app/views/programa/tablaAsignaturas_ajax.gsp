@@ -6,7 +6,9 @@
             <g:each in="${resp}" var="registro">
                 <tr>
                     <td style="width: 10%">${registro?.prdodscr}</td>
-                    <td style="width: 36%">${registro?.asignmbr}</td>
+                    <td style="width: 25%">${registro?.asignmbr}</td>
+                    <td style="width: 6%">${registro?.nvel__id}</td>
+                    <td style="width: 5%">${registro?.parlnmro}</td>
                     <td style="width: 15%">${registro?.profapll}</td>
                     <td style="width: 15%">${registro?.profnmbr}</td>
                     <td style="width: 8%; text-align: center">${registro?.asigcred}</td>
