@@ -589,5 +589,16 @@ class ProgramaController {
         }
     }
 
+    def buscarGestion_ajax(){
+
+    }
+
+    def tablaBuscarGestion_ajax(){
+        def cn = dbConnectionService.getConnection();
+        def sql = "select * from asig where tpaa__id = 2 and asignmbr ilike '%${params.nombre}%' order by asignmbr limit 50"
+        def res = cn.rows(sql.toString())
+        return [datos: res]
+    }
+
 
 }

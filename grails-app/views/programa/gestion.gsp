@@ -65,14 +65,10 @@
                     Período
                 </label>
                 <input type="checkbox" id="prdoChck" name="prdoChck" style="margin-left: 40px"/> Todos
-                    %{--<g:select name="periodo" from="${Periodo.list([sort: 'descripcion'])}"--}%
-                              %{--class="form-control input-sm required" optionValue="descripcion" optionKey="id"--}%
-                    %{--/>--}%
             <g:select name="periodo" from="${tutor.Periodo.list([sort: 'descripcion'])}"
                       class="form-control input-sm required" optionValue="descripcion" optionKey="id"
                       value="${activo}" style="color: #2060A0; font-weight: bold; background-color: #eed; border-color: #0a6aa1"
             />
-
             </div>
 
             <div class="col-md-3">
@@ -87,14 +83,24 @@
                 />
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <label for="asignatura" class="control-label" style="text-align: right">
                     Actividad de Gestión
                 </label>
-                <g:select name="asignatura" from="${tutor.Asignatura.findAllByTipoActividad(tutor.TipoActividad.get(2) ,[sort: 'nombre'])}"
-                          class="form-control input-sm required" optionValue="nombre" optionKey="id"
-                />
+                <g:hiddenField name="asignatura" value="${''}"/>
+                <g:textField name="asignaturaNombre" class="form-control" readonly="" />
+                %{--                <g:select name="asignatura" from="${tutor.Asignatura.findAllByTipoActividad(tutor.TipoActividad.get(2) ,[sort: 'nombre'])}"--}%
+                %{--                          class="form-control input-sm required" optionValue="nombre" optionKey="id"--}%
+                %{--                />--}%
+
             </div>
+
+            <div class="col-md-1" style="margin-top: 23px">
+                <a href="#" class="btn btn-success" id="btnBuscarGestion" title="Buscar Gestión">
+                    <i class="fa fa-search"></i> Buscar
+                </a>
+            </div>
+
 
             <div class="col-md-1">
                 <label for="hora" class="control-label" style="text-align: right">
@@ -130,11 +136,37 @@
 
 </div>
 
-%{--<elm:pagination total="${tipoElementoInstanceCount}" params="${params}"/>--}%
-
 <script type="text/javascript">
     var id = null;
+    var dm
 
+    $("#btnBuscarGestion").click(function () {
+        $.ajax({
+            type    : "POST",
+            url: "${createLink(controller: 'programa', action:'buscarGestion_ajax')}",
+            data    : {},
+            success : function (msg) {
+                dm = bootbox.dialog({
+                    id      : "dlgBuscarGestion",
+                    title   : "Buscar Gestión",
+                    class: "modal-lg",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        }
+                    } //buttons
+                }); //dialog
+            } //success
+        }); //ajax
+    });
+
+    function cerrarBuscarGestion(){
+        dm.modal('hide')
+    }
 
     cargarTablaGestion();
 
@@ -174,38 +206,46 @@
         var id = $("#idGestion").val();
         var periodo = $("#periodo option:selected").val();
         var profesor = $("#profesor option:selected").val();
-        var asignatura = $("#asignatura option:selected").val();
+        var asignatura = $("#asignatura").val();
         var hora = $("#hora").val();
 
-        if(hora != null && hora!== ''){
-            $.ajax({
-                type: "POST",
-                url: "${createLink(controller: 'programa', action:'guardarGestion_ajax')}",
-                data: {
-                    id: id,
-                    periodo: periodo,
-                    profesor: profesor,
-                    asignatura: asignatura,
-                    hora: hora
-                },
-                success: function (msg) {
-                    d.modal("hide");
-                    var parts = msg.split("_");
-                    if(parts[0] === 'ok'){
-                        log(parts[1],  "success");
-                        cargarTablaGestion();
-                    }else{
-                        bootbox.alert( '<div style="text-align: center">' +
-                            '<i class="fa fa-exclamation-triangle fa-2x text-danger"></i>'  +
-                            '<strong style="font-size: 14px">' +  parts[1] +  '</strong>' + '</div>')
-                    }
-                } //success
-            });
+        if(asignatura !== ''){
+            if(hora != null && hora!== ''){
+                $.ajax({
+                    type: "POST",
+                    url: "${createLink(controller: 'programa', action:'guardarGestion_ajax')}",
+                    data: {
+                        id: id,
+                        periodo: periodo,
+                        profesor: profesor,
+                        asignatura: asignatura,
+                        hora: hora
+                    },
+                    success: function (msg) {
+                        d.modal("hide");
+                        var parts = msg.split("_");
+                        if(parts[0] === 'ok'){
+                            log(parts[1],  "success");
+                            cargarTablaGestion();
+                        }else{
+                            bootbox.alert( '<div style="text-align: center">' +
+                                '<i class="fa fa-exclamation-triangle fa-2x text-danger"></i>'  +
+                                '<strong style="font-size: 14px">' +  parts[1] +  '</strong>' + '</div>')
+                        }
+                    } //success
+                });
+            }else{
+                d.modal("hide");
+                bootbox.alert( '<div style="text-align: center">' + '<i class="fa fa-exclamation-triangle fa-2x text-info"></i>'  +
+                    '<strong style="font-size: 14px">' +  'Ingrese el número de horas' +  '</strong>' + '</div>')
+            }
         }else{
             d.modal("hide");
             bootbox.alert( '<div style="text-align: center">' + '<i class="fa fa-exclamation-triangle fa-2x text-info"></i>'  +
-                '<strong style="font-size: 14px">' +  'Ingrese el número de horas' +  '</strong>' + '</div>')
+                '<strong style="font-size: 14px">' +  'Seleccione la gestión' +  '</strong>' + '</div>')
         }
+
+
     }
 
     $("#btnCancelarEdicion").click(function () {
@@ -230,7 +270,7 @@
         bootbox.dialog({
             title   : "Alerta",
             message : '<div style="text-align: center">' + '<i class="fa fa-trash fa-2x text-danger"></i>'  +
-            '<strong style="font-size: 14px">' +  'Está seguro que desea borrar este registro?' +  '</strong>' + '</div>',
+                '<strong style="font-size: 14px">' +  'Está seguro que desea borrar este registro?' +  '</strong>' + '</div>',
             buttons : {
                 cancelar : {
                     label     : "Cancelar",
@@ -289,11 +329,9 @@
             ev.keyCode === 37 || ev.keyCode === 39);
     }
 
-   $("#hora").keydown(function (ev) {
-       return validarNum(ev);
-   });
-
-
+    $("#hora").keydown(function (ev) {
+        return validarNum(ev);
+    });
 
 </script>
 
