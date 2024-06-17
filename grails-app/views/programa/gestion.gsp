@@ -184,12 +184,13 @@
         var idPeriodo = $("#periodo option:selected").val();
         var prof = $("#profesor").val();
         var ck_prdo = $("#prdoChck").is(':checked');
-//        console.log('ck', ck_prdo)
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'programa', action:'tablaGestion_ajax')}",
             data: {
-                id: idPeriodo, prof: prof, ck_prdo: ck_prdo
+                id: idPeriodo,
+                prof: prof,
+                ck_prdo: ck_prdo
             },
             success: function (msg) {
                 $("#divTabla").html(msg);

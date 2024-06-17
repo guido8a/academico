@@ -2,6 +2,7 @@
         <tbody>
                 <tr>
                     <td style="text-align: right; font-weight: bold" colspan="4">Total:</td>
+                    <td>${totalHora}</td>
                     <td>${total}</td>
                     <td></td>
                 </tr>

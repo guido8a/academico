@@ -19,6 +19,7 @@
         <tbody>
         <g:if test="${gestiones.size() > 0}">
             <g:set var="total" value="${0}" />
+            <g:set var="totalHoras" value="${0}" />
 
             <g:each in="${gestiones}" status="i" var="gestion">
                 <tr data-id="${gestion.id}">
@@ -43,6 +44,7 @@
                 </tr>
 
                 <g:set var="total" value="${total += (gestion.horas ?: 0)}" />
+                <g:set var="totalHoras" value="${totalHoras += (gestion.hora ?: 0)}" />
 
             </g:each>
 
@@ -65,11 +67,13 @@
 
     function cargarTotales(){
         var total = '${total}';
+        var totalHora = '${totalHoras}';
         $.ajax({
            type: 'POST',
            url: '${createLink(controller: 'programa', action: 'tablaTotales_ajax')}',
            data:{
-               total:total
+               total:total,
+               totalHora: totalHora
            },
            success:function (msg) {
                $("#divTotales").html(msg)

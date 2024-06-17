@@ -30,18 +30,18 @@
 
 <script type="text/javascript">
 
-    cargarTablaGestion();
+    cargarTablaBuscarGestion();
 
     $("#btnBuscarTablaGestion").click(function () {
-        cargarTablaGestion();
+        cargarTablaBuscarGestion();
     });
 
     $("#btnLimpiarGestion").click(function () {
         $("#criterioGestion").val('');
-        cargarTablaGestion();
+        cargarTablaBuscarGestion();
     });
 
-    function cargarTablaGestion(){
+    function cargarTablaBuscarGestion(){
         var e = cargarLoader("Cargando...");
         var nombre = $("#criterioGestion").val();
         $.ajax({
@@ -59,7 +59,7 @@
 
     $(".form-control").keydown(function (ev) {
         if (ev.keyCode === 13) {
-            cargarTablaGestion();
+            cargarTablaBuscarGestion();
             return false;
         }
         return true;

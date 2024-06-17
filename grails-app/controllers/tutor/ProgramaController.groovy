@@ -477,7 +477,7 @@ class ProgramaController {
     }
 
     def tablaTotales_ajax(){
-        return [total: params.total]
+        return [total: params.total, totalHora: params.totalHora]
     }
 
     def horas(){
