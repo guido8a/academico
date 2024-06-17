@@ -3,6 +3,9 @@
         <tbody>
         <g:if test="${dicta.size() > 0}">
             <g:set var="total" value="${0}" />
+            <g:set var="totalCreditos" value="${0}" />
+            <g:set var="totalFactor" value="${0}" />
+            <g:set var="totalHoras" value="${0}" />
 
             <g:each in="${dicta}" var="horas">
                 <tr >
@@ -18,6 +21,9 @@
                 </tr>
 
                 <g:set var="total" value="${total += (horas?.curso?.asignatura?.creditos + (horas?.curso?.asignatura?.creditos?.toInteger() * horas?.curso?.asignatura?.factorPreparacion?.toDouble()))}" />
+                <g:set var="totalCreditos" value="${totalCreditos += (horas?.curso?.asignatura?.creditos?.toInteger() ?: 0)}" />
+                <g:set var="totalFactor" value="${totalFactor += (horas?.curso?.asignatura?.factorPreparacion?.toDouble() ?: 0)}" />
+                <g:set var="totalHoras" value="${totalHoras += ((horas?.curso?.asignatura?.creditos?.toInteger() * horas?.curso?.asignatura?.factorPreparacion?.toDouble()) ?: 0)}" />
 
             </g:each>
             <tr style="background-color: #89b674">
@@ -25,10 +31,10 @@
                 <td style="width: 5%"></td>
                 <td style="width: 25%"></td>
                 <td style="width: 8%; text-align: center"></td>
-                <td style="width: 6%; text-align: center"></td>
-                <td style="width: 8%; text-align: center; font-weight: bold">Total:</td>
-                <td style="width: 10%; text-align: center; font-weight: bold">Total:</td>
-                <td style="width: 10%; text-align: center; font-weight: bold">Total:</td>
+                <td style="width: 6%; text-align: center; font-weight: bold">Total</td>
+                <td style="width: 8%; text-align: center; font-weight: bold">${totalCreditos}</td>
+                <td style="width: 10%; text-align: center; font-weight: bold">${totalFactor}</td>
+                <td style="width: 10%; text-align: center; font-weight: bold">${totalHoras}</td>
                 <td style="width: 10%; text-align: center; font-weight: bold">${total}</td>
             </tr>
         </g:if>
