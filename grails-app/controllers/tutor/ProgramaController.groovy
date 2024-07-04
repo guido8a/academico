@@ -82,6 +82,8 @@ class ProgramaController {
 
 
     def paralelo() {
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
     def parl_ajax(){
@@ -481,7 +483,8 @@ class ProgramaController {
     }
 
     def horas(){
-
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
     def tablaHoras_ajax(){
@@ -504,7 +507,8 @@ class ProgramaController {
     }
 
     def gestionar() {
-
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
     def comboGestionar_ajax(){
@@ -537,7 +541,8 @@ class ProgramaController {
     }
 
     def asignaturas (){
-
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
     def comboAsignatura_ajax() {

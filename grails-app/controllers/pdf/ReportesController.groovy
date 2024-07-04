@@ -709,11 +709,13 @@ class ReportesController {
     }
 
     def profesores_ajax() {
-
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
     def horario_ajax() {
-
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
     def paralelo_ajax() {
@@ -2259,7 +2261,8 @@ class ReportesController {
     }
 
     def profesoresHorario_ajax() {
-
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
     def reporteProfesoresHorarioExcel() {
@@ -2888,7 +2891,9 @@ class ReportesController {
                 }
 
                 if (periodo.tipo == 'I') {
-                    def hh = cn.rows(sql.toString())[0].comphora
+                    //compensación
+//                    def hh = cn.rows(sql.toString())[0].comphora
+                    def hh = 5 // probar
                     Row rowS = sheet.createRow(fila)
                     rowS.createCell(1).setCellValue("Compensación del período \"${p_padre?.descripcion}\" ${hh} horas de trabajo")
                     rowS.createCell(16).setCellValue("Compensación período ${p_padre?.descripcion}")
@@ -3366,7 +3371,8 @@ class ReportesController {
     }
 
     def periodo_ajax(){
-
+        def prdo = Periodo.findByActivo('S')
+        [activo: prdo.id]
     }
 
 }

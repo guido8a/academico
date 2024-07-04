@@ -110,23 +110,23 @@
                 <p>
                     <a href="#" id="btnProfesoresExcel" class="btn btn-info btn-ajax example_c item" texto="fnca">
                         <i class="fa fa-file-excel fa-4x text-success"></i>
-                        <br/> Reporte
+                        <br/>Programación académica
                     </a>
                     <a href="#" id="btnHorarioExcel" class="btn btn-info btn-ajax example_c item" texto="hora">
                         <i class="fa fa-file-excel fa-4x text-success"></i>
-                        <br/> Horario
+                        <br/>Horario por paralelo
                     </a>
                     <a href="#" id="btnPeriodoExcel" class="btn btn-info btn-ajax example_c item" texto="peri">
                         <i class="fa fa-file-excel fa-4x text-success"></i>
-                        <br/> Período
+                        <br/> Asignaturas por profesor
                     </a>
                     <a href="#" id="btnProfesoresHorarioExcel" class="btn btn-info btn-ajax example_c item" texto="prof">
                         <i class="fa fa-users fa-4x text-success"></i>
-                        <br/> Profesores
+                        <br/> Asignaturas- por nivel<br/> y horarios
                     </a>
                     <a href="#" id="btnHorarioGeneralExcel" class="btn btn-info example_c item" texto="horario">
                         <i class="fa fa-book fa-4x text-success"></i>
-                        <br/> Horarios
+                        <br/> Horarios Semestre
                     </a>
                 </p>
 
@@ -174,7 +174,7 @@
             success : function (msg) {
                 var b = bootbox.dialog({
                     id      : "dlgImpProfesores",
-                    title   : "Reporte",
+                    title   : "Asignaturas por nivel y horario",
                     message : msg,
                     buttons : {
                         cancelar : {
@@ -207,7 +207,7 @@
             success : function (msg) {
                 var b = bootbox.dialog({
                     id      : "dlgImpProfesores",
-                    title   : "Reporte",
+                    title   : "Programación académica del periodo",
                     message : msg,
                     buttons : {
                         cancelar : {
@@ -243,7 +243,7 @@
             success : function (msg) {
                 var b = bootbox.dialog({
                     id      : "dlgImpHorario",
-                    title   : "Reporte de horario",
+                    title   : "Reporte de horario por paralelo",
                     message : msg,
                     buttons : {
                         cancelar : {
@@ -286,7 +286,7 @@
             success : function (msg) {
                 var b = bootbox.dialog({
                     id      : "dlgHorarioProfesores",
-                    title   : "Reporte",
+                    title   : "Horarios del Semestre",
                     class : "modal-sm",
                     message : msg,
                     buttons : {
