@@ -16,6 +16,7 @@ class ProfesorController {
             profesor = new Profesor()
         }
 
+        println "--ok"
         return[profesor: profesor]
     }
 

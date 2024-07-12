@@ -10,6 +10,7 @@ class Profesor {
     String sexo
     int horas
     String activo = 'S'
+    String titulo = 'Ing'
 
     static mapping = {
         table 'prof'
@@ -27,6 +28,7 @@ class Profesor {
             sexo column: 'profsexo'
             horas column: 'profhora'
             activo column: 'profactv'
+            titulo column: 'profttlo'
         }
     }
 
@@ -38,5 +40,6 @@ class Profesor {
         sexo(inList: ["M", "F"], blank: false, nullable: false, maxSize: 15, attributes: [title: 'sexo'])
         horas(blank: false, nullable: false, attributes: [title: 'horas'])
         activo(blank: false, nullable: false, attributes: [title: 'activo'])
+        titulo(blank: true, nullable: true, attributes: [title: 'título'])
     }
 }

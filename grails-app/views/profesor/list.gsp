@@ -47,7 +47,8 @@
 <table class="table table-condensed table-bordered table-striped table-hover">
     <thead>
     <tr>
-        <th style="width: 20%">Tipo Profesor</th>
+        <th style="width: 15%">Tipo Profesor</th>
+        <th style="width: 5%">Título</th>
         <th style="width: 20%">Apellido</th>
         <th style="width: 20%">Nombre</th>
         <th style="width: 13%">Email</th>

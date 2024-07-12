@@ -4,7 +4,8 @@
         <g:if test="${profesores.size() > 0}">
             <g:each in="${profesores}" var="profesor">
                 <tr data-id="${profesor?.id}">
-                    <td style="width: 20%">${profesor?.tipoProfesor?.descripcion}</td>
+                    <td style="width: 15%">${profesor?.tipoProfesor?.descripcion}</td>
+                    <td style="width: 5%">${profesor?.titulo}</td>
                     <td style="width: 20%">${profesor?.apellido}</td>
                     <td style="width: 20%">${profesor?.nombre}</td>
                     <td style="width: 13%">${profesor?.mail}</td>

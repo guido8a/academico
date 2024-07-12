@@ -628,7 +628,7 @@ class ReportesController {
     }
 
     def reportePofesoresExcel() {
-        println("reportePofesoresExcel " + params)
+        println "reportePofesoresExcel $params"
         def periodo = Periodo.get(params.prdo)
         def prof = Profesor.get(params.profesor)
 
@@ -640,22 +640,20 @@ class ReportesController {
             wb.write(outputStream)
         } else {
             def profesores = Profesor.list([sort: 'apellido'])
-            if(params.arch == 'true') {
+            if (params.arch == 'true') {
                 profesores.each { p ->
-//                fila = reporteExcel(sheet, params.prdo, p?.id, true, style, style2, style3, style4, fila)
-                    if (params.arch == 'true') {
-                        def wb = reporteExcel(params.prdo, p?.id, true, 4)
-                        def file = new File("/tmp/profesor_${p?.apellido + "_" + p?.nombre}.xlsx")
-                        FileOutputStream outputStream = new FileOutputStream(file)
-                        wb.write(outputStream)
-                    }
+                    def wb = reporteExcel(params.prdo, p?.id, true, 4)
+                    def file = new File("/tmp/profesor_${p?.apellido + "_" + p?.nombre}.xlsx")
+                    FileOutputStream outputStream = new FileOutputStream(file)
+                    wb.write(outputStream)
                 }
-            }else{
+            } else {
                 reporteExcelTodos(params.prdo, params.cabecera)
                 return true
             }
 
             /* para un solo archivo, se debe leer los archivos individuales y consolidar en uno solo linea por linea. */
+            println "no se ejecuta"
             if (params.arch == 'false') {
                 println "Genera el archivo de todos los profesores --> ${params.arch}"
                 def file = new File("/tmp/prog_acad_${params.prdo}.xlsx")
@@ -1812,8 +1810,7 @@ class ReportesController {
     }
 
     def reporteExcel(prdo, prof, generaArch, nmro) {
-        println "genera excel para: prdo = $prdo y prof: $prof"
-
+//        println "genera excel para: prdo = $prdo y prof: $prof"
         def cn = dbConnectionService.getConnection()
         def sql = ""
         def periodo = Periodo.get(prdo)
@@ -2429,8 +2426,8 @@ class ReportesController {
 
     }
 
-    def reporteExcelTodos (prdo, cabecera) {
-
+    def reporteExcelTodos(prdo, cabecera) {
+        println "reporteExcelTodos: $params, prdo: $prdo, cabecera: $cabecera"
         def cn = dbConnectionService.getConnection()
         def sql = ""
         def periodo = Periodo.get(prdo)
@@ -2510,7 +2507,7 @@ class ReportesController {
         def profesores = Profesor.list([sort: 'apellido'])
 
 
-        if(cabecera == 'false'){
+        if (cabecera == 'false') {
             Row rowC1 = sheet.createRow(fila)
             rowC1.createCell(0).setCellValue("Carrera")
             rowC1.createCell(1).setCellValue("NRC")
@@ -2891,9 +2888,12 @@ class ReportesController {
                 }
 
                 if (periodo.tipo == 'I') {
-                    //compensación
-//                    def hh = cn.rows(sql.toString())[0].comphora
-                    def hh = 5 // probar
+                    //compensación no funciona para todos los profesores sólo de uno en uno reporte: reportePofesoresExcel
+                    // que invoca a reporteExcel
+                    sql = "select comphora from res_prdo_n(${profesor.id}, ${p_padre.id})"
+                    println "sql: $sql"
+                    def hh = cn.rows(sql.toString())[0].comphora
+
                     Row rowS = sheet.createRow(fila)
                     rowS.createCell(1).setCellValue("Compensación del período \"${p_padre?.descripcion}\" ${hh} horas de trabajo")
                     rowS.createCell(16).setCellValue("Compensación período ${p_padre?.descripcion}")
@@ -2910,11 +2910,11 @@ class ReportesController {
             }
         }
 
-
         //carga horaria
 
         def prdoCH = Periodo.get(prdo)
-        def hijo = prdoCH.padre? Periodo.get(prdo.id) : Periodo.findByPadre(prdoCH)
+//        def hijo = prdoCH.padre? Periodo.get(prdo.id) : Periodo.findByPadre(prdoCH)
+        def hijo = prdoCH.padre ? Periodo.get(prdo) : Periodo.findByPadre(prdoCH)
         def pdre = hijo.padre.id
 
         def cnCH = dbConnectionService.getConnection()
@@ -3034,11 +3034,10 @@ class ReportesController {
     }
 
 
-
     def reporteCargaHorariaExcel() {
 
         def prdo = Periodo.get(params.prdo)
-        def hijo = prdo.padre? Periodo.get(prdo.id) : Periodo.findByPadre(prdo)
+        def hijo = prdo.padre ? Periodo.get(prdo.id) : Periodo.findByPadre(prdo)
         def pdre = hijo.padre.id
 
         def cn = dbConnectionService.getConnection()
@@ -3182,7 +3181,7 @@ class ReportesController {
 
     }
 
-    def reporteHorarioGeneralExcel(){
+    def reporteHorarioGeneralExcel() {
 
         println("reportegeneral " + params)
         def fila = 4
@@ -3370,7 +3369,7 @@ class ReportesController {
 
     }
 
-    def periodo_ajax(){
+    def periodo_ajax() {
         def prdo = Periodo.findByActivo('S')
         [activo: prdo.id]
     }

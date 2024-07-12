@@ -1,7 +1,7 @@
 <%@ page import="tutor.Periodo" %>
-<div class="container">
+<div class="container" style="width: 560px">
     <div style="">
-        <div class="col-md-2">
+        <div class="col-md-4">
             <label>
                 Periodo
             </label>
@@ -14,7 +14,7 @@
             />
 
         </div>
-        <div class="col-md-4">
+        <div class="col-md-8">
             <label>
                 Docente
             </label>
@@ -24,10 +24,10 @@
 
         <div class="col-md-9"></div>
 
-        <div class="col-md-5" style="border: solid 1px; margin-top: 5px; margin-left: 15px">
-           <label class="col-md-12 text-info" style="font-style: italic"> Opciones de impresión </label>
+        <div class="col-md-12" style="border: solid 1px; margin-top: 5px; margin-left: 15px">
+           <label class="col-md-12 text-info" style="font-style: italic"> Opciones de impresión cc </label>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label>
                     Archivos separados
                 </label>
@@ -40,6 +40,9 @@
                     </label>
                     <input type="checkbox" id="cabecera">
                 </div>
+        </div>
+        <div class="col-md-12" style="border: solid 1px; border-color: #ba4b15; margin-top: 5px; margin-left: 15px">
+            No use Intersemestral Todos, se debe sacar el reporte para cada profesor
         </div>
     </div>
 </div>

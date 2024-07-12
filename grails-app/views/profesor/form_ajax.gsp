@@ -12,6 +12,15 @@
                 <div class="col-md-4">
                     <g:select name="tipoProfesor" from="${tutor.TipoProfesor.list([sort: 'descripcion'])}" optionKey="id" optionValue="descripcion" class="form-control" value="${profesor?.tipoProfesor?.id}"/>
                 </div>
+
+                <label for="titulo" class="col-md-2 control-label">
+                    Título
+                </label>
+                <div class="col-md-3">
+                    <g:select name="titulo" from="${['PhD' : 'PhD', 'Ing' : 'Ingeniero', 'Msc' : 'Maest. Ciencias', 'Mtr' : 'Master']}"
+                              optionKey="key" optionValue="value" class="form-control" value="${profesor?.titulo}"/>
+                </div>
+
             </div>
         </div>
 
