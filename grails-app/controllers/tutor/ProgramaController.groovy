@@ -532,12 +532,14 @@ class ProgramaController {
         def periodo = Periodo.get(params.periodo)
         def asignatura = Asignatura.get(params.gestion)
         def cn = dbConnectionService.getConnection()
-        def sql = "select prdodscr, asignmbr, profapll, profnmbr, gstnhora," +
+        def sql = "select asig.asig__id, prdodscr, asignmbr, profapll, profnmbr, gstnhora," +
                 " gstnobsr from gstn, prdo, asig, prof where gstn.prdo__id = ${periodo?.id} and" +
                 " prdo.prdo__id = gstn.prdo__id and asig.asig__id = gstn.asig__id and" +
                 " prof.prof__id = gstn.prof__id and asig.asig__id = ${asignatura?.id} and gstnhora <> 0 order by profapll, asignmbr"
         def resp = cn.rows(sql.toString())
-        return [resp: resp]
+        sql = "select sum(gstnhora) suma from gstn where gstn.prdo__id = ${periodo?.id} and asig__id = 48"
+        def hric = cn.rows(sql.toString())[0]?.suma
+        return [resp: resp, hric: hric]
     }
 
     def asignaturas (){

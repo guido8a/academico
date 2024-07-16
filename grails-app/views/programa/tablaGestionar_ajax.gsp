@@ -3,6 +3,7 @@
         <tbody>
         <g:if test="${resp.size() > 0}">
             <g:set var="total" value="${0}"/>
+            <g:set var="asig" value="${resp[0]?.asig__id}"/>
             <g:each in="${resp}" var="registro">
                 <tr>
                     <td style="width: 10%">${registro?.prdodscr}</td>
@@ -23,7 +24,9 @@
                 </tr>
             </g:each>
                 <tr style="font-weight: bold">
-                    <td colspan="4" style="text-align: right">TOTAL</td>
+                    <td colspan="2" style="text-align: right">${asig == 87 ? "2 lectores por cada tesis: ${Math.round(hric*2)} lectores --> ${hric/2.5} horas" : ''}</td>
+                    <td colspan="2" style="text-align: right">TOTAL ${asig == 87 ? '(0.2h por cada Lectura)' : ''}</td>
+                    %{--<td style="text-align: center">${asig == 87 ? total * 5 + ' TT': total }</td>--}%
                     <td style="text-align: center">${total}</td>
                     <td></td>
                 </tr>
