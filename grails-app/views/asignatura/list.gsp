@@ -311,6 +311,14 @@
         cargarTablaAsignaturas(null, null, criterio, 1);
     })
 
+    $("#criterio").keydown(function (ev) {
+        if (ev.keyCode === 13) {
+            $("#btnBuscarGeneral").click();
+            return false;
+        }
+        return true;
+    });
+
 </script>
 
 </body>

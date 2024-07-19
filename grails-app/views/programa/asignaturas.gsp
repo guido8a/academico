@@ -22,6 +22,15 @@
                       value="${activo}" style="color: #2060A0; font-weight: bold; background-color: #eed; border-color: #0a6aa1"
             />
         </div>
+
+        <label class="col-md-1 control-label text-info" style="text-align: right">
+            Asignaturas dictadas
+        </label>
+        <div class="col-md-3" id="divComboAsignaturas">
+
+        </div>
+
+
         <div class="col-md-1">
             Buscar Asignatura
         </div>
@@ -35,12 +44,6 @@
             <a href="#" class="btn btn-info btnLimpiar">
                 <i class="fa fa-eraser"></i> Limpiar
             </a>
-        </div>
-        <label class="col-md-1 control-label text-info" style="text-align: right">
-            Asignaturas dictadas
-        </label>
-        <div class="col-md-3" id="divComboAsignaturas">
-
         </div>
 
     </div>
@@ -100,6 +103,13 @@
         cargarAsignatura(periodo, $("#buscar").val());
     });
 
+    $("#buscar").keydown(function (ev) {
+        if (ev.keyCode === 13) {
+            $(".btnBuscar").click();
+            return false;
+        }
+        return true;
+    });
 
 </script>
 

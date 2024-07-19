@@ -96,6 +96,14 @@
         cargarGestion($("#periodo option:selected").val(), '');
     });
 
+    $("#buscar").keydown(function (ev) {
+        if (ev.keyCode === 13) {
+            $(".btnBuscar").click();
+            return false;
+        }
+        return true;
+    });
+
 </script>
 
 </body>
