@@ -208,7 +208,7 @@ class ProgramaController {
 
             def sql = "select * from horario(${asignatura.nivel.id}, ${params.parl}, ${params.asig})"
             def resp = cn.rows(sql.toString())
-//            println "sql --> $sql"
+            println "sql --> $sql"
 //
 //            println " Dicta: --> ${ dicta?.profesor?.nombre}"
 //
