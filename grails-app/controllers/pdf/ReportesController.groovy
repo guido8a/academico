@@ -2121,29 +2121,33 @@ class ReportesController {
             cell14.setCellStyle(style3);
             cell14.setCellValue("");
 
-            Cell cell144 = rowF1.createCell(15);
-            cell144.setCellStyle(style3);
-            cell144.setCellValue("");
+            Cell cell15 = rowF1.createCell(15);
+            cell15.setCellStyle(style3);
+            cell15.setCellValue("");
 
-            Cell cell15 = rowF1.createCell(16);
-            cell15.setCellStyle(style4);
-            cell15.setCellValue(r?.hora?.toDouble() ?: '');
+            Cell cell16 = rowF1.createCell(16);
+            cell16.setCellStyle(style3);
+            cell16.setCellValue("");
 
-            Cell cell16 = rowF1.createCell(17);
-            cell16.setCellStyle(style4);
-            cell16.setCellValue(r?.asignatura?.factorPreparacion?.toDouble() ?: '');
-
-            Cell cell17 = rowF1.createCell(18);
+            Cell cell17 = rowF1.createCell(17);
             cell17.setCellStyle(style4);
-            cell17.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: '');
+            cell17.setCellValue(r?.hora?.toDouble() ?: '');
 
-            Cell cell18 = rowF1.createCell(19);
+            Cell cell18 = rowF1.createCell(18);
             cell18.setCellStyle(style4);
-            cell18.setCellValue(r?.horas?.toDouble());
+            cell18.setCellValue(r?.asignatura?.factorPreparacion?.toDouble() ?: '');
 
-            Cell cell19 = rowF1.createCell(20);
+            Cell cell19 = rowF1.createCell(19);
             cell19.setCellStyle(style4);
-            cell19.setCellValue(r?.horas?.toDouble());
+            cell19.setCellValue(r?.hora?.toDouble() * r?.asignatura?.factorPreparacion?.toDouble() ?: '');
+
+            Cell cell20 = rowF1.createCell(20);
+            cell20.setCellStyle(style4);
+            cell20.setCellValue(r?.horas?.toDouble());
+
+            Cell cell21 = rowF1.createCell(21);
+            cell21.setCellStyle(style4);
+            cell21.setCellValue(r?.horas?.toDouble());
 
             fila++
             suma += r?.horas?.toDouble()
@@ -3395,6 +3399,18 @@ class ReportesController {
     def periodo_ajax() {
         def prdo = Periodo.findByActivo('S')
         [activo: prdo.id]
+    }
+
+    def docentesCarrera() {
+        def sql = "select nvelnmro, profnmbr, profapll, asignmbr, diasnmbr, horadscr " +
+                "from parl, crso, dcta, prof, asig, nvel, horr, dias, hora " +
+                "where parl.carr__id = 5 and parl.prdo__id = 5 and " +
+                "crso.parl__id = parl.parl__id and dcta.crso__id = crso.crso__id and " +
+                "prof.prof__id = dcta.prof__id and asig.asig__id = crso.asig__id and " +
+                "nvel.nvel__id = parl.nvel__id and horr.crso__id = crso.crso__id and " +
+                "dias.dias__id = horr.dias__id and hora.hora__id = horr.hora__id " +
+                "order by nvelnmro, profnmbr, profapll, diasnmro;"
+        //to do hacer reporte para listado de docentes por carrera y horarios.
     }
 
 }
