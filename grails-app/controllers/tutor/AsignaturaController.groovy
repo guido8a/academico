@@ -1,5 +1,8 @@
 package tutor
 
+import geografia.Canton
+import geografia.Parroquia
+
 class AsignaturaController {
 
     def list(){
@@ -29,6 +32,13 @@ class AsignaturaController {
 //        params.criterio = params.criterio ? params.criterio: params.criterioGes
 //
 //        return[asignaturas: asignaturas]
+
+        /* pruebas de código findAll si funciona pero sin relaciones **/
+//        def cn = Parroquia.findAll{ it?.canton?.id == 1}  /* si funciona */
+//        def cn = Parroquia.findAll{ it?.canton?.provincia?.id == 1}  /* no funciona */
+//        def pp = Canton.findAllByProvinciaId
+//        println "pp: $cn"
+
     }
 
 
